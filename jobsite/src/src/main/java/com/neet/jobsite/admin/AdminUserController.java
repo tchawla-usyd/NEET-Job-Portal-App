@@ -1,4 +1,4 @@
-package com.neet.jobsite;
+package com.neet.jobsite.admin;
 
 public class AdminUserController {
 
