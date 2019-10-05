@@ -4,6 +4,7 @@ public class BaseObject {
 
 	protected Integer  Id;
 
+	
 	public void setId(Integer  id) {
 		Id = id;
 	}
