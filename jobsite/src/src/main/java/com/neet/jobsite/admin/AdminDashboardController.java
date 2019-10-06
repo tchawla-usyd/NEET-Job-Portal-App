@@ -48,17 +48,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	
 	@RequestMapping(value = "/skillsets", method = RequestMethod.GET)
 	public String skillsets(Locale locale, Model model) {
-		
-		//todo:resolve the database issue
-		//SkillSet s  = this.skillSetManager.getSkillSetById(1);
-		ArrayList<SkillSet> skillSets = new ArrayList<SkillSet>();
-		SkillSet s = new SkillSet();
-		s.setId(1);
-		s.setName("Java");
-		s.setCreatedDate(LocalDateTime.now());
-		s.setCreatedBy(1);
-		
-		skillSets.add(s);
+		ArrayList<SkillSet> skillSets  = this.skillSetManager.getSkillSets();
 		model.addAttribute("skillSets", skillSets );
 		return "admin/skillsetlists";
 		

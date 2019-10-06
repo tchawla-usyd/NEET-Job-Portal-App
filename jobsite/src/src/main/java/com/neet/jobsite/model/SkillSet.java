@@ -1,34 +1,31 @@
 package com.neet.jobsite.model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="SkillSet")
 public class SkillSet implements Serializable {
 	
 	@Id
-	@Column(name="UID")
+	@Column(name="Id")
 	@GeneratedValue
 	private long id;
 	
-	//@Column(name="Name")
-	private String Name;
+	@Column(name="Name")
+	private String name;
 	
-	//@Column(name="CreatedDate")
-	private LocalDateTime CreatedDate;
+	@Column(name="CreatedDate")
+	private Date createdDate;
 	
 	@Column(name="CreatedBy")
-	@Type(type = "org.hibernate.type.IntegerType")
 	private Integer CreatedBy;
 	
 	
@@ -41,19 +38,19 @@ public class SkillSet implements Serializable {
 	}
 	
 	public String getName() {
-		return Name;
+		return this.name;
 	}
 	
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 	
-	public LocalDateTime getCreatedDate() {
-		return CreatedDate;
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 	
-	public void setCreatedDate(LocalDateTime createdDate) {
-		CreatedDate = createdDate;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 	
 	public Integer getCreatedBy() {
@@ -66,7 +63,7 @@ public class SkillSet implements Serializable {
 	
 	public String toString() {
 	    StringBuffer buffer = new StringBuffer();
-        buffer.append("Name: " + Name + ";");
+        buffer.append("Name: " + this.name + ";");
         return buffer.toString();
 	}
 }

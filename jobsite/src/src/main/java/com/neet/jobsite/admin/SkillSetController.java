@@ -1,7 +1,7 @@
 package com.neet.jobsite.admin;
 
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +32,7 @@ public class SkillSetController {
 	public String addSkillSet(HttpServletRequest httpServletRequest) {
 		SkillSet skillSet = new SkillSet();
 		skillSet.setName(httpServletRequest.getParameter("name"));
-		skillSet.setCreatedDate(LocalDateTime.parse(httpServletRequest.getParameter("createdDate")));
+		//skillSet.setCreatedDate(Date.parse(httpServletRequest.getParameter("createdDate")));
 		skillSet.setCreatedBy(1);
 		this.skillSetManager.addSkillSet(skillSet);
 		return "admin/skillsetlists";
