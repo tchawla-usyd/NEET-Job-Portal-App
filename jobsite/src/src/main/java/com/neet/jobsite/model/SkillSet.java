@@ -6,26 +6,39 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
-@Table(name="skillset")
-public class SkillSet extends BaseObject {
+@Table(name="SkillSet")
+public class SkillSet implements Serializable {
 	
 	@Id
-	@GeneratedValue
 	@Column(name="UID")
-	private long UID;
+	@GeneratedValue
+	private long id;
 	
-	@Column(name="Name")
+	//@Column(name="Name")
 	private String Name;
 	
-	@Column(name="CreatedDate")
+	//@Column(name="CreatedDate")
 	private LocalDateTime CreatedDate;
 	
 	@Column(name="CreatedBy")
+	@Type(type = "org.hibernate.type.IntegerType")
 	private Integer CreatedBy;
+	
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 	
 	public String getName() {
 		return Name;
@@ -52,7 +65,7 @@ public class SkillSet extends BaseObject {
 	}
 	
 	public String toString() {
-		 StringBuffer buffer = new StringBuffer();
+	    StringBuffer buffer = new StringBuffer();
         buffer.append("Name: " + Name + ";");
         return buffer.toString();
 	}

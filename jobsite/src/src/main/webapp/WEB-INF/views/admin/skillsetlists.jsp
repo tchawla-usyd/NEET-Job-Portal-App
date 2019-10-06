@@ -9,6 +9,22 @@
 	All skills
 </h1>
 
-<P>  The time on the server is ${serverTime}. </P>
+<table>
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+		</tr>
+	</thead>
+	<c:forEach items="${skillSets}" var="skillSet">
+	    <tr>
+	        <td><c:out value="${skillSet.id}"/></td>
+	        <td><c:out value="${skillSet.name}"/></td>
+	       	<td><a href="../adminSkillset/edit/${skillSet.id }">edit</a></td>
+			<td><a href="../adminSkillset/delete/${skillSet.id }">delete</a></td>
+	    </tr>
+	</c:forEach>
+</table>
+
 </body>
 </html>

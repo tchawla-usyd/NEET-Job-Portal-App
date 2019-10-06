@@ -17,7 +17,7 @@ import com.neet.jobsite.dal.SkillSetManager;
 import com.neet.jobsite.model.SkillSet;
 
 @Controller
-@RequestMapping(value="/skillset/**")
+@RequestMapping(value="/adminSkillset/**")
 public class SkillSetController {
 
 	@Resource(name="skillSetManager")
@@ -35,7 +35,7 @@ public class SkillSetController {
 		skillSet.setCreatedDate(LocalDateTime.parse(httpServletRequest.getParameter("createdDate")));
 		skillSet.setCreatedBy(1);
 		this.skillSetManager.addSkillSet(skillSet);
-		return "redirect:/home.jsp";
+		return "admin/skillsetlists";
 	}
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
@@ -49,12 +49,12 @@ public class SkillSetController {
 	public String editSkillSet(@Valid SkillSet SkillSet) {
 		this.skillSetManager.updateSkillSet(SkillSet);
 		System.out.println(SkillSet.getId());
-		return "redirect:/hello.htm";
+		return "admin/skillsetlists";
 	}
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
 	public String deleteSkillSet(@PathVariable("id") Long id) {
 		this.skillSetManager.deleteSkillSet(id);
-		return "redirect:/hello.htm";
+		return "admin/skillsetlists";
 	}
 }

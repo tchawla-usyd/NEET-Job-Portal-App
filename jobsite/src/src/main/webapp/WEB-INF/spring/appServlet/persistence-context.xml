@@ -32,10 +32,15 @@
 		<property name="password" value="${jdbc.password}" />
 	</bean>
 
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="packagesToScan" value="au.usyd.elec5619" />
+		<property name="packagesToScan">
+			<array>
+	              <value>com.neet.jobsite.model</value>
+	              <value>com.neet.jobsite.dal</value>
+	              <value>com.neet.jobsite</value>
+	         </array>
+		</property>
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
