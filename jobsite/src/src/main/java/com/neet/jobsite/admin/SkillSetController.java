@@ -32,10 +32,10 @@ public class SkillSetController {
 	public String addSkillSet(HttpServletRequest httpServletRequest) {
 		SkillSet skillSet = new SkillSet();
 		skillSet.setName(httpServletRequest.getParameter("name"));
-		//skillSet.setCreatedDate(Date.parse(httpServletRequest.getParameter("createdDate")));
+		skillSet.setCreatedDate(new Date());
 		skillSet.setCreatedBy(1);
 		this.skillSetManager.addSkillSet(skillSet);
-		return "admin/skillsetlists";
+		return "redirect:/admin/skillsets";
 	}
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
@@ -49,12 +49,12 @@ public class SkillSetController {
 	public String editSkillSet(@Valid SkillSet SkillSet) {
 		this.skillSetManager.updateSkillSet(SkillSet);
 		System.out.println(SkillSet.getId());
-		return "admin/skillsetlists";
+		return "redirect:/admin/skillsets";
 	}
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
 	public String deleteSkillSet(@PathVariable("id") Long id) {
 		this.skillSetManager.deleteSkillSet(id);
-		return "admin/skillsetlists";
+		return "redirect:/admin/skillsets";
 	}
 }
