@@ -8,7 +8,7 @@
 <h1>
 	All skills
 </h1>
-
+<a href="../adminSkillset/add"><button>Add</button></a>
 <table>
 	<thead>
 		<tr>

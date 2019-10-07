@@ -25,7 +25,7 @@ public class SkillSetController {
 	
 	@RequestMapping(value="/add")
 	public String addSkillSet(Model uiModel) {
-		return "add";
+		return "admin/addskill";
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
@@ -42,7 +42,7 @@ public class SkillSetController {
 	public String editSkillSet(@PathVariable("id") Long id, Model uiModel) {
 		SkillSet SkillSet = this.skillSetManager.getSkillSetById(id);
 		uiModel.addAttribute("SkillSet", SkillSet);
-		return "edit";
+		return "admin/editskill";
 	}
 	
 	@RequestMapping(value="/edit/**", method=RequestMethod.POST)
