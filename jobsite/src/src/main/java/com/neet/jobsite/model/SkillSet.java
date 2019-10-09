@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="skillset")
+@Table(name="skill")
 public class SkillSet extends BaseObject {
 	
 	@Id
