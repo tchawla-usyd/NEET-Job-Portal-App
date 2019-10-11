@@ -44,26 +44,26 @@ export default class BaseLayout extends Component {
 		      <Menu
 		        theme="dark"
 		        mode="horizontal"
-		        defaultSelectedKeys={['2']}
+		        defaultSelectedKeys={['0']}
 		        style={{ lineHeight: '64px', margin: 0}}>
-		        <MenuItem style={{display: 'none'}} key="0" />
+		        <MenuItem style={{display: 'none'}} key='0' />
 		       	
 		        <span style={itemStyle}>
-				  <Dropdown 
+				  <Dropdown placement="bottomCenter"
 				  	overlay={menu} trigger={['click']}>
 				      <a href="#">
 					    Rex Shen
 					  </a>
 					  </Dropdown>
 				</span>
-				<MenuItem style={{...itemStyle, marginRight: 20}} key="3">nav 3</MenuItem>
-				<MenuItem style={itemStyle} key="2">nav 2</MenuItem>
-		        <MenuItem style={itemStyle} key="1">nav 1</MenuItem>
+				<MenuItem className="myitem" style={{...itemStyle, marginRight: 20}} key='3'>nav 3</MenuItem>
+				<MenuItem className="myitem" style={itemStyle} key='2'>nav 2</MenuItem>
+		        <MenuItem className="myitem" style={itemStyle} key='1'>nav 1</MenuItem>
 		      </Menu>
 		      
 	      </Header>
 	      <Content style={{ padding: '0 50px', marginTop: 64 }}>
-	      	<div style={{ background: '#fff', padding: 24, minHeight: 1000 }}>
+	      	<div style={{ background: '#fff', padding: 24, minHeight: 500 }}>
 	      		<Listing/>
 	      	</div>
 	      </Content>
