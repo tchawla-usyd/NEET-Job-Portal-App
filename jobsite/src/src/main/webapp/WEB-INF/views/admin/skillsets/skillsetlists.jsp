@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>
-	All skills
+	All skills changed
 </h1>
 <a href="../adminSkillset/add"><button>Add</button></a>
 <table>

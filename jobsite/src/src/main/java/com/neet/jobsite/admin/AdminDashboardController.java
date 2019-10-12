@@ -28,31 +28,34 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	@Resource(name="skillSetManager")
 	private SkillSetManager skillSetManager;
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
 		String formattedDate = dateFormat.format(date);
-		
 		model.addAttribute("serverTime", formattedDate );
-		
 		return "admin/home";
 	}
-	
 	
 	@RequestMapping(value = "/skillsets", method = RequestMethod.GET)
 	public String skillsets(Locale locale, Model model) {
 		ArrayList<SkillSet> skillSets  = this.skillSetManager.getSkillSets();
 		model.addAttribute("skillSets", skillSets );
-		return "admin/skillsetlists";
-		
+		return "admin/skillsets/skillsetlists";
 	}
 	
+	@RequestMapping(value = "/users", method = RequestMethod.GET)
+	public String users(Locale locale, Model model) {
+		return "admin/users/userslists";
+	}
 	
+	@RequestMapping(value = "/employers", method = RequestMethod.GET)
+	public String employers(Locale locale, Model model) {
+		return "admin/employers/employerslists";
+	}
+	
+	@RequestMapping(value = "/administrators", method = RequestMethod.GET)
+	public String adminusers(Locale locale, Model model) {
+		return "admin/administrators/administratorslists";
+	}
 }
