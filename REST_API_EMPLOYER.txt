@@ -1,0 +1,43 @@
+#########################################
+#										#
+#	REST ENDPOINTS FOR JOBCONTROLLER	#
+#										#
+#########################################
+
+
+/jobsite/job/add - POST
+payload = 
+{
+	"title":,
+	"description":,
+	"location":,
+	"start_date": "yyyy-MM-dd",
+	"end_date": "yyyy-MM-dd",
+	"job_category":,
+	"token": "abcd" //placeholder for auth token
+}
+
+/jobsite/job/edit - POST
+payload = 
+{
+	"job_id":,
+	"title":,
+	"description":,
+	"location":,
+	"start_date": "yyyy-MM-dd",
+	"end_date": "yyyy-MM-dd",
+	"job_category":,
+	"token": "abcd" //placeholder for auth token
+}
+
+/jobsite/job/delete/{job_id} - DELETE
+
+/jobsite/job/getjob/{job_id} - GET
+
+/jobsite/job/employer/{employer_id} - GET
+
+/jobsite/job/getjob/{job_id}/add/skill/{skill_id} - PUT
+
+/jobsite/job/getjob/{job_id}/delete/skill/{skill_id} - DELETE
+
+

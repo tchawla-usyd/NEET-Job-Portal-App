@@ -126,7 +126,7 @@ public class JobController {
 		return jsonReturn;
 	}
 
-	@RequestMapping(value="/getjob/{job_id}/add/skill/{skill_id}", method=RequestMethod.GET)
+	@RequestMapping(value="/getjob/{job_id}/add/skill/{skill_id}", method=RequestMethod.PUT)
 	public String addSkillToJob(@PathVariable("job_id") Integer jobId, @PathVariable("skill_id") Integer skillId) {
 		
 		String authToken = "abcd";
@@ -136,7 +136,7 @@ public class JobController {
 		return "redirect:/home.jsp";
 	}
 	
-	@RequestMapping(value="/getjob/{job_id}/delete/skill/{skill_id}", method=RequestMethod.GET)
+	@RequestMapping(value="/getjob/{job_id}/delete/skill/{skill_id}", method=RequestMethod.DELETE)
 	public String deleteSkillFromJob(@PathVariable("job_id") Integer jobId, @PathVariable("skill_id") Integer skillId) {
 		
 		String authToken = "abcd";
