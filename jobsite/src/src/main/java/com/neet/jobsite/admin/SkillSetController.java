@@ -1,7 +1,7 @@
 package com.neet.jobsite.admin;
 
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +17,7 @@ import com.neet.jobsite.dal.SkillSetManager;
 import com.neet.jobsite.model.SkillSet;
 
 @Controller
-@RequestMapping(value="/skillset/**")
+@RequestMapping(value="/adminSkillset/**")
 public class SkillSetController {
 
 	@Resource(name="skillSetManager")
@@ -25,36 +25,36 @@ public class SkillSetController {
 	
 	@RequestMapping(value="/add")
 	public String addSkillSet(Model uiModel) {
-		return "add";
+		return "admin/addskill";
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public String addSkillSet(HttpServletRequest httpServletRequest) {
 		SkillSet skillSet = new SkillSet();
 		skillSet.setName(httpServletRequest.getParameter("name"));
-		skillSet.setCreatedDate(LocalDateTime.parse(httpServletRequest.getParameter("createdDate")));
+		skillSet.setCreatedDate(new Date());
 		skillSet.setCreatedBy(1);
 		this.skillSetManager.addSkillSet(skillSet);
-		return "redirect:/home.jsp";
+		return "redirect:/admin/skillsets";
 	}
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
 	public String editSkillSet(@PathVariable("id") Long id, Model uiModel) {
 		SkillSet SkillSet = this.skillSetManager.getSkillSetById(id);
 		uiModel.addAttribute("SkillSet", SkillSet);
-		return "edit";
+		return "admin/editskill";
 	}
 	
 	@RequestMapping(value="/edit/**", method=RequestMethod.POST)
 	public String editSkillSet(@Valid SkillSet SkillSet) {
 		this.skillSetManager.updateSkillSet(SkillSet);
 		System.out.println(SkillSet.getId());
-		return "redirect:/hello.htm";
+		return "redirect:/admin/skillsets";
 	}
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
 	public String deleteSkillSet(@PathVariable("id") Long id) {
 		this.skillSetManager.deleteSkillSet(id);
-		return "redirect:/hello.htm";
+		return "redirect:/admin/skillsets";
 	}
 }

@@ -1,6 +1,6 @@
 package com.neet.jobsite.model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -9,38 +9,48 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 @Entity
-@Table(name="skillset")
-public class SkillSet extends BaseObject {
+@Table(name="SkillSet")
+public class SkillSet implements Serializable {
 	
 	@Id
+	@Column(name="Id")
 	@GeneratedValue
-	@Column(name="UID")
-	private long UID;
+	private long id;
 	
 	@Column(name="Name")
-	private String Name;
+	private String name;
 	
 	@Column(name="CreatedDate")
-	private LocalDateTime CreatedDate;
+	private Date createdDate;
 	
 	@Column(name="CreatedBy")
 	private Integer CreatedBy;
 	
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 	public String getName() {
-		return Name;
+		return this.name;
 	}
 	
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 	
-	public LocalDateTime getCreatedDate() {
-		return CreatedDate;
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 	
-	public void setCreatedDate(LocalDateTime createdDate) {
-		CreatedDate = createdDate;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 	
 	public Integer getCreatedBy() {
@@ -52,8 +62,8 @@ public class SkillSet extends BaseObject {
 	}
 	
 	public String toString() {
-		 StringBuffer buffer = new StringBuffer();
-        buffer.append("Name: " + Name + ";");
+	    StringBuffer buffer = new StringBuffer();
+        buffer.append("Name: " + this.name + ";");
         return buffer.toString();
 	}
 }

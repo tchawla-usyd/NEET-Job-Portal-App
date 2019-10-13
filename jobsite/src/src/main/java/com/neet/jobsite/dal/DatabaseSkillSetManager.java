@@ -1,5 +1,6 @@
 package com.neet.jobsite.dal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -32,9 +33,9 @@ public class DatabaseSkillSetManager implements SkillSetManager {
 	}
 	
 	@Override
-	public List<SkillSet> getSkillSets() {
-		List<SkillSet> list = this.sessionFactory.getCurrentSession().createQuery("FROM SkillSet").list();
-		return list;
+	public ArrayList<SkillSet> getSkillSets() {
+		final List<SkillSet> list = this.sessionFactory.getCurrentSession().createQuery("FROM SkillSet").list();
+		return new ArrayList<SkillSet>(list);
 	}
 
 	@Override
