@@ -19,11 +19,11 @@
 			</section>
 			<section class="content container-fluid">
 				<!--------------------------
-        | Your Page Content Here |
-        -------------------------->
-
+		        | Your Page Content Here |
+		        -------------------------->
+				<%-- <c:url value="/resources/dist/img/user2-160x160.jpg" /> --%>
 				<h1>All skills changed</h1>
-				<a href="../adminSkillset/add"><button>Add</button></a>
+				<a href="<c:url value= "../adminSkillset/add" />"><button>Add</button></a>
 				<table>
 					<thead>
 						<tr>
