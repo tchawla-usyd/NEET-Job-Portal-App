@@ -1,17 +1,36 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="false"%>
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Add a new product on this page</title>
-	</head>
-	<body>
-		<h1>Hi, you can add a new skill on this page</h1>
-		<form action="add" method="post">
-			Skill Name: <input type="text" name="name"/>
-			<input type="submit" value="Add"/>
-		</form>
-	</body>
+<jsp:include page="../common/meta.jsp"></jsp:include>
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<jsp:include page="../common/mainheader.jsp"></jsp:include>
+		<jsp:include page="../common/mainsidebar.jsp"></jsp:include>
+		<div class="content-wrapper">
+			<section class="content-header">
+				<h1>
+					Skill Sets <small>Add Skill</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+					<li class="active">Here</li>
+				</ol>
+			</section>
+			<section class="content container-fluid">
+				<!--------------------------
+		        | Your Page Content Here |
+		        -------------------------->
+				<h1>Hi, you can add a new skill on this page</h1>
+				<form action="add" method="post">
+					Skill Name: <input type="text" name="name"/>
+					<input type="submit" value="Add"/>
+				</form>
+			</section>
+		</div>
+		<jsp:include page="../common/mainfooter.jsp"></jsp:include>
+		<jsp:include page="../common/controlsidebar.jsp"></jsp:include>
+	</div>
+	<jsp:include page="../common/footerscript.jsp"></jsp:include>
+</body>
 </html>
