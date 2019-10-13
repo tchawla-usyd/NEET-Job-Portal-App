@@ -1,8 +1,18 @@
 package com.neet.jobsite.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
-public class User extends BaseObject { 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="User")
+public class User implements Serializable { 
 	/*
 	  `UID` INT(11) NOT NULL,
 	  `FirstName` VARCHAR(45) NULL DEFAULT NULL,
@@ -16,15 +26,25 @@ public class User extends BaseObject {
 	  `UserTypeID` INT(11) NULL DEFAULT NULL,
 	  */
 	
+	@Id
+	@Column(name="Id")
+	@GeneratedValue
+	private long id;
+	
 	private String FirstName;
 	private String LastName;
+	
+	@Column(name="Email")
 	private String Email;
+	
+	@Column(name="Password")
 	private String Password;
-	private boolean IsActive;
-	private boolean IsLocked;
-	private LocalDateTime CreateDate;
-	private LocalDateTime ModifiedDate;
-	private Integer UserTypeID;
+	
+//	private boolean IsActive;
+//	private boolean IsLocked;
+//	private Date CreateDate;
+//	private Date ModifiedDate;
+//	private Integer UserTypeID;
 	
 	public String getFirstName() {
 		return FirstName;
@@ -54,38 +74,38 @@ public class User extends BaseObject {
 		Password = password;
 	}
 	
-	public boolean isIsActive() {
-		return IsActive;
-	}
-	public void setIsActive(boolean isActive) {
-		IsActive = isActive;
-	}
-	
-	public boolean isIsLocked() {
-		return IsLocked;
-	}
-	public void setIsLocked(boolean isLocked) {
-		IsLocked = isLocked;
-	}
-	
-	public LocalDateTime getCreateDate() {
-		return CreateDate;
-	}
-	public void setCreateDate(LocalDateTime createDate) {
-		CreateDate = createDate;
-	}
-	
-	public LocalDateTime getModifiedDate() {
-		return ModifiedDate;
-	}
-	public void setModifiedDate(LocalDateTime modifiedDate) {
-		ModifiedDate = modifiedDate;
-	}
-	
-	public Integer getUserTypeID() {
-		return UserTypeID;
-	}
-	public void setUserTypeID(Integer userTypeID) {
-		UserTypeID = userTypeID;
-	}
+//	public boolean isIsActive() {
+//		return IsActive;
+//	}
+//	public void setIsActive(boolean isActive) {
+//		IsActive = isActive;
+//	}
+//	
+//	public boolean isIsLocked() {
+//		return IsLocked;
+//	}
+//	public void setIsLocked(boolean isLocked) {
+//		IsLocked = isLocked;
+//	}
+//	
+//	public Date getCreateDate() {
+//		return CreateDate;
+//	}
+//	public void setCreateDate(Date createDate) {
+//		CreateDate = createDate;
+//	}
+//	
+//	public Date getModifiedDate() {
+//		return ModifiedDate;
+//	}
+//	public void setModifiedDate(Date modifiedDate) {
+//		ModifiedDate = modifiedDate;
+//	}
+//	
+//	public Integer getUserTypeID() {
+//		return UserTypeID;
+//	}
+//	public void setUserTypeID(Integer userTypeID) {
+//		UserTypeID = userTypeID;
+//	}
 }

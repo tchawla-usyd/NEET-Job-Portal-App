@@ -1,13 +1,13 @@
 package com.neet.jobsite.dal;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 import com.neet.jobsite.model.SkillSet;
 
 public interface SkillSetManager extends Serializable {
 	
-    public List<SkillSet> getSkillSets();
+    public ArrayList<SkillSet> getSkillSets();
     
     public void addSkillSet(SkillSet SkillSet);
     
