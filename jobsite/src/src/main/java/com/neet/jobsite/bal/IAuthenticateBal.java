@@ -4,6 +4,6 @@ import java.io.Serializable;
 
 public interface IAuthenticateBal extends Serializable {
 
-	void Test();
+	boolean Authenticate(String username, String password);
 	
 }

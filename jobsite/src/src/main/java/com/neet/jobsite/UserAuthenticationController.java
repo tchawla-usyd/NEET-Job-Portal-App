@@ -41,7 +41,11 @@ public class UserAuthenticationController {
 	public String loginProcess(HttpServletRequest request) {
 		String email = request.getParameter("Email");
 		String password =	request.getParameter("Password");
-		this.authenticateBal.Test();
+		boolean result =	this.authenticateBal.Authenticate(email, password);
+		if(result)
+		{
+			return "redirect:admin/home";
+		}
 		//please check the username and password from the server
 		//update appropriate error message from the action if there is any
 		//if successfull move to appropriate dashboard
