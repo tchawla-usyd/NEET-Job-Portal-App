@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.neet.jobsite.bal.IAuthenticateBal;
 import com.neet.jobsite.dal.SkillSetManager;
 import com.neet.jobsite.model.User;
 
@@ -21,9 +22,10 @@ import com.neet.jobsite.model.User;
 @RequestMapping(value = "/authenticate/**")
 public class UserAuthenticationController {
 
-	@Resource(name = "skillSetManager")
-	private SkillSetManager skillSetManager;
-
+	@Resource(name = "authenticateBal")
+	private IAuthenticateBal authenticateBal;
+	
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		return "redirect:authenticate/login";
@@ -39,11 +41,11 @@ public class UserAuthenticationController {
 	public String loginProcess(HttpServletRequest request) {
 		String email = request.getParameter("Email");
 		String password =	request.getParameter("Password");
-		
+		this.authenticateBal.Test();
 		//please check the username and password from the server
 		//update appropriate error message from the action if there is any
 		//if successfull move to appropriate dashboard
 		//model.addAttribute("login",new User());
-		return "authenticate/login";
+		return "redirect:authenticate/login";
 	}
 }
