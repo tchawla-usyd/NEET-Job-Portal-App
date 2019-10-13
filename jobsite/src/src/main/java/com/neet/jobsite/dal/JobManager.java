@@ -3,22 +3,37 @@ package com.neet.jobsite.dal;
 import java.io.Serializable;
 import java.util.List;
 
+import com.neet.jobsite.exception.NoSkillsException;
 import com.neet.jobsite.model.Job;
+import com.neet.jobsite.model.JobCategory;
+import com.neet.jobsite.model.SkillSet;
+import com.neet.jobsite.model.SkillsForJob;
 
 public interface JobManager extends Serializable {
 	
-	public List<Job> getJobs();
+	List<Job> getJobs();
     
-    public void addJob(Job job);
+    void addJob(Job job);
+        
+    void updateJob(Job job);
     
-    public Job getSkillSetById(long id);
+	void deleteJob(Job job);
     
-    public List<Job> getSkillSetByEmployee(long employee_id);
-    
-    public List<Job> getSkillSetByCandidate(long candidate_id);
-    
-    public void updateJob(Job job);
-    
-    public void deleteJob(long id);
+	Job getJobById(long id);
+
+	List<Job> getJobByEmployer(long employer_id);
+
+	List<Job> getJobByCandidate(long candidate_id);
+
+	JobCategory getJobCategoryById(long id);
+
+	void addSkillToJob(SkillsForJob jobSkill);
+
+	void deleteSkillFromJob(SkillsForJob jobSkill);
+
+	List<SkillSet> getSkillsByJob(Integer jobId) throws NoSkillsException;
+
+	SkillsForJob getSkillsForJob(Integer jobId, Integer skillId) throws NoSkillsException;
+
 	
 }

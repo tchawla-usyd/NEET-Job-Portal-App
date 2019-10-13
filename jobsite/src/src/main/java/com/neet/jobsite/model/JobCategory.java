@@ -2,6 +2,15 @@ package com.neet.jobsite.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+
+@Entity
+@Table(name="jobcategory")
 public class JobCategory {
 	/*
 	  `Name` VARCHAR(45) NULL DEFAULT NULL,
@@ -10,9 +19,21 @@ public class JobCategory {
 	  `CreateDate` DATETIME NULL DEFAULT NULL,
 	  */
 	
+	@Id
+	@GeneratedValue
+	@Column(name="UID")
+	private long UID;
+	
+	@Column(name="Name")
 	private String Name;
+	
+	@Column(name="Description")
 	private String Description;
+	
+	@Column(name="CreatedBy")
 	private Integer CreatedBy;
+	
+	@Column(name="CreatedDate")
 	private LocalDateTime CreatedDate;
 	
 	public String getName() {
@@ -41,6 +62,12 @@ public class JobCategory {
 	}
 	public void setCreatedDate(LocalDateTime createdDate) {
 		CreatedDate = createdDate;
+	}
+	public long getUID() {
+		return UID;
+	}
+	public void setUID(long uID) {
+		UID = uID;
 	}
 	
 }

@@ -2,14 +2,44 @@ package com.neet.jobsite.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+@Table(name="job")
 public class Job extends BaseObject {
+	
+	@Id
+	@GeneratedValue
+	@Column(name="UID")
+	private long UID;
+	
+	@Column(name="Title")
 	private String Title;
+	
+	@Column(name="JobDescription")
 	private String JobDescription;
+	
+	@Column(name="Location")
 	private String Location;
+	
+	@Column(name="JobCategoryID")
 	private Integer JobCategoryID;
+	
+	@Column(name="UserID")
 	private Integer UserID;
-	private LocalDateTime StartDate;
-	private LocalDateTime EndDate;
+	
+	@Column(name="StartDate")
+	private java.sql.Date StartDate;
+	
+	@Column(name="EndDate")
+	private java.sql.Date EndDate;
+	
+	@Column(name="IsActive")
 	private boolean IsActive;
 	
 	public String getTitle() {
@@ -47,17 +77,17 @@ public class Job extends BaseObject {
 		UserID = userID;
 	}
 	
-	public LocalDateTime getStartDate() {
+	public java.sql.Date getStartDate() {
 		return StartDate;
 	}
-	public void setStartDate(LocalDateTime startDate) {
+	public void setStartDate(java.sql.Date startDate) {
 		StartDate = startDate;
 	}
 	
-	public LocalDateTime getEndDate() {
+	public java.sql.Date getEndDate() {
 		return EndDate;
 	}
-	public void setEndDate(LocalDateTime endDate) {
+	public void setEndDate(java.sql.Date endDate) {
 		EndDate = endDate;
 	}
 	
@@ -66,5 +96,11 @@ public class Job extends BaseObject {
 	}
 	public void setIsActive(boolean isActive) {
 		IsActive = isActive;
+	}
+	public long getUID() {
+		return UID;
+	}
+	public void setUID(long uID) {
+		UID = uID;
 	}
 }

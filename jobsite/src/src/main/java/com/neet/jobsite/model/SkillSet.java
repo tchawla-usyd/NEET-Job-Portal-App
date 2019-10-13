@@ -56,4 +56,12 @@ public class SkillSet extends BaseObject {
         buffer.append("Name: " + Name + ";");
         return buffer.toString();
 	}
+
+	public long getUID() {
+		return UID;
+	}
+
+	public void setUID(long uID) {
+		UID = uID;
+	}
 }
