@@ -113,7 +113,7 @@ public class JobService {
 
 	private void addJobAttribute(JobResponse jobResponse, Job job) {
 
-		jobResponse.setUID(job.getUID());
+		jobResponse.setUID(job.getId());
 		jobResponse.setTitle(job.getTitle());
 		jobResponse.setCreated_by(job.getUserID());
 		jobResponse.setDescription(job.getJobDescription());
@@ -124,7 +124,7 @@ public class JobService {
 		jobResponse.setIsActive(job.isIsActive());
 		
 		try {
-			jobResponse.setSkills(jobManager.getSkillsByJob((int) job.getUID()));
+			jobResponse.setSkills(jobManager.getSkillsByJob((int) job.getId()));
 		} catch (NoSkillsException e) {
 			
 			jobResponse.setSkills(new ArrayList<SkillSet>());
