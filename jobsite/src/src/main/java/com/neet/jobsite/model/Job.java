@@ -1,12 +1,16 @@
 package com.neet.jobsite.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="Job")
 public class Job implements Serializable {
 	
 	@Id
@@ -20,8 +24,8 @@ public class Job implements Serializable {
 	private String Location;
 	private Integer JobCategoryID;
 	private Integer UserID;
-	private LocalDateTime StartDate;
-	private LocalDateTime EndDate;
+	private Date StartDate;
+	private Date EndDate;
 	private boolean IsActive;
 	
 	public String getTitle() {
@@ -59,17 +63,17 @@ public class Job implements Serializable {
 		UserID = userID;
 	}
 	
-	public LocalDateTime getStartDate() {
+	public Date getStartDate() {
 		return StartDate;
 	}
-	public void setStartDate(LocalDateTime startDate) {
+	public void setStartDate(Date startDate) {
 		StartDate = startDate;
 	}
 	
-	public LocalDateTime getEndDate() {
+	public Date getEndDate() {
 		return EndDate;
 	}
-	public void setEndDate(LocalDateTime endDate) {
+	public void setEndDate(Date endDate) {
 		EndDate = endDate;
 	}
 	

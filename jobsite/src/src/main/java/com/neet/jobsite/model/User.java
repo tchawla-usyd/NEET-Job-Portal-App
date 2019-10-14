@@ -1,7 +1,6 @@
 package com.neet.jobsite.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -40,11 +39,11 @@ public class User implements Serializable {
 	@Column(name="Password")
 	private String Password;
 	
-//	private boolean IsActive;
-//	private boolean IsLocked;
-//	private Date CreateDate;
-//	private Date ModifiedDate;
-//	private Integer UserTypeID;
+	private boolean IsActive;
+	private boolean IsLocked;
+	private Date CreateDate;
+	private Date ModifiedDate;
+	private Integer UserTypeID;
 	
 	public String getFirstName() {
 		return FirstName;
@@ -74,38 +73,38 @@ public class User implements Serializable {
 		Password = password;
 	}
 	
-//	public boolean isIsActive() {
-//		return IsActive;
-//	}
-//	public void setIsActive(boolean isActive) {
-//		IsActive = isActive;
-//	}
-//	
-//	public boolean isIsLocked() {
-//		return IsLocked;
-//	}
-//	public void setIsLocked(boolean isLocked) {
-//		IsLocked = isLocked;
-//	}
-//	
-//	public Date getCreateDate() {
-//		return CreateDate;
-//	}
-//	public void setCreateDate(Date createDate) {
-//		CreateDate = createDate;
-//	}
-//	
-//	public Date getModifiedDate() {
-//		return ModifiedDate;
-//	}
-//	public void setModifiedDate(Date modifiedDate) {
-//		ModifiedDate = modifiedDate;
-//	}
-//	
-//	public Integer getUserTypeID() {
-//		return UserTypeID;
-//	}
-//	public void setUserTypeID(Integer userTypeID) {
-//		UserTypeID = userTypeID;
-//	}
+	public boolean isIsActive() {
+		return IsActive;
+	}
+	public void setIsActive(boolean isActive) {
+		IsActive = isActive;
+	}
+	
+	public boolean isIsLocked() {
+		return IsLocked;
+	}
+	public void setIsLocked(boolean isLocked) {
+		IsLocked = isLocked;
+	}
+	
+	public Date getCreateDate() {
+		return CreateDate;
+	}
+	public void setCreateDate(Date createDate) {
+		CreateDate = createDate;
+	}
+	
+	public Date getModifiedDate() {
+		return ModifiedDate;
+	}
+	public void setModifiedDate(Date modifiedDate) {
+		ModifiedDate = modifiedDate;
+	}
+	
+	public Integer getUserTypeID() {
+		return UserTypeID;
+	}
+	public void setUserTypeID(Integer userTypeID) {
+		UserTypeID = userTypeID;
+	}
 }
