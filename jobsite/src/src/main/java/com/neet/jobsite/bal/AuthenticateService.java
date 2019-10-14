@@ -9,7 +9,7 @@ import com.neet.jobsite.dal.IUserAuthenticationDac;
 
 @Service(value="authenticateBal")
 @Transactional
-public class AuthenticateBal implements IAuthenticateBal {
+public class AuthenticateService implements IAuthenticateService {
 	
 	@Resource(name = "userAuthenticationDac")
 	private IUserAuthenticationDac userAuthenticationDac;
