@@ -1,8 +1,9 @@
 package com.neet.jobsite.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class UserType extends BaseObject {
+public class UserType implements Serializable {
 	/*
 	  `UID` INT(11) NOT NULL,
 	  `Type` INT(11) NULL DEFAULT NULL,

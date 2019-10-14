@@ -1,8 +1,9 @@
 package com.neet.jobsite.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class JobCategory {
+public class JobCategory implements Serializable{
 	/*
 	  `Name` VARCHAR(45) NULL DEFAULT NULL,
 	  `Description` VARCHAR(45) NULL DEFAULT NULL,

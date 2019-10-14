@@ -1,8 +1,9 @@
 package com.neet.jobsite.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class UserProfileStatus {
+public class UserProfileStatus implements Serializable{
 	private boolean IsEmailSent;
 	private boolean IsSmsSent;
 	private String PasswordResetGuid;

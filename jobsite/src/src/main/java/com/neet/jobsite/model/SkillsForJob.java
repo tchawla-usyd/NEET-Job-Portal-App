@@ -1,8 +1,9 @@
 package com.neet.jobsite.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class SkillsForJob extends BaseObject {
+public class SkillsForJob implements Serializable {
 	private Integer SkillID;
 	private Integer JobID;
 	private LocalDateTime CreatedDate;

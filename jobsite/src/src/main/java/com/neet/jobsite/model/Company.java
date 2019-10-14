@@ -1,6 +1,8 @@
 package com.neet.jobsite.model;
 
-public class Company extends BaseObject {
+import java.io.Serializable;
+
+public class Company implements Serializable {
 	/*
 	  `UID` INT(11) NOT NULL,
 	  `CompanyName` VARCHAR(45) NULL DEFAULT NULL,

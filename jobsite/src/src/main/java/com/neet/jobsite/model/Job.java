@@ -1,8 +1,9 @@
 package com.neet.jobsite.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Job extends BaseObject {
+public class Job implements Serializable {
 	private String Title;
 	private String JobDescription;
 	private String Location;
