@@ -48,7 +48,6 @@ public class SkillSetController {
 	@RequestMapping(value="/edit/**", method=RequestMethod.POST)
 	public String editSkillSet(@Valid SkillSet SkillSet) {
 		this.skillSetManager.updateSkillSet(SkillSet);
-		System.out.println(SkillSet.getId());
 		return "redirect:/admin/skillsets";
 	}
 	

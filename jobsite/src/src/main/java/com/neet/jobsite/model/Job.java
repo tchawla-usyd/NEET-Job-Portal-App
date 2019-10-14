@@ -1,13 +1,12 @@
 package com.neet.jobsite.model;
 
 import java.io.Serializable;
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.sql.Date;
 
 @Entity
 @Table(name="Job")
@@ -16,16 +15,31 @@ public class Job implements Serializable {
 	@Id
 	@Column(name="Id")
 	@GeneratedValue
-	private long id;
+	private long Id;
 	
 	
+	@Column(name="Title")
 	private String Title;
+	
+	@Column(name="JobDescription")
 	private String JobDescription;
+	
+	@Column(name="Location")
 	private String Location;
+	
+	@Column(name="JobCategoryID")
 	private Integer JobCategoryID;
+	
+	@Column(name="UserID")
 	private Integer UserID;
-	private Date StartDate;
-	private Date EndDate;
+	
+	@Column(name="StartDate")
+	private java.sql.Date StartDate;
+	
+	@Column(name="EndDate")
+	private java.sql.Date EndDate;
+	
+	@Column(name="IsActive")
 	private boolean IsActive;
 	
 	public String getTitle() {
@@ -63,17 +77,19 @@ public class Job implements Serializable {
 		UserID = userID;
 	}
 	
-	public Date getStartDate() {
+	public java.sql.Date getStartDate() {
 		return StartDate;
 	}
-	public void setStartDate(Date startDate) {
+	
+	public void setStartDate(java.sql.Date startDate) {
 		StartDate = startDate;
 	}
 	
-	public Date getEndDate() {
+	public java.sql.Date getEndDate() {
 		return EndDate;
 	}
-	public void setEndDate(Date endDate) {
+	
+	public void setEndDate(java.sql.Date endDate) {
 		EndDate = endDate;
 	}
 	
@@ -82,5 +98,12 @@ public class Job implements Serializable {
 	}
 	public void setIsActive(boolean isActive) {
 		IsActive = isActive;
+	}
+	public long getId() {
+		return this.Id;
+	}
+	
+	public void setUID(long id) {
+		this.Id = id;
 	}
 }

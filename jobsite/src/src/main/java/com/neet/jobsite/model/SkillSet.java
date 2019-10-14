@@ -1,6 +1,7 @@
 package com.neet.jobsite.model;
 
-import java.util.Date;
+import java.sql.Date;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -11,13 +12,13 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="SkillSet")
+@Table(name="skill")
 public class SkillSet implements Serializable {
 	
 	@Id
-	@Column(name="Id")
+	@Column(name="UID")
 	@GeneratedValue
-	private long id;
+	private long UID;
 	
 	@Column(name="Name")
 	private String name;
@@ -28,14 +29,6 @@ public class SkillSet implements Serializable {
 	@Column(name="CreatedBy")
 	private Integer CreatedBy;
 	
-	
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 	
 	public String getName() {
 		return this.name;
@@ -65,5 +58,13 @@ public class SkillSet implements Serializable {
 	    StringBuffer buffer = new StringBuffer();
         buffer.append("Name: " + this.name + ";");
         return buffer.toString();
+	}
+
+	public long getUID() {
+		return UID;
+	}
+
+	public void setUID(long uID) {
+		UID = uID;
 	}
 }

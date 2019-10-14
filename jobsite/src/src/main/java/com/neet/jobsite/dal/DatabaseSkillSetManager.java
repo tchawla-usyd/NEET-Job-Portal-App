@@ -5,10 +5,13 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.neet.jobsite.HomeController;
 import com.neet.jobsite.model.SkillSet;
 
 @Service(value="skillSetManager")
@@ -19,6 +22,9 @@ public class DatabaseSkillSetManager implements SkillSetManager {
 	 * Default serialization version
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private static final Logger logger = LoggerFactory.getLogger(DatabaseSkillSetManager.class);
+
 	
 	private SessionFactory sessionFactory;
 	
