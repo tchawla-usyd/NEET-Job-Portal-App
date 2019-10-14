@@ -1,6 +1,7 @@
 package com.neet.jobsite.model;
 
-import java.util.Date;
+import java.sql.Date;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;

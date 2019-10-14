@@ -1,6 +1,17 @@
 package com.neet.jobsite.model;
 
-public class Company extends BaseObject {
+import java.io.Serializable;
+import java.sql.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="CompanyInfo")
+public class Company implements Serializable {
 	/*
 	  `UID` INT(11) NOT NULL,
 	  `CompanyName` VARCHAR(45) NULL DEFAULT NULL,
@@ -9,6 +20,11 @@ public class Company extends BaseObject {
 	  `CompanyImage` VARCHAR(45) NULL DEFAULT NULL,
 	  `UserID` INT(11) NULL DEFAULT NULL,
 	 */
+	
+	@Id
+	@Column(name="Id")
+	@GeneratedValue
+	private long id;
 	
 	private String CompanyName;
 	private String BusinessPhone;

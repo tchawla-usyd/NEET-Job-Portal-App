@@ -1,22 +1,22 @@
 package com.neet.jobsite.model;
 
-import java.time.LocalDateTime;
-
-import javax.persistence.Table;
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import java.sql.Date;
 
 @Entity
-@Table(name="job")
-public class Job extends BaseObject {
+@Table(name="Job")
+public class Job implements Serializable {
 	
 	@Id
+	@Column(name="Id")
 	@GeneratedValue
-	@Column(name="UID")
-	private long UID;
+	private long Id;
+	
 	
 	@Column(name="Title")
 	private String Title;
@@ -80,6 +80,7 @@ public class Job extends BaseObject {
 	public java.sql.Date getStartDate() {
 		return StartDate;
 	}
+	
 	public void setStartDate(java.sql.Date startDate) {
 		StartDate = startDate;
 	}
@@ -87,6 +88,7 @@ public class Job extends BaseObject {
 	public java.sql.Date getEndDate() {
 		return EndDate;
 	}
+	
 	public void setEndDate(java.sql.Date endDate) {
 		EndDate = endDate;
 	}
@@ -97,10 +99,11 @@ public class Job extends BaseObject {
 	public void setIsActive(boolean isActive) {
 		IsActive = isActive;
 	}
-	public long getUID() {
-		return UID;
+	public long getId() {
+		return this.Id;
 	}
-	public void setUID(long uID) {
-		UID = uID;
+	
+	public void setUID(long id) {
+		this.Id = id;
 	}
 }

@@ -1,6 +1,8 @@
 package com.neet.jobsite.model;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
+import java.sql.Date;
+
 
 import javax.persistence.Table;
 import javax.persistence.Column;
@@ -8,10 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-
 @Entity
-@Table(name="jobcategory")
-public class JobCategory {
+@Table(name="JobCategory")
+public class JobCategory implements Serializable{
+
 	/*
 	  `Name` VARCHAR(45) NULL DEFAULT NULL,
 	  `Description` VARCHAR(45) NULL DEFAULT NULL,
@@ -20,9 +22,9 @@ public class JobCategory {
 	  */
 	
 	@Id
+	@Column(name="Id")
 	@GeneratedValue
-	@Column(name="UID")
-	private long UID;
+	private long Id;
 	
 	@Column(name="Name")
 	private String Name;
@@ -34,7 +36,7 @@ public class JobCategory {
 	private Integer CreatedBy;
 	
 	@Column(name="CreatedDate")
-	private LocalDateTime CreatedDate;
+	private Date CreatedDate;
 	
 	public String getName() {
 		return Name;
@@ -57,17 +59,19 @@ public class JobCategory {
 		CreatedBy = createdBy;
 	}
 	
-	public LocalDateTime getCreatedDate() {
+	public Date getCreatedDate() {
 		return CreatedDate;
 	}
-	public void setCreatedDate(LocalDateTime createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		CreatedDate = createdDate;
 	}
-	public long getUID() {
-		return UID;
+	
+	public long getId() {
+		return this.Id;
 	}
-	public void setUID(long uID) {
-		UID = uID;
+	
+	public void setUID(long id) {
+		this.Id = id;
 	}
 	
 }
