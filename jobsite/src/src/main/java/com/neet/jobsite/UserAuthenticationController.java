@@ -14,7 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.neet.jobsite.bal.IAuthenticateBal;
+import com.neet.jobsite.bal.IAuthenticateService;
 import com.neet.jobsite.dal.SkillSetManager;
 import com.neet.jobsite.model.User;
 
@@ -23,7 +23,7 @@ import com.neet.jobsite.model.User;
 public class UserAuthenticationController {
 
 	@Resource(name = "authenticateBal")
-	private IAuthenticateBal authenticateBal;
+	private IAuthenticateService authenticateBal;
 	
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
