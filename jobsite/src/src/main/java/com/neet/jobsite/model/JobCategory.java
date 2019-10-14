@@ -3,6 +3,10 @@ package com.neet.jobsite.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 public class JobCategory implements Serializable{
 	/*
 	  `Name` VARCHAR(45) NULL DEFAULT NULL,
@@ -10,6 +14,11 @@ public class JobCategory implements Serializable{
 	  `CreatedBy` INT(11) NULL DEFAULT NULL,
 	  `CreateDate` DATETIME NULL DEFAULT NULL,
 	  */
+	
+	@Id
+	@Column(name="Id")
+	@GeneratedValue
+	private long id;
 	
 	private String Name;
 	private String Description;

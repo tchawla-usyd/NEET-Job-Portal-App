@@ -3,6 +3,10 @@ package com.neet.jobsite.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 public class UserType implements Serializable {
 	/*
 	  `UID` INT(11) NOT NULL,
@@ -10,6 +14,12 @@ public class UserType implements Serializable {
 	  `Description` VARCHAR(255) NULL DEFAULT NULL,
 	  `CreatedDate` DATETIME NULL DEFAULT NULL,
 	  */
+	
+	@Id
+	@Column(name="Id")
+	@GeneratedValue
+	private long id;
+	
 	
 	private Integer Type;
 	private String Description;

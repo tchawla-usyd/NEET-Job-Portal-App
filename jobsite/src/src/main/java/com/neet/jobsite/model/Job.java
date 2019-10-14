@@ -3,7 +3,18 @@ package com.neet.jobsite.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 public class Job implements Serializable {
+	
+	@Id
+	@Column(name="Id")
+	@GeneratedValue
+	private long id;
+	
+	
 	private String Title;
 	private String JobDescription;
 	private String Location;
