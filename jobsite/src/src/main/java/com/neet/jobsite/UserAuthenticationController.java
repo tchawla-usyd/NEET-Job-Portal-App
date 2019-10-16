@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.neet.jobsite.bal.IAuthenticateService;
 import com.neet.jobsite.dal.SkillSetManager;
@@ -24,32 +25,46 @@ public class UserAuthenticationController {
 
 	@Resource(name = "authenticateBal")
 	private IAuthenticateService authenticateBal;
-	
-	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		return "redirect:authenticate/login";
 	}
-	
+
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Locale locale, Model model) {
-		model.addAttribute("login",new User());
+		model.addAttribute("login", new User());
 		return "authenticate/login";
 	}
-	
+
 	@RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
 	public String loginProcess(HttpServletRequest request) {
 		String email = request.getParameter("Email");
-		String password =	request.getParameter("Password");
-		boolean result =	this.authenticateBal.Authenticate(email, password);
-		if(result)
-		{
+		String password = request.getParameter("Password");
+		boolean result = this.authenticateBal.Authenticate(email, password);
+		if (result) {
 			return "redirect:admin/home";
 		}
-		//please check the username and password from the server
-		//update appropriate error message from the action if there is any
-		//if successfull move to appropriate dashboard
-		//model.addAttribute("login",new User());
+		// please check the username and password from the server
+		// update appropriate error message from the action if there is any
+		// if successfull move to appropriate dashboard
+		// model.addAttribute("login",new User());
 		return "redirect:authenticate/login";
+	}
+
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public String showRegister(Locale locale, Model model) {
+		model.addAttribute("register", new User());
+		return "authenticate/register";
+	}
+
+	@RequestMapping(value = "/registerProcess", method = RequestMethod.POST)
+	public String registerProcess(HttpServletRequest request) {
+		String firstName = request.getParameter("FirstName");
+		String lastName = request.getParameter("LastName");
+		String email = request.getParameter("Email");
+		String password = request.getParameter("Password");
+
+		return "home";
 	}
 }
