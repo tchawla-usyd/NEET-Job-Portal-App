@@ -26,10 +26,7 @@ import com.neet.jobsite.response.JobResponse;
 
 @Controller
 @RequestMapping(value="/job/**")
-public class JobController {
-	
-	
-	
+public class JobController  extends BaseMVCController {
 	
 	@Resource(name="jobService")
 	private JobService jobService;
