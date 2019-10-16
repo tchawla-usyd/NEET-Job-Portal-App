@@ -1,14 +1,10 @@
 package com.neet.jobsite;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.neet.jobsite.bal.IAuthenticateService;
-import com.neet.jobsite.dal.SkillSetManager;
+import com.neet.jobsite.bal.IUserService;
 import com.neet.jobsite.model.User;
 
 @Controller
@@ -26,6 +22,9 @@ public class UserAuthenticationController extends BaseMVCController {
 	@Resource(name = "authenticateBal")
 	private IAuthenticateService authenticateBal;
 	
+	
+	@Resource(name = "authenticateBal")
+	private IUserService userService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
@@ -42,7 +41,7 @@ public class UserAuthenticationController extends BaseMVCController {
 	public String loginProcess(HttpServletRequest request) {
 		String email = request.getParameter("Email");
 		String password =	request.getParameter("Password");
-		boolean result =	this.authenticateBal.Authenticate(email, password);
+		boolean result= this.authenticateBal.Authenticate(email, password);
 		if(result)
 		{
 			HttpSession session = context.getSession(false);
@@ -71,7 +70,8 @@ public class UserAuthenticationController extends BaseMVCController {
 		String lastName = request.getParameter("lastName");
 		String email = request.getParameter("Email");
 		String password = request.getParameter("Password");
-
+		//todo: User Type
+		this.userService.AddUser(firstName, lastName, email, password, 4);
 		return "home";
 	}
 }

@@ -11,14 +11,16 @@ import com.neet.jobsite.dal.IUserManager;
 import com.neet.jobsite.model.User;
 
 @Service(value = "userService")
-public class UserService {
+public class UserService implements IUserService {
 	@Resource(name = "userManager")
 	private IUserManager userManager;
 	
+	@Override
 	public ArrayList<User> GetAllUsers(){
 		return this.userManager.getUsers();
 	}
 	
+	@Override
 	public User AddUser(String firstName, String lastName, String email, String password, Integer userType) {
 		User newUser = new User();
 		newUser.setFirstName(firstName);
