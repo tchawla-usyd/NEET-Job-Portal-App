@@ -1,7 +1,5 @@
-import { Layout, Menu, Dropdown, Link } from 'antd';
+import { Layout, Menu, Dropdown, Link, Avatar } from 'antd';
 import React, {Component} from "react";
-
-import Listing from '../components/Listing';
 
 import logo from "../../NEET.png";
 
@@ -52,7 +50,7 @@ export default class BaseLayout extends Component {
 				  <Dropdown placement="bottomCenter"
 				  	overlay={menu} trigger={['click']}>
 				      <a href="#">
-					    Rex Shen
+					    <Avatar size="large" shape="square" style={{margin: 10, color: '#666666', backgroundColor: '#ffffff'}}>RS</Avatar>
 					  </a>
 					  </Dropdown>
 				</span>
@@ -64,7 +62,7 @@ export default class BaseLayout extends Component {
 	      </Header>
 	      <Content style={{ padding: '0 50px', marginTop: 64 }}>
 	      	<div style={{ background: '#fff', padding: 24, minHeight: 500 }}>
-	      		<Listing/>
+	      		{this.props.children}
 	      	</div>
 	      </Content>
 	      <Footer style={{ textAlign: 'center' }}>NEET.inc ©2019</Footer>

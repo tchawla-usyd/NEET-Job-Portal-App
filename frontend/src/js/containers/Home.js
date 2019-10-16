@@ -1,4 +1,5 @@
 import BaseLayout from '../components/BaseLayout';
+import Listing from '../components/Listing';
 
 import React, {Component} from "react";
 
@@ -9,7 +10,8 @@ export default class Home extends Component {
 
    	render(){
    		return (
-   		<BaseLayout>
+   		<BaseLayout >
+   			<Listing />
     	</BaseLayout>);
    	}
 }
