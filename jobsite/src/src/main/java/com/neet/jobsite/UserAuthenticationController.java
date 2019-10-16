@@ -60,8 +60,8 @@ public class UserAuthenticationController {
 
 	@RequestMapping(value = "/registerProcess", method = RequestMethod.POST)
 	public String registerProcess(HttpServletRequest request) {
-		String firstName = request.getParameter("FirstName");
-		String lastName = request.getParameter("LastName");
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
 		String email = request.getParameter("Email");
 		String password = request.getParameter("Password");
 
