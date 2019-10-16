@@ -12,13 +12,13 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="skill")
+@Table(name="SkillSet")
 public class SkillSet implements Serializable {
 	
 	@Id
-	@Column(name="UID")
+	@Column(name="Id")
 	@GeneratedValue
-	private long UID;
+	private long Id;
 	
 	@Column(name="Name")
 	private String name;
@@ -60,11 +60,11 @@ public class SkillSet implements Serializable {
         return buffer.toString();
 	}
 
-	public long getUID() {
-		return UID;
+	public long getId() {
+		return this.Id;
 	}
 
-	public void setUID(long uID) {
-		UID = uID;
+	public void setId(long id) {
+		this.Id = id;
 	}
 }

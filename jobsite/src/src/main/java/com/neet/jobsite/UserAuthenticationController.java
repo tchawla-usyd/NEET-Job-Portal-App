@@ -7,6 +7,7 @@ import java.util.Locale;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ import com.neet.jobsite.model.User;
 
 @Controller
 @RequestMapping(value = "/authenticate/**")
-public class UserAuthenticationController {
+public class UserAuthenticationController extends BaseMVCController {
 
 	@Resource(name = "authenticateBal")
 	private IAuthenticateService authenticateBal;
@@ -44,12 +45,17 @@ public class UserAuthenticationController {
 		boolean result =	this.authenticateBal.Authenticate(email, password);
 		if(result)
 		{
-			return "redirect:admin/home";
+			HttpSession session = context.getSession(false);
+			session.setAttribute("loggedInUser","GAVIN");
+			return "redirect:/";
+		}
+		else {
+			return "redirect:authenticate/login";
 		}
 		//please check the username and password from the server
 		//update appropriate error message from the action if there is any
 		//if successfull move to appropriate dashboard
 		//model.addAttribute("login",new User());
-		return "redirect:authenticate/login";
+		
 	}
 }
