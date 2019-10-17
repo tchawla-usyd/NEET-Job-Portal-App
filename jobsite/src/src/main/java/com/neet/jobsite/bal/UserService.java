@@ -32,6 +32,7 @@ public class UserService implements IUserService {
 		newUser.setIsLocked(false);
 		newUser.setCreateDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 		newUser.setModifiedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+		newUser.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 		this.userManager.addUser(newUser);
 		return newUser;
 	}

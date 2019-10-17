@@ -58,6 +58,9 @@ public class User implements Serializable {
 	@Column(name="UserTypeID")
 	private Integer UserTypeID;
 	
+	@Column(name="CreatedDate")
+	private Date CreatedDate;
+	
 	public String getFirstName() {
 		return FirstName;
 	}
@@ -112,6 +115,13 @@ public class User implements Serializable {
 	}
 	public void setModifiedDate(Date modifiedDate) {
 		ModifiedDate = modifiedDate;
+	}
+	
+	public Date getCreatedDate() {
+		return CreatedDate;
+	}
+	public void setCreatedDate(Date createdDate) {
+		CreatedDate = createdDate;
 	}
 	
 	public Integer getUserTypeID() {
