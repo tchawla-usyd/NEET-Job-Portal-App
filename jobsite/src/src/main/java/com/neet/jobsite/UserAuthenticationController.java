@@ -23,7 +23,7 @@ public class UserAuthenticationController extends BaseMVCController {
 	private IAuthenticateService authenticateBal;
 	
 	
-	@Resource(name = "authenticateBal")
+	@Resource(name = "userService")
 	private IUserService userService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -70,8 +70,9 @@ public class UserAuthenticationController extends BaseMVCController {
 		String lastName = request.getParameter("lastName");
 		String email = request.getParameter("Email");
 		String password = request.getParameter("Password");
+		Integer userTypeValue = Integer.parseInt(request.getParameter("radioUser"));
 		//todo: User Type
-		this.userService.AddUser(firstName, lastName, email, password, 4);
+		this.userService.AddUser(firstName, lastName, email, password, userTypeValue);
 		return "home";
 	}
 }
