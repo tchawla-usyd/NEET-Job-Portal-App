@@ -46,7 +46,7 @@ public class UserAuthenticationController extends BaseMVCController {
 		{
 			HttpSession session = context.getSession(false);
 			session.setAttribute("loggedInUser","GAVIN");
-			return "redirect:/";
+			return "home";
 		}
 		else {
 			return "redirect:authenticate/login";
