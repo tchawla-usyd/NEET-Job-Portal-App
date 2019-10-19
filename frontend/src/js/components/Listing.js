@@ -1,28 +1,27 @@
 import React, {Component} from "react";
-import { Table, Divider, Tag, Input, Button} from 'antd';
+import { Table, Divider, Tag, Input, Button, Typography} from 'antd';
 const { Search } = Input;
+const { Text } = Typography;
 
 const columns = [
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a>{text}</a>,
+    title: 'Job Title',
+    dataIndex: 'title',
+    key: 'title',
+    align: 'center',
+    render: text => <a><Text strong>{text}</Text></a>,
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: 'Location',
+    dataIndex: 'location',
+    key: 'location',
+    align: 'center',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
+    title: 'Skills Wanted',
+    dataIndex: 'skills',
+    key: 'skills',
+    align: 'center',
     render: tags => (
       <span>
         {tags.map(tag => {
@@ -42,11 +41,12 @@ const columns = [
   {
     title: 'Action',
     key: 'action',
+    align: 'center',
     render: (text, record) => (
       <span>
-        <a>Invite {record.name}</a>
+        <a>Save</a>
         <Divider type="vertical" />
-        <a>Delete</a>
+        <a>Apply</a>
       </span>
     ),
   },
@@ -55,24 +55,21 @@ const columns = [
 const data = [
   {
     key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
+    title: 'Software Dev',
+    location: 'Sydney',
+    skills: ['nice', 'developer'],
   },
   {
     key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
+    title: 'Tester',
+    location: 'Melbourne',
+    skills: ['loser'],
   },
   {
     key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
+    title: 'Whooooohla',
+    location: 'Brisbane',
+    skills: ['cool', 'teacher'],
   },
 ];
 
@@ -80,16 +77,29 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
     }
+    
+    handleFilter = (value) => {
+      //TODO
+      console.log(value);
+    }
+
     render(){
+      // const onRow=(record, rowIndex) => {
+      //   return {
+      //     onClick: ()=>console.log(rowIndex)
+      //   }
+      // };
       return (
         <div>
           {/* Seach Bar */}
           <Search placeholder="input search text" 
           style={{ width: 200 }} onSearch={value => console.log(value)} 
-          enterButton={<Button shape="circle" icon="search" />} />
+          onChange={(e)=> this.handleFilter(e.target.value)}
+          onSearch={(value)=> this.handleFilter(value)}
+          enterButton={<Button style={{ width: 30 }} icon="search" />} />
 
           {/* Table */}
-          <Table columns={columns} dataSource={data} />
+          <Table style={{marginTop: 20}} columns={columns} dataSource={data} />
         </div>
         );
     }

@@ -1,13 +1,15 @@
 import React, {Component} from "react";
 import axios from 'axios';
-import { Form, Input, Tooltip, Icon, Row, Col, Checkbox, Button} from 'antd';
+import { Form, Input, Tooltip, Icon, Row, Col, Checkbox, Button, Radio} from 'antd';
 
 import logo from "../../NEET.png";
+import Tags from "../components/Tags";
 
 //Singup Page
 class Signup extends Component {
   constructor(props) {
     super(props);
+    this.state = {isEmployer:'nothing',}
   }
 
   //send input information to backend to create new user 
@@ -33,6 +35,10 @@ class Signup extends Component {
     });
   }
 
+  handleRadioChange = (e) => {
+    this.setState({isEmployer: e.target.value == 'employer'});
+  }
+
   //validate two passwords are the same
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
@@ -45,12 +51,37 @@ class Signup extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-
     const FormItemLayout = {
       labelCol: { span: 4, offset: 5},
       wrapperCol: { span: 6 },
       align: "middle"
     };
+
+    let details;
+    if (this.state.isEmployer == true) {
+        details = <Form.Item {...FormItemLayout} label="Company Name">
+                  {getFieldDecorator('company', {
+                      rules: [{
+                        required: true, message: 'Please enter your company\'s name!!',
+                      }]
+                    })( <Input />)}
+                  </Form.Item>;
+      }else if (this.state.isEmployer == false){
+        details = <div><Form.Item {...FormItemLayout} label="Skills">
+                    {getFieldDecorator('skills', {
+                      rules: [{
+                        required: true, message: 'Please enter your skills!!',
+                      }]
+                    })( <Tags />)}
+                  </Form.Item>
+                  <Form.Item {...FormItemLayout} label="Education">
+                    {getFieldDecorator('education')(<Input.TextArea rows={3}/>)}
+                  </Form.Item>
+                  <Form.Item {...FormItemLayout} label="Experience">
+                    {getFieldDecorator('experience')(<Input.TextArea rows={4}/>)}
+                  </Form.Item></div>;
+      }
+    
 
     return (
       <Form style={{paddingTop:"20px"}} onSubmit= {this.handleSubmit}>
@@ -107,20 +138,33 @@ class Signup extends Component {
             }],
           })( <Input type="password"/>)}
         </Form.Item>
+
+        <Form.Item {...FormItemLayout} label="I am">
+          {getFieldDecorator('radio-group', {rules: [{
+              required: true, message: 'Please Select Who You Are!'
+            }]})(
+            <Radio.Group onChange={this.handleRadioChange}>
+              <Radio value="seeker"> A Job Seeker</Radio>
+              <Radio value="employer">An Employer</Radio>
+            </Radio.Group>
+          )}
+        </Form.Item>
+
+        {details}
         
         {/* Agreement checkbox*/}
-        <Form.Item wrapperCol={{span: 5,offset: 9,}}>
+        <Form.Item wrapperCol={{span: 8,offset: 9,}}>
           {getFieldDecorator('agreement', {
             valuePropName: 'checked',
             rules: [{
               required: true, message: 'Please tick the agreement box!!',
             }]
-          })( <Checkbox>I have read the <a href="">agreement</a></Checkbox>)}
+          })( <Checkbox>I have read and agree the <a href="">agreement</a></Checkbox>)}
         </Form.Item>
 
         {/* Submit Button */}
-        <Form.Item wrapperCol={{span: 5,offset: 10,}}>
-          <Button type="primary" htmlType="submit">Register</Button>
+        <Form.Item wrapperCol={{span: 5,offset: 11,}}>
+          <Button type="primary" htmlType="submit">Sign Up</Button>
         </Form.Item>
       </Form>
     );
