@@ -36,8 +36,10 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan">
 			<array>
+				  <value>com.neet.jobsite.admin</value>
 	              <value>com.neet.jobsite.model</value>
 	              <value>com.neet.jobsite.dal</value>
+	              <value>com.neet.jobsite.bal</value>
 	              <value>com.neet.jobsite</value>
 	         </array>
 		</property>
