@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Form, Icon, Input, Button, Checkbox, message} from 'antd';
 import 'antd/dist/antd.css';
+import logo from "../../NEET.png";
 import axios from 'axios';
 
 const FormItem = Form.Item;
@@ -52,9 +53,13 @@ export default class Login extends Component {
         if(!this.props.isAuthenticated){
             return (
                 <div className="container">
-                    <Form onSubmit={this.handleSubmit} align="middle" style={{ padding: 400, paddingTop:200, paddingBottom: 0}}>
-                        {/* Title */}
-                        <FormItem><h1>Login</h1></FormItem>
+                    <div style={{display:'flex',
+                      justifyContent:"center",
+                      alignItems:'center',
+                      paddingTop: 80}}>
+                      <img style={{ width: "200px", height: "200px"}} src={logo}/>
+                    </div>
+                    <Form onSubmit={this.handleSubmit} align="middle" style={{ paddingLeft: 400, paddingRight: 400, paddingBottom: 0, paddingTop: 80}}>
                         
                         {/* Email */}
                         <FormItem>

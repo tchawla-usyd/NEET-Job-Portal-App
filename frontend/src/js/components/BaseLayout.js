@@ -1,7 +1,6 @@
-import { Layout, Menu, Dropdown, Link } from 'antd';
+import { Layout, Menu, Dropdown, Avatar } from 'antd';
+import { Link } from 'react-router-dom'
 import React, {Component} from "react";
-
-import Listing from '../components/Listing';
 
 import logo from "../../NEET.png";
 
@@ -19,20 +18,20 @@ export default class BaseLayout extends Component {
 	              alignItems:'center'};
    		const MenuItem = Menu.Item;
    		const menu = (
-		  <Menu>
+		  <Menu style={{textAlign: 'center'}}>
 		    <Menu.Item>
-		      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-		        1st menu item
-		      </a>
+		      <Link to= '/profile'>
+		        Profile
+		      </Link>
 		    </Menu.Item>
 		    <Menu.Item>
-		      <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
+		      <a href="http://www.taobao.com/">
 		        2nd menu item
 		      </a>
 		    </Menu.Item>
 		    <Menu.Item>
-		      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
-		        3rd menu item
+		      <a style={{color:'red'}} target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
+		        Logout
 		      </a>
 		    </Menu.Item>
 		  </Menu>
@@ -52,19 +51,19 @@ export default class BaseLayout extends Component {
 				  <Dropdown placement="bottomCenter"
 				  	overlay={menu} trigger={['click']}>
 				      <a href="#">
-					    Rex Shen
+					    <Avatar size="large" shape="square" style={{margin: 10, color: '#666666', backgroundColor: '#ffffff', fontSize: 15}}>RS</Avatar>
 					  </a>
 					  </Dropdown>
 				</span>
 				<MenuItem className="myitem" style={{...itemStyle, marginRight: 20}} key='3'>nav 3</MenuItem>
 				<MenuItem className="myitem" style={itemStyle} key='2'>nav 2</MenuItem>
-		        <MenuItem className="myitem" style={itemStyle} key='1'>nav 1</MenuItem>
+		        <MenuItem className="myitem" style={itemStyle} key='1'><Link to='/home'>Dashboard</Link></MenuItem>
 		      </Menu>
 		      
 	      </Header>
 	      <Content style={{ padding: '0 50px', marginTop: 64 }}>
 	      	<div style={{ background: '#fff', padding: 24, minHeight: 500 }}>
-	      		<Listing/>
+	      		{this.props.children}
 	      	</div>
 	      </Content>
 	      <Footer style={{ textAlign: 'center' }}>NEET.inc ©2019</Footer>

@@ -6,47 +6,42 @@
 <title>Registration</title>
 </head>
 <body>
-	<form:form id="regForm" modelAttribute="user" action="add"
+	<form:form id="regForm" modelAttribute="user" action="registerProcess"
 		method="post">
 		<table align="center">
 
 			<tr>
-				<td><form:label path="firstname">FirstName</form:label></td>
-				<td><form:input path="firstname" name="firstname"
-						id="firstname" /></td>
+				<td><label path="firstName">FirstName</label></td>
+				<td><input type="text" path="firstName" name="firstName"
+					id="firstName" /></td>
 			</tr>
 			<tr>
-				<td><form:label path="lastname">LastName</form:label></td>
-				<td><form:input path="lastname" name="lastname" id="lastname" />
-				</td>
+				<td><label path="lastName">LastName</label></td>
+				<td><input type="text" path="lastName" name="lastName"
+					id="lastName" /></td>
 			</tr>
 			<tr>
-				<td><form:label path="email">Email</form:label></td>
-				<td><form:input path="email" name="email" id="email" /></td>
+				<td><label path="Email">Email</label></td>
+				<td><input type="Email" path="Email" name="Email" id="Email" /></td>
 			</tr>
 			<tr>
-				<td><form:label path="password">Password</form:label></td>
-				<td><form:password path="password" name="password"
-						id="password" /></td>
+				<td><label path="Password">Password</label></td>
+				<td><input type="password" path="Password" name="Password"
+					id="Password" /></td>
 			</tr>
+		
 			<tr>
-				<td><form:label path="address">Address</form:label></td>
-				<td><form:input path="address" name="address" id="address" />
-				</td>
+				<td><label path="userType">userType</label></td>
+				<td><label class="radio-inline"> 
+				<input type="radio"
+						name="radioUser" id="candidate" value="4" checked="checked" />Candidate
+				</label> <label class="radio-inline"> <input type="radio"
+						name="radioUser" id="employer" value="3" />Employer
+				</label></td>
 			</tr>
-			<tr>
-				<td><form:label path="phone">Phone</form:label></td>
-				<td><form:input path="phone" name="phone" id="phone" /></td>
-			</tr>
-			<tr>
+				<tr>
 				<td></td>
-				<td><form:button id="register" name="register">Register</form:button>
-				</td>
-			</tr>
-			<tr></tr>
-			<tr>
-				<td></td>
-				<td><a href="/neetappv2">Home</a></td>
+				<td><button id="register" name="register">Register</button></td>
 			</tr>
 		</table>
 	</form:form>

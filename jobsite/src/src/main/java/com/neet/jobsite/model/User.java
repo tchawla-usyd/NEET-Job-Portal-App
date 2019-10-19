@@ -29,9 +29,12 @@ public class User implements Serializable {
 	@Id
 	@Column(name="Id")
 	@GeneratedValue
-	private long id;
+	private long Id;
 	
+	@Column(name="FirstName")
 	private String FirstName;
+	
+	@Column(name="LastName")
 	private String LastName;
 	
 	@Column(name="Email")
@@ -40,11 +43,23 @@ public class User implements Serializable {
 	@Column(name="Password")
 	private String Password;
 	
+	@Column(name="IsActive")
 	private boolean IsActive;
+	
+	@Column(name="IsLocked")
 	private boolean IsLocked;
+	
+	@Column(name="CreateDate")
 	private Date CreateDate;
+	
+	@Column(name="ModifiedDate")
 	private Date ModifiedDate;
+	
+	@Column(name="UserTypeID")
 	private Integer UserTypeID;
+	
+	@Column(name="CreatedDate")
+	private Date CreatedDate;
 	
 	public String getFirstName() {
 		return FirstName;
@@ -100,6 +115,13 @@ public class User implements Serializable {
 	}
 	public void setModifiedDate(Date modifiedDate) {
 		ModifiedDate = modifiedDate;
+	}
+	
+	public Date getCreatedDate() {
+		return CreatedDate;
+	}
+	public void setCreatedDate(Date createdDate) {
+		CreatedDate = createdDate;
 	}
 	
 	public Integer getUserTypeID() {

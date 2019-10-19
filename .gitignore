@@ -1,3 +1,6 @@
 **node_modules
 **.DS_Store
 **.class
+/jobsite/src/target/classes/database.properties
+/jobsite/src/target/classes/log4j.xml
+/jobsite/src/target/test-classes/log4j.xml

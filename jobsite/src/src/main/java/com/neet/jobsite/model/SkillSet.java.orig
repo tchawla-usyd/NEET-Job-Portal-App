@@ -12,7 +12,11 @@ import javax.persistence.Table;
 
 
 @Entity
+<<<<<<< HEAD
+@Table(name="skillset")
+=======
 @Table(name="SkillSet")
+>>>>>>> 931895e597fc16b6d6c67869f18487f19279c4a1
 public class SkillSet implements Serializable {
 	
 	@Id
