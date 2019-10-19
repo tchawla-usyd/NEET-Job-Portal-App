@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,20 +81,28 @@
 				    </tr>
 			  	</thead>
 				<tbody id="jobsListTableBody">
-				  <tr>
-				    <th scope="row"><a href="#" class="text-dark">Software Developer</a></th>
-				    <td>Google</td>
-				    <td>Sydney</td>
-				    <td>Java</td>
-				    <td>2019-01-01</td>
-				  </tr>
-				  <tr>
-				    <th scope="row"><a href="#" class="text-dark">Software Developer</a></th>
-				    <td>Google</td>
-				    <td>Sydney</td>
-				    <td>Java</td>
-				    <td>2019-01-01</td>
-				  </tr>
+				console.log(${CandidateResponse.jobRows});
+				<c:forEach items="${CandidateResponse.jobRows}" var="jobRow">
+					<tr>
+					    <th scope="row"><a href="#" class="text-dark">${jobRow.jobTitle}</a></th>
+					    <td>${jobRow.company}</td>
+					    <td>${jobRow.location}</td>
+					    <td>
+					    	<c:forEach items="${jobRow.skills}" var="skill">
+					    		${skill} &nbsp;
+					    	</c:forEach>
+					    </td>
+					    <td>${jobRow.dateAdded}</td>
+					  </tr>
+<!-- 					  <tr> -->
+<!-- 					    <th scope="row"><a href="#" class="text-dark">Software Developer</a></th> -->
+<!-- 					    <td>Google</td> -->
+<!-- 					    <td>Sydney</td> -->
+<!-- 					    <td>Java</td> -->
+<!-- 					    <td>2019-01-01</td> -->
+<!-- 					  </tr> -->
+				</c:forEach>
+				  
 				</tbody>
 			</table>
 		</div>

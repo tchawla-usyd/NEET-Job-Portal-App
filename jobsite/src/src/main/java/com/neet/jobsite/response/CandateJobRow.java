@@ -4,39 +4,39 @@ import java.sql.Date;
 import java.util.List;
 
 public class CandateJobRow {
-	private String JobTitle;
-	private String Company;
-	private String Location;
-	private List<String> Skills;
-	private Date DateAdded;
+	private String jobTitle;
+	private String company;
+	private String location;
+	private List<String> skills;
+	private Date dateAdded;
 	public String getJobTitle() {
-		return JobTitle;
+		return this.jobTitle;
 	}
 	public void setJobTitle(String jobTitle) {
-		JobTitle = jobTitle;
+		this.jobTitle = jobTitle;
 	}
 	public String getCompany() {
-		return Company;
+		return this.company;
 	}
 	public void setCompany(String company) {
-		Company = company;
+		this.company = company;
 	}
 	public String getLocation() {
-		return Location;
+		return this.location;
 	}
 	public void setLocation(String location) {
-		Location = location;
+		this.location = location;
 	}
 	public List<String> getSkills() {
-		return Skills;
+		return this.skills;
 	}
 	public void setSkills(List<String> skills) {
-		Skills = skills;
+		this.skills = skills;
 	}
 	public Date getDateAdded() {
-		return DateAdded;
+		return this.dateAdded;
 	}
 	public void setDateAdded(Date dateAdded) {
-		DateAdded = dateAdded;
+		this.dateAdded = dateAdded;
 	}
 }
