@@ -1,8 +1,19 @@
 import React, {Component} from "react";
-import {Form, Input, DatePicker, Tag, Tooltip, Icon, Button} from 'antd';
+import {Form, Input, DatePicker, Tag, Tooltip, Icon, Button, message} from 'antd';
 
 import BaseLayout from '../components/BaseLayout';
 import Tags from '../components/Tags';
+
+import axios from 'axios';
+import qs from 'querystring';
+import moment from 'moment';
+
+
+const config = {
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
+}
 
 class Post extends Component {
     constructor(props) {
@@ -13,8 +24,35 @@ class Post extends Component {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
 		  if (!err) {
+		  	var payload = {
+		  		"title": values.title,
+		  		"description": values.description,
+		  		"location": values.location,
+		  		"start_date": moment(values.start_date).format('YYYY-MM-DD'),
+		  		"end_date": moment(values.end_date).format('YYYY-MM-DD'),
+		  		"skills": values.skills.tags,
+		  		"job_category": 1
+		  	}
+
 		    console.log(values)
+		    console.log(payload)
 		    /* TODO: Backend */
+		    try {
+	            axios.post('http://localhost:8081/jobsite/job/add', qs.stringify(payload), config)
+	            .then(res => {
+	                if (res.status == 200) {
+	                    // const token = res.data.token;
+	                    // localStorage.setItem('token', token);// set token in local storage for continuous authentication
+	                    // this.props.setAuthenticated();
+	                    // this.props.history.push("/songs");
+
+	                }else{
+	                    message.error("Wrong Username/Password !");
+	                }
+		        })
+	        } catch (e) {
+	            alert(e.message);
+	        }
 
 		  }
 		});

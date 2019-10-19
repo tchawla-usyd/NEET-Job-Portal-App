@@ -1,7 +1,5 @@
 package com.neet.jobsite;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,8 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neet.jobsite.bal.JobService;
-import com.neet.jobsite.dal.JobManager;
-import com.neet.jobsite.model.Job;
 import com.neet.jobsite.response.JobResponse;
 
 @Controller
@@ -34,7 +30,6 @@ public class JobController  extends BaseMVCController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(JobController.class);
 
-	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public String addJob(HttpServletRequest httpServletRequest) {
 		
@@ -44,7 +39,10 @@ public class JobController  extends BaseMVCController {
 		String startDate = httpServletRequest.getParameter("start_date");
 		String endDate = httpServletRequest.getParameter("end_date");
 		Integer jobCategory = Integer.parseInt(httpServletRequest.getParameter("job_category"));
+		System.out.println(httpServletRequest.getParameterValues("skills"));
 		List<String> skills = Arrays.asList(httpServletRequest.getParameterValues("skills"));
+		System.out.println(skills);
+
 		// authorized token to get user id
 		String userToken = httpServletRequest.getParameter("token");
 		
