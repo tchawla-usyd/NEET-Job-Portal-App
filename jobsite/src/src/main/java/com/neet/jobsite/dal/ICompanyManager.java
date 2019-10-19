@@ -14,4 +14,6 @@ public ArrayList<Company> getCompanys();
     public void updateCompany(Company Company);
     
     public void deleteCompany(long id);
+
+	Company GetCompnayByUserId(long id);
 }

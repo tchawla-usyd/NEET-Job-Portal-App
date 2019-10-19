@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.neet.jobsite.model.Company;
 import com.neet.jobsite.model.SkillSet;
+import com.neet.jobsite.model.User;
 
 @Service(value="companyManager")
 @Transactional
@@ -61,5 +63,14 @@ public class DatabaseCompanyManager implements ICompanyManager{
 		Session currentSession = this.sessionFactory.getCurrentSession();
 		Company product = (Company) currentSession.get(Company.class, id);
 		currentSession.delete(product);
+	}
+	
+	@Override
+	public Company GetCompnayByUserId(long id) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		List<Company> companies  = currentSession.createCriteria(Company.class)
+				.add(Restrictions.eq("UserID", id))
+				.list();
+		return companies.get(0);
 	}
 }
