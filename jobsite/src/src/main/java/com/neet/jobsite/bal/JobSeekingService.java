@@ -4,14 +4,27 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
+import com.neet.jobsite.dal.ICompanyManager;
+import com.neet.jobsite.model.Company;
 import com.neet.jobsite.response.CandateJobRow;
 import com.neet.jobsite.response.CandidateJobListResponse;
 
 @Service(value ="jobSeekingService")
 public class JobSeekingService {
+	
+	
+	@Resource(name="jobSeekingService")
+	private ICompanyManager companyManager;
+	
+	
 	public CandidateJobListResponse GetJobResponse(Integer userId) {
+		
+	//List<Company> companies =	companyManager.getCompanys();
+		
 		CandidateJobListResponse fakeresponse = new CandidateJobListResponse();
 		List<CandateJobRow> jobRows = new ArrayList<CandateJobRow>();
 		
