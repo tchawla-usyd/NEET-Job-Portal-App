@@ -1,5 +1,4 @@
-package com.neet.jobsite.admin;
-
+package com.neet.jobsite;
 
 import java.util.Date;
 import java.util.Locale;
