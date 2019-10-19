@@ -16,5 +16,7 @@ public interface SkillSetManager extends Serializable {
     public void updateSkillSet(SkillSet SkillSet);
     
     public void deleteSkillSet(long id);
+
+	public SkillSet getSkillSetByName(String name);
     
 }

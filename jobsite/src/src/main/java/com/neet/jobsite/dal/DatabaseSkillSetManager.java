@@ -3,6 +3,7 @@ package com.neet.jobsite.dal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.slf4j.Logger;
@@ -48,6 +49,16 @@ public class DatabaseSkillSetManager implements SkillSetManager {
 	public SkillSet getSkillSetById(long id) {
 		Session currentSession = this.sessionFactory.getCurrentSession();
 		SkillSet skillSet = (SkillSet) currentSession.get(SkillSet.class, id);
+		return skillSet;
+	}
+	
+	@Override
+	public SkillSet getSkillSetByName(String name) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		Query query = currentSession.createQuery("FROM SkillSet WHERE Name = :name");
+		query.setParameter("name", name);
+		
+		SkillSet skillSet = (SkillSet) query.uniqueResult();
 		return skillSet;
 	}
 

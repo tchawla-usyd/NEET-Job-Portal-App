@@ -12,6 +12,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +35,14 @@ public class JobService {
 	@Qualifier("jobDAO")
 	private JobManager jobManager;
 	
+	@Resource(name="skillService")
+	private SkillService skillService;
+	
+	
 	private static final Logger logger = LoggerFactory.getLogger(JobService.class);
 	
 	public void addJob(String title, String description, String location, String startDate,
-						String endDate, Integer jobCategory, String userToken) {
+						String endDate, Integer jobCategory, String userToken, List<String> skills) {
 		
 		if (isValidUser(userToken)) {
 			
@@ -57,10 +63,42 @@ public class JobService {
 			job.setUserID(userId);
 			
 			jobManager.addJob(job);
+			
+			List<SkillSet> skillsets = getSkillSetList(skills, userId);
+			for(SkillSet skillSet : skillsets) {
+				
+				SkillsForJob jobSkill = new SkillsForJob();
+				jobSkill.setJobID((int) job.getId());
+				jobSkill.setSkillID((int) skillSet.getId());
+				jobSkill.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+				
+				jobManager.addSkillToJob(jobSkill);
+			}
 		}
 		
 	}
 	
+	private List<SkillSet> getSkillSetList(List<String> skillList, Integer userId) {
+		List<SkillSet> skillsets = new ArrayList<SkillSet>();
+		
+		for(String name : skillList) {
+			SkillSet skill = skillService.getSkillByName(name);
+			if(skill == null) {
+				skillService.addSkill(name, userId);
+			}
+			
+			skill = skillService.getSkillByName(name);
+			skillsets.add(skill);
+
+		}
+		return skillsets;
+	}
+
+	private List<String> getSkillList(String skills) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public void editJob(long uID, String title, String description, String location, String startDate, String endDate,
 						Integer jobCategory, String userToken) {
 			
