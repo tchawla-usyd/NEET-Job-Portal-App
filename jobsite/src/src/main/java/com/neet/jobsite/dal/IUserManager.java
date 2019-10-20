@@ -17,6 +17,6 @@ public interface IUserManager {
     
     public void deleteUser(long id);
 
-	List<User> getUserByType(Integer id);
+    ArrayList<User> getUserByType(Integer id);
     
 }

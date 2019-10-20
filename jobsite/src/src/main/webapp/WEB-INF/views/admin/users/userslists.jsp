@@ -18,7 +18,7 @@
 				</ol>
 			</section>
 			<section class="content container-fluid">
-				<h1>Employees in the system</h1>
+				<h1>Job Seekers in the system</h1>
 				<table class="display" id="user_list">
 					<thead>
 						<tr>
@@ -32,13 +32,13 @@
 					</thead>
 					<c:forEach items="${users}" var="user">
 						<tr>
-							<td><c:out value="${user.Id}" /></td>
-<%-- 							<td><c:out value="${user.FirstName}" /></td> --%>
-<%-- 							<td><c:out value="${user.LastName}" /></td> --%>
-<%-- 							<td><c:out value="${user.Email}" /></td> --%>
-<%-- 							<td><c:out value="${user.IsActive}" /></td> --%>
-<%-- 							<td><c:out value="${user.IsLocked}" /></td> --%>
-<%-- 							<td><a href="../adminSkillset/edit/${user.Id}">View Details</a></td> --%>
+							<td><c:out value="${user.id}" /></td>
+							<td><c:out value="${user.firstName}" /></td>
+							<td><c:out value="${user.lastName}" /></td>
+							<td><c:out value="${user.email}" /></td>
+							<td><c:out value="${user.isActive}" /></td>
+							<td><c:out value="${user.isLocked}" /></td>
+							<td><a href="../adminSkillset/edit/${user.id}">View Details</a></td>
 						</tr>
 					</c:forEach>
 				</table>

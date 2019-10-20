@@ -52,7 +52,7 @@ public class DatabaseUserManager implements IUserManager {
 	}
 	
 	@Override
-	public List<User> getUserByType(Integer id) {
+	public ArrayList<User> getUserByType(Integer id) {
 		
 		final List<User> list = this.sessionFactory.getCurrentSession().createQuery("FROM User").list();
 		return new ArrayList<User>(list);
