@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import com.neet.jobsite.dal.DatabaseSkillSetManager;
 import com.neet.jobsite.dal.JobManager;
 import com.neet.jobsite.exception.NoSkillsException;
+import com.neet.jobsite.model.CandidateJobApplied;
 import com.neet.jobsite.model.Job;
 import com.neet.jobsite.model.SkillSet;
 import com.neet.jobsite.model.SkillsForJob;
@@ -209,6 +210,7 @@ public class JobService {
 			}
 		}
 	}
+	
 	
 	
 	private boolean hasPermissionSkillsForJob(SkillsForJob sj, String userToken) {

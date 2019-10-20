@@ -33,7 +33,7 @@ export default class Uploader extends Component {
 
   render() {
     const props = {
-      action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+      action: 'http://localhost:8081/jobsite/storage/uploadFile',
       onChange: this.handleChange,
       multiple: true,
     };

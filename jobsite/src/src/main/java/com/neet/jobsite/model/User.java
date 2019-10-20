@@ -130,4 +130,10 @@ public class User implements Serializable {
 	public void setUserTypeID(Integer userTypeID) {
 		UserTypeID = userTypeID;
 	}
+	public long getId() {
+		return Id;
+	}
+	public void setId(long id) {
+		Id = id;
+	}
 }
