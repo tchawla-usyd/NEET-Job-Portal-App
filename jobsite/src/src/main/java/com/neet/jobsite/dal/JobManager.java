@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.neet.jobsite.exception.NoSkillsException;
+import com.neet.jobsite.model.CandidateJobApplied;
 import com.neet.jobsite.model.Job;
 import com.neet.jobsite.model.JobCategory;
 import com.neet.jobsite.model.SkillSet;

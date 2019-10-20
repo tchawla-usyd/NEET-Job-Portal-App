@@ -18,8 +18,13 @@ public class CandidateJobApplied implements Serializable {
 	@GeneratedValue
 	private long id;
 	
+	@Column(name="JobID")
 	private Integer JobID;
+	
+	@Column(name="UserID")
 	private Integer UserID;
+	
+	@Column(name="ApplyDate")
 	private Date ApplyDate;
 	
 	public Integer getJobID() {

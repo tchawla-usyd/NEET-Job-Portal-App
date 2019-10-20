@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.neet.jobsite.JobController;
 import com.neet.jobsite.exception.NoSkillsException;
+import com.neet.jobsite.model.CandidateJobApplied;
 import com.neet.jobsite.model.Job;
 import com.neet.jobsite.model.JobCategory;
 import com.neet.jobsite.model.SkillSet;
@@ -114,7 +115,7 @@ public class DatabaseJobManager implements JobManager {
 	@Override
 	public List<SkillSet> getSkillsByJob(Integer jobId) throws NoSkillsException {
 		Session currentSession = this.sessionFactory.getCurrentSession();
-		Query query = currentSession.createQuery("SELECT sj.SkillID FROM SkillsForJob sj WHERE JobID = :id");
+		Query query = currentSession.createQuery("SELECT sj.SkillID FROM SkillsForJob sj WHERE sj.JobID = :id");
 		query.setParameter("id", jobId);
 				
 		if (query.list().isEmpty()) {
@@ -123,15 +124,20 @@ public class DatabaseJobManager implements JobManager {
 		
 		List<Long> ids = new ArrayList<Long>();
 		
+		
 		for(Object id: query.list()) {
 			Integer intID = (Integer) id;
 			ids.add(new Long(intID));
 		}
 		
-		Query skillQuery = currentSession.createQuery("FROM SkillSet WHERE UID in (:ids)");
+		
+		Query skillQuery = currentSession.createQuery("FROM SkillSet WHERE Id in (:ids)");
 		skillQuery.setParameterList("ids", ids);
 		
 		List<SkillSet> skills = skillQuery.list();
+		
+		System.out.println(ids);
+		System.out.println(skills);
 		
 		return skills;
 	}
@@ -152,5 +158,8 @@ public class DatabaseJobManager implements JobManager {
 		
 		return skills.get(0);
 	}
+	
+	
+	
 
 }

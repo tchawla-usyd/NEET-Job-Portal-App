@@ -1,0 +1,5 @@
+amazonProperties:
+  endpointUrl: https://s3.ap-southeast-2.amazonaws.com
+  accessKey: AKIAIDAR5JE2WYYY3LTQ
+  secretKey: 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
+  bucketName: neet-bucket

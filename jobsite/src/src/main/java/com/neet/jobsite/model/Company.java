@@ -26,11 +26,20 @@ public class Company implements Serializable {
 	@GeneratedValue
 	private long id;
 	
+	@Column(name="CompanyName")
 	private String CompanyName;
+	
+	@Column(name="BusinessPhone")
 	private String BusinessPhone;
+	
+	@Column(name="WebSite")
 	private String WebSite;
+	
+	@Column(name="CompanyImage")
 	private String CompanyImage;
-	private Integer UserID;
+	
+	@Column(name="UserID")
+	private long UserID;
 	
 	public String getCompanyName() {
 		return CompanyName;
@@ -64,11 +73,11 @@ public class Company implements Serializable {
 		CompanyImage = companyImage;
 	}
 	
-	public Integer getUserID() {
+	public long getUserID() {
 		return UserID;
 	}
 	
-	public void setUserID(Integer userID) {
+	public void setUserID(long userID) {
 		UserID = userID;
 	}
 }
