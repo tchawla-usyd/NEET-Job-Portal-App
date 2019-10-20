@@ -32,113 +32,113 @@ public class User implements Serializable {
 	private long Id;
 	
 	@Column(name="FirstName")
-	private String FirstName;
+	private String firstName;
 	
 	@Column(name="LastName")
-	private String LastName;
+	private String lastName;
 	
 	@Column(name="Email")
-	private String Email;
+	private String email;
 	
 	@Column(name="Password")
-	private String Password;
+	private String password;
 	
 	@Column(name="IsActive")
-	private boolean IsActive;
+	private boolean isActive;
 	
 	@Column(name="IsLocked")
-	private boolean IsLocked;
+	private boolean isLocked;
 	
 	@Column(name="CreateDate")
-	private Date CreateDate;
+	private Date createDate;
 	
 	@Column(name="ModifiedDate")
-	private Date ModifiedDate;
+	private Date modifiedDate;
 	
 	@Column(name="UserTypeID")
-	private Integer UserTypeID;
+	private Integer userTypeID;
 	
 	@Column(name="CreatedDate")
-	private Date CreatedDate;
+	private Date createdDate;
 	
 	public String getFirstName() {
-		return FirstName;
+		return this.firstName;
 	}
 	
 	public void setFirstName(String firstName) {
-		FirstName = firstName;
+		this.firstName = firstName;
 	}
 	
 	public String getLastName() {
-		return LastName;
+		return this.lastName;
 	}
 	
 	public void setLastName(String lastName) {
-		LastName = lastName;
+		this.lastName = lastName;
 	}
 	
 	public String getEmail() {
-		return Email;
+		return this.email;
 	}
 	
 	public void setEmail(String email) {
-		Email = email;
+		this.email = email;
 	}
 	
 	public String getPassword() {
-		return Password;
+		return this.password;
 	}
 	
 	public void setPassword(String password) {
-		Password = password;
+		this.password = password;
 	}
 	
 	public boolean isIsActive() {
-		return IsActive;
+		return isActive;
 	}
 	
 	public void setIsActive(boolean isActive) {
-		IsActive = isActive;
+		this.isActive = isActive;
 	}
 	
 	public boolean isIsLocked() {
-		return IsLocked;
+		return this.isLocked;
 	}
 	
 	public void setIsLocked(boolean isLocked) {
-		IsLocked = isLocked;
+		this.isLocked = isLocked;
 	}
 	
 	public Date getCreateDate() {
-		return CreateDate;
+		return this.createDate;
 	}
 	
 	public void setCreateDate(Date createDate) {
-		CreateDate = createDate;
+		this.createDate = createDate;
 	}
 	
 	public Date getModifiedDate() {
-		return ModifiedDate;
+		return this.modifiedDate;
 	}
 	
 	public void setModifiedDate(Date modifiedDate) {
-		ModifiedDate = modifiedDate;
+		this.modifiedDate = modifiedDate;
 	}
 	
 	public Date getCreatedDate() {
-		return CreatedDate;
+		return this.createdDate;
 	}
 	
 	public void setCreatedDate(Date createdDate) {
-		CreatedDate = createdDate;
+		this.createdDate = createdDate;
 	}
 	
 	public Integer getUserTypeID() {
-		return UserTypeID;
+		return this.userTypeID;
 	}
 	
 	public void setUserTypeID(Integer userTypeID) {
-		UserTypeID = userTypeID;
+		this.userTypeID = userTypeID;
 	}
 	public long getId() {
 		return Id;

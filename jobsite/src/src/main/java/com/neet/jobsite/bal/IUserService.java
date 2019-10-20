@@ -13,6 +13,6 @@ public interface IUserService {
 
 	User GetUserById(long userId);
 
-	List<User> GetUserByType(Integer userId);
+	ArrayList<User> GetUserByType(Integer userId);
 
 }
