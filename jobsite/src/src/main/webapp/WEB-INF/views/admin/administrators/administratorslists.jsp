@@ -19,8 +19,8 @@
 			</section>
 			<section class="content container-fluid">
 				<!--------------------------
-        | Your Page Content Here |
-        -------------------------->
+       			 | Your Page Content Here |
+        		-------------------------->
 				<h1></h1>
 				<P>The time on the server is ${serverTime}.</P>
 			</section>
