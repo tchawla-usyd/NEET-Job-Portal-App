@@ -19,9 +19,13 @@ public class CandidateSkills implements Serializable {
 	@GeneratedValue
 	private long id;
 	
-	
+	@Column(name="UserID")
 	private Integer UserID;
+	
+	@Column(name="SkillID")
 	private Integer SkillID;
+	
+	@Column(name="CreatedDate")
 	private Date CreatedDate;
 	
 	public Integer getUserID() {
