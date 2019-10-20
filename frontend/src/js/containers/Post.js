@@ -38,24 +38,23 @@ class Post extends Component {
 		    console.log(values)
 		    console.log(payload)
 		    /* TODO: Backend */
-		    try {
-	            axios.post('http://localhost:8081/jobsite/job/add', qs.stringify(payload), config)
-	            .then(res => {
-	                if (res.status == 200) {
-	                    // const token = res.data.token;
-	                    // localStorage.setItem('token', token);// set token in local storage for continuous authentication
-	                    // this.props.setAuthenticated();
-	                    // this.props.history.push("/songs");
-
-	                }else{
-	                    message.error("Wrong Username/Password !");
-	                }
-		        })
-	        } catch (e) {
+            axios.post('http://localhost:8081/jobsite/job/add', qs.stringify(payload), config)
+            .then(res => {
+                if (res.status == 200) {
+                    // const token = res.data.token;
+                    // localStorage.setItem('token', token);// set token in local storage for continuous authentication
+                    // this.props.setAuthenticated();
+                    // this.props.history.push("/songs");
+					this.props.history.push("/home");
+                }else{
+                    message.error("Wrong Username/Password !");
+                }
+	        }).catch (e =>{
+	        	this.props.history.push("/home");
 	            alert(e.message);
-	        }
+        	});
+          }
 
-		  }
 		});
 	}
 

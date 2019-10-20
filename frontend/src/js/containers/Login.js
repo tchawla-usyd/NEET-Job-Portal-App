@@ -96,7 +96,7 @@ export default class Login extends Component {
                 </div>
             )
         }else{
-            this.props.history.push("/songs");// when user is logged in
+            this.props.history.push("/home");// when user is logged in
             return ""
         }
     }

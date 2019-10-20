@@ -60,7 +60,7 @@ export default class BaseLayout extends Component {
 		      
 	      </Header>
 	      <Content style={{ padding: '0 50px', marginTop: 64 }}>
-	      	<div style={{ background: '#fff', padding: 24, minHeight: 500 }}>
+	      	<div style={{ background: '#fff', padding: 24, minHeight: 800 }}>
 	      		{this.props.children}
 	      	</div>
 	      </Content>

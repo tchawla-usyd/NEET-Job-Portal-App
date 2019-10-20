@@ -5,7 +5,9 @@ export default class Tags extends Component {
 	constructor(props) {
     	super(props);
 	    this.state = {
-	    	tags: [],
+	    	tags: props.skills ? this.props.skills.map(skill => {
+	    		console.log(1);
+	    		return skill.name}):[],
 	    	inputVisible: false,
 	    	inputValue: '',
 	    };
@@ -42,7 +44,6 @@ export default class Tags extends Component {
 		if (inputValue && tags.indexOf(inputValue) === -1) {
 		  tags = [...tags, inputValue];
 		}
-		console.log(tags);
 		this.setState({
 		  tags,
 		  inputVisible: false,

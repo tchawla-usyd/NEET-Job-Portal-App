@@ -1,36 +1,13 @@
 import React, {Component} from "react";
+import axios from 'axios';
 import { Table, Divider, Tag, Input, Button, Icon, Typography, message, Pagination} from 'antd';
 import { Link } from 'react-router-dom'
 
+import {GET_JOB_FOR} from "../constants/BackendAPI"
+import Spinner from '../components/Spinner';
+
 const { Search } = Input;
 const { Text } = Typography;
-
-const data = [
-  {
-    key: '1',
-    title: 'Software Dev',
-    company: 'Microsoft',
-    location: 'Sydney',
-    skills: ['nice', 'developer'],
-    like: false
-  },
-  {
-    key: '2',
-    title: 'Tester',
-    company: 'Google',
-    location: 'Melbourne',
-    skills: ['loser'],
-    like: false
-  },
-  {
-    key: '3',
-    title: 'Whooooohla',
-    company: 'Oracle',
-    location: 'Brisbane',
-    skills: ['cool', 'teacher'],
-    like: true
-  },
-];
 
 //dummy
 const userSkills = ['cool', 'teacher', 'developer'];
@@ -65,17 +42,14 @@ export default class JobListing extends Component {
           dataIndex: 'skills',
           key: 'skills',
           align: 'center',
-          sorter: (a, b) => a.skills.filter(skill => userSkills.includes(skill)).length - 
+          sorter: isEmployer ? null : (a, b) => a.skills.filter(skill => userSkills.includes(skill)).length - 
             b.skills.filter(skill => userSkills.includes(skill)).length ,
           render: tags => (
             <span>
               {tags.map(tag => {
-                let color = tag.length > 5 ? 'geekblue' : 'green';
-                if (tag === 'loser') {
-                  color = 'volcano';
-                }
+                const color = ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"];
                 return (
-                  <Tag color={color} key={tag}>
+                  <Tag color={color[Math.floor(Math.random()*color.length)]} key={tag}>
                     {tag.toUpperCase()}
                   </Tag>
                 );
@@ -101,10 +75,24 @@ export default class JobListing extends Component {
 
       this.columns = isEmployer ? columns.slice(0, -1) : columns;
 
-      this.state = {
-        jobs: data, 
-        filteredJobs: data,
-      }
+      this.state = {loading: false};
+      axios.get(GET_JOB_FOR + 1)
+        .then(res => { 
+        var jobs = res.data.map(job =>{
+              return {key: job.uid,
+              title: job.title,
+              company: 'Micro',
+              location: job.location,
+              skills: job.skills.map(skill => skill.name),
+              like: false,
+            }});
+          this.setState({
+            jobs: jobs, 
+            filteredJobs: jobs,
+            loading: false});
+        }).catch(function (error) {
+          console.log(error);
+      });
     }
 
     handleClickLike = (e, record) => {
@@ -142,11 +130,7 @@ export default class JobListing extends Component {
 
 
     render(){
-      // const onRow=(record, rowIndex) => {
-      //   return {
-      //     onClick: ()=>console.log(rowIndex)
-      //   }
-      // };
+      console.log(this.state.jobs);
       return (
         <div>
           {/* Seach Bar */}
@@ -160,8 +144,9 @@ export default class JobListing extends Component {
           {isEmployer ? <Link to='/post' style={{float: 'right'}}><Button shape="round" size='large'>Post</Button></Link> : ''}
 
           {/* Table */}
+          {this.state.loading ? <Spinner /> :
           <Table style={{marginTop: 20}} columns={this.columns} 
-          dataSource={this.state.filteredJobs} pagination={{ defaultPageSize: 20, simple: true}}/>
+          dataSource={this.state.filteredJobs} pagination={{ defaultPageSize: 20, simple: true}}/>}
         </div>
         );
     }
