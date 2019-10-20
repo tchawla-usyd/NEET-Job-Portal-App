@@ -58,11 +58,15 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	
 	@RequestMapping(value = "/employers", method = RequestMethod.GET)
 	public String employers(Locale locale, Model model) {
+		List<User> users = this.userService.GetUserByType(3);
+		model.addAttribute("users", users );
 		return "admin/employers/employerslists";
 	}
 	
 	@RequestMapping(value = "/administrators", method = RequestMethod.GET)
 	public String adminusers(Locale locale, Model model) {
+		List<User> users = this.userService.GetUserByType(2);
+		model.addAttribute("users", users );
 		return "admin/administrators/administratorslists";
 	}
 }
