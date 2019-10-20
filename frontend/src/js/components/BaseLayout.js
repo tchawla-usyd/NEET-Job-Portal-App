@@ -1,4 +1,4 @@
-import { Layout, Menu, Dropdown, Avatar } from 'antd';
+import { Layout, Menu, Dropdown, Avatar, Icon } from 'antd';
 import { Link } from 'react-router-dom'
 import React, {Component} from "react";
 
@@ -18,28 +18,28 @@ export default class BaseLayout extends Component {
 	              alignItems:'center'};
    		const MenuItem = Menu.Item;
    		const menu = (
-		  <Menu style={{textAlign: 'center'}}>
+		  <Menu style={{textAlign: 'left'}}>
 		    <Menu.Item>
 		      <Link to= '/profile'>
-		        Profile
+		        <Icon style={{marginRight: 10}} type="user" /> Profile
 		      </Link>
 		    </Menu.Item>
 		    <Menu.Item>
-		      <a href="http://www.taobao.com/">
-		        2nd menu item
-		      </a>
+		      <Link to='/favorite'>
+		      	<Icon style={{marginRight: 10}} type="heart" /> Favorite
+		      </Link>
 		    </Menu.Item>
 		    <Menu.Item>
-		      <a style={{color:'red'}} target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
-		        Logout
-		      </a>
+		      <Link to='/login' style={{color:'red'}} >
+		        <Icon style={{marginRight: 10}} type="logout" /> Logout
+		      </Link>
 		    </Menu.Item>
 		  </Menu>
 		);
    		return (
    		<Layout>
 	      <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-		      <span style={{float: 'left'}}><a herf='#'><img style={{ width: "64px", height: "64px"}} src={logo}/></a></span>
+		      <span style={{float: 'left'}}><Link to='/home'><img style={{ width: "64px", height: "64px"}} src={logo}/></Link></span>
 		      <Menu
 		        theme="dark"
 		        mode="horizontal"
@@ -50,9 +50,7 @@ export default class BaseLayout extends Component {
 		        <span style={itemStyle}>
 				  <Dropdown placement="bottomCenter"
 				  	overlay={menu} trigger={['click']}>
-				      <a href="#">
-					    <Avatar size="large" shape="square" style={{margin: 10, color: '#666666', backgroundColor: '#ffffff', fontSize: 15}}>RS</Avatar>
-					  </a>
+					    <a href="#"><Avatar size="large" shape="square" style={{margin: 10, color: '#666666', backgroundColor: '#ffffff', fontSize: 15}}>RS</Avatar></a>
 					  </Dropdown>
 				</span>
 				<MenuItem className="myitem" style={{...itemStyle, marginRight: 20}} key='3'>nav 3</MenuItem>

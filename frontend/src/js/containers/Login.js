@@ -47,6 +47,9 @@ export default class Login extends Component {
         //     this.setState({isLoading: false});
         // }
         console.log("Submit");
+
+        // If success
+        this.props.history.push("/home");
     }
 
     render() {
@@ -59,7 +62,7 @@ export default class Login extends Component {
                       paddingTop: 80}}>
                       <img style={{ width: "200px", height: "200px"}} src={logo}/>
                     </div>
-                    <Form onSubmit={this.handleSubmit} align="middle" style={{ paddingLeft: 400, paddingRight: 400, paddingBottom: 0, paddingTop: 80}}>
+                    <Form onSubmit={this.handleSubmit} align="middle" style={{ paddingLeft: 400, paddingRight: 400, paddingBottom: 0, paddingTop: 70}}>
                         
                         {/* Email */}
                         <FormItem>
@@ -82,7 +85,7 @@ export default class Login extends Component {
 
                         {/* Login Button */}
                         <FormItem align="middle">
-                            <Button type="primary" htmlType="submit" className="login-button">
+                            <Button htmlType="submit" size='large' className="login-button">
                                 Login
                             </Button>
 

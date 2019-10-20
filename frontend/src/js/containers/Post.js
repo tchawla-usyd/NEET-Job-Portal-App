@@ -69,8 +69,8 @@ class Post extends Component {
 	    
     	return(
     	<BaseLayout>
-	    	<h2 style={{display: 'flex',  justifyContent:'center', alignItems:'center', }}> Post A Job</h2>
-	    	<Form style={{paddingTop:"10vh"}} onSubmit= {this.handleSubmit}>
+	    	<p className='title' style={{display: 'flex',  justifyContent:'center', alignItems:'center', fontSize: 50}}>Post A Job</p>
+	    	<Form style={{paddingTop: 10}} onSubmit= {this.handleSubmit}>
 				<Form.Item {...formItemLayout} label="Job Title">
 				  {getFieldDecorator('title', {
 		            rules: [{ required: true, message: 'Please enter the Job Position!' }],

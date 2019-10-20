@@ -86,12 +86,17 @@ class Signup extends Component {
     return (
       <Form style={{paddingTop:"20px"}} onSubmit= {this.handleSubmit}>
         {/* Title */}
+
         <Form.Item layout='center' >
           <div style={{display:'flex',
             justifyContent:"center",
             alignItems:'center'}}>
             <img style={{ width: "200px", height: "200px"}} src={logo}/>
           </div>
+          <div className='title' style={{display:'flex',
+            justifyContent:"center", alignItems:'center',
+            fontSize: 40, marginTop: 20, marginBottom: 20}}>Join NEET.NET</div>
+
         </Form.Item>
 
         {/* First Name */}
@@ -164,7 +169,7 @@ class Signup extends Component {
 
         {/* Submit Button */}
         <Form.Item wrapperCol={{span: 5,offset: 11,}}>
-          <Button type="primary" htmlType="submit">Sign Up</Button>
+          <Button size='large' htmlType="submit">Sign Up</Button>
         </Form.Item>
       </Form>
     );
