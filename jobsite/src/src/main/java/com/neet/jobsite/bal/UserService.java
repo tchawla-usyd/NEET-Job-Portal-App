@@ -2,6 +2,7 @@ package com.neet.jobsite.bal;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.neet.jobsite.dal.IUserManager;
 import com.neet.jobsite.model.User;
-import com.neet.jobsite.response.UserDetailResponse;
 
 @Service(value = "userService")
 public class UserService implements IUserService {
@@ -38,20 +38,16 @@ public class UserService implements IUserService {
 		return newUser;
 	}
 	
-	public UserDetailResponse getUser(Integer userId) {
-		User user = userManager.getUserById(userId);
-		
-		UserDetailResponse res = new UserDetailResponse();
-		res.setId(user.getId());
-		res.setFirstName(user.getFirstName());
-		res.setLastName(user.getLastName());
-		res.setEmail(user.getEmail());
-		res.setUserTypeID(user.getUserTypeID());
-		res.setCreatedDate(user.getCreateDate());
-		res.setModifiedDate(user.getModifiedDate());
-		res.setIsActive(user.isIsActive());
-		res.setIsLocked(user.isIsLocked());
-		
-		return res;
+	
+	@Override
+	public User GetUserById(long userId) {
+		User user  = this.userManager.getUserById(userId);
+		return user;
+	}
+	
+	@Override
+	public List<User> GetUserByType(Integer userId) {
+		List<User> users  = this.userManager.getUserByType(userId);
+		return users;
 	}
 }

@@ -43,10 +43,10 @@
               </span>
           </a>
           <ul class="treeview-menu">
-          	<li><a href="<c:url value="admin/administrators" />">Administrators</a></li>
-            <li><a href="<c:url value="admin/employers" />">Employers</a></li>
-            <li><a href="<c:url value="admin/users" />">Users</a></li>
-            <li><a href="<c:url value="admin/skillsets" />">Skills</a></li>
+          	<li><a href="<c:url value="/admin/administrators" />">Administrators</a></li>
+            <li><a href="<c:url value="/admin/employers" />">Employers</a></li>
+            <li><a href="<c:url value="/admin/users" />">Users</a></li>
+            <li><a href="<c:url value="/admin/skillsets" />">Skills</a></li>
           </ul>
         </li>
       </ul>

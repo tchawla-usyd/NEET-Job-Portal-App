@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.neet.jobsite.HomeController;
+import com.neet.jobsite.bal.IUserService;
 import com.neet.jobsite.dal.SkillSetManager;
 import com.neet.jobsite.model.SkillSet;
+import com.neet.jobsite.model.User;
 
 @Controller
 @RequestMapping(value="/admin/**")
@@ -27,6 +29,9 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	
 	@Resource(name="skillSetManager")
 	private SkillSetManager skillSetManager;
+	
+	@Resource(name="userService")
+	private IUserService userService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
@@ -46,6 +51,8 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public String users(Locale locale, Model model) {
+		List<User> users = this.userService.GetUserByType(4);
+		model.addAttribute("users", users );
 		return "admin/users/userslists";
 	}
 	

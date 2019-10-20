@@ -1,6 +1,7 @@
 package com.neet.jobsite.dal;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.neet.jobsite.model.User;
 
@@ -15,5 +16,7 @@ public interface IUserManager {
     public void updateUser(User User);
     
     public void deleteUser(long id);
+
+	List<User> getUserByType(Integer id);
     
 }
