@@ -61,14 +61,6 @@ public class User implements Serializable {
 	@Column(name="CreatedDate")
 	private Date CreatedDate;
 	
-	public long getId() {
-		return this.Id;
-	}
-	
-	public void setId(Long id) {
-		this.Id = id;
-	}
-	
 	public String getFirstName() {
 		return FirstName;
 	}
@@ -147,5 +139,11 @@ public class User implements Serializable {
 	
 	public void setUserTypeID(Integer userTypeID) {
 		UserTypeID = userTypeID;
+	}
+	public long getId() {
+		return Id;
+	}
+	public void setId(long id) {
+		Id = id;
 	}
 }
