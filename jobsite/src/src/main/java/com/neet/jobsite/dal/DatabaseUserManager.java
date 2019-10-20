@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,19 @@ public class DatabaseUserManager implements IUserManager {
 		Session currentSession = this.sessionFactory.getCurrentSession();
 		User User = (User) currentSession.get(User.class, id);
 		return User;
+	}
+	
+	@Override
+	public List<User> getUserByType(Integer id) {
+		
+		final List<User> list = this.sessionFactory.getCurrentSession().createQuery("FROM User").list();
+		return new ArrayList<User>(list);
+		
+//		Session currentSession = this.sessionFactory.getCurrentSession();
+//		final List<User> userList  = currentSession.createCriteria(User.class)
+//				.add(Restrictions.eq("UserTypeID", id))
+//				.list();
+//		return userList;
 	}
 
 	@Override

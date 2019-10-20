@@ -18,11 +18,30 @@
 				</ol>
 			</section>
 			<section class="content container-fluid">
-				<!--------------------------
-        | Your Page Content Here |
-        -------------------------->
-				<h1></h1>
-				<P>The time on the server is ${serverTime}.</P>
+				<h1>Employees in the system</h1>
+				<table class="display" id="user_list">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Email</th>
+							<th>Active</th>
+							<th>Locked</th>
+						</tr>
+					</thead>
+					<c:forEach items="${users}" var="user">
+						<tr>
+							<td><c:out value="${user.Id}" /></td>
+<%-- 							<td><c:out value="${user.FirstName}" /></td> --%>
+<%-- 							<td><c:out value="${user.LastName}" /></td> --%>
+<%-- 							<td><c:out value="${user.Email}" /></td> --%>
+<%-- 							<td><c:out value="${user.IsActive}" /></td> --%>
+<%-- 							<td><c:out value="${user.IsLocked}" /></td> --%>
+<%-- 							<td><a href="../adminSkillset/edit/${user.Id}">View Details</a></td> --%>
+						</tr>
+					</c:forEach>
+				</table>
 			</section>
 		</div>
 		<jsp:include page="../common/mainfooter.jsp"></jsp:include>

@@ -2,6 +2,7 @@ package com.neet.jobsite.bal;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -35,5 +36,18 @@ public class UserService implements IUserService {
 		newUser.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 		this.userManager.addUser(newUser);
 		return newUser;
+	}
+	
+	
+	@Override
+	public User GetUserById(long userId) {
+		User user  = this.userManager.getUserById(userId);
+		return user;
+	}
+	
+	@Override
+	public List<User> GetUserByType(Integer userId) {
+		List<User> users  = this.userManager.getUserByType(userId);
+		return users;
 	}
 }

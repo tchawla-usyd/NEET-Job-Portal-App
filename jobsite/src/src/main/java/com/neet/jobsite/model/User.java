@@ -61,9 +61,18 @@ public class User implements Serializable {
 	@Column(name="CreatedDate")
 	private Date CreatedDate;
 	
+	public long getId() {
+		return this.Id;
+	}
+	
+	public void setId(Long id) {
+		this.Id = id;
+	}
+	
 	public String getFirstName() {
 		return FirstName;
 	}
+	
 	public void setFirstName(String firstName) {
 		FirstName = firstName;
 	}
@@ -71,6 +80,7 @@ public class User implements Serializable {
 	public String getLastName() {
 		return LastName;
 	}
+	
 	public void setLastName(String lastName) {
 		LastName = lastName;
 	}
@@ -78,6 +88,7 @@ public class User implements Serializable {
 	public String getEmail() {
 		return Email;
 	}
+	
 	public void setEmail(String email) {
 		Email = email;
 	}
@@ -85,6 +96,7 @@ public class User implements Serializable {
 	public String getPassword() {
 		return Password;
 	}
+	
 	public void setPassword(String password) {
 		Password = password;
 	}
@@ -92,6 +104,7 @@ public class User implements Serializable {
 	public boolean isIsActive() {
 		return IsActive;
 	}
+	
 	public void setIsActive(boolean isActive) {
 		IsActive = isActive;
 	}
@@ -99,6 +112,7 @@ public class User implements Serializable {
 	public boolean isIsLocked() {
 		return IsLocked;
 	}
+	
 	public void setIsLocked(boolean isLocked) {
 		IsLocked = isLocked;
 	}
@@ -106,6 +120,7 @@ public class User implements Serializable {
 	public Date getCreateDate() {
 		return CreateDate;
 	}
+	
 	public void setCreateDate(Date createDate) {
 		CreateDate = createDate;
 	}
@@ -113,6 +128,7 @@ public class User implements Serializable {
 	public Date getModifiedDate() {
 		return ModifiedDate;
 	}
+	
 	public void setModifiedDate(Date modifiedDate) {
 		ModifiedDate = modifiedDate;
 	}
@@ -120,6 +136,7 @@ public class User implements Serializable {
 	public Date getCreatedDate() {
 		return CreatedDate;
 	}
+	
 	public void setCreatedDate(Date createdDate) {
 		CreatedDate = createdDate;
 	}
@@ -127,6 +144,7 @@ public class User implements Serializable {
 	public Integer getUserTypeID() {
 		return UserTypeID;
 	}
+	
 	public void setUserTypeID(Integer userTypeID) {
 		UserTypeID = userTypeID;
 	}
