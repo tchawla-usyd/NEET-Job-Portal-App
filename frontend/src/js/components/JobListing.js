@@ -34,12 +34,12 @@ const data = [
 
 //dummy
 const userSkills = ['cool', 'teacher', 'developer'];
+const isEmployer = true;
 
 export default class JobListing extends Component {
   
     constructor(props) {
         super(props);
-        let isEmployer = true;
         let columns = [
         {
           title: 'Job Title',
@@ -155,6 +155,9 @@ export default class JobListing extends Component {
           onChange={(e)=> this.handleSearch(e.target.value)}
           onSearch={(value)=> this.handleSearch(value)}
           enterButton={<Button style={{ width: 60 }} icon="search" />} />
+
+          {/* Post Button */}
+          {isEmployer ? <Link to='/post' style={{float: 'right'}}><Button shape="round" size='large'>Post</Button></Link> : ''}
 
           {/* Table */}
           <Table style={{marginTop: 20}} columns={this.columns} 
