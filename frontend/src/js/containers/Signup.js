@@ -52,8 +52,8 @@ class Signup extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const FormItemLayout = {
-      labelCol: { span: 4, offset: 5},
-      wrapperCol: { span: 6 },
+      labelCol: { span: 4, offset: 6},
+      wrapperCol: { span: 5 },
       align: "middle"
     };
 
@@ -158,7 +158,7 @@ class Signup extends Component {
         {details}
         
         {/* Agreement checkbox*/}
-        <Form.Item wrapperCol={{span: 8,offset: 9,}}>
+        <Form.Item style= {{textAlign: 'center'}}>
           {getFieldDecorator('agreement', {
             valuePropName: 'checked',
             rules: [{
@@ -168,7 +168,7 @@ class Signup extends Component {
         </Form.Item>
 
         {/* Submit Button */}
-        <Form.Item wrapperCol={{span: 5,offset: 11,}}>
+        <Form.Item style= {{textAlign: 'center'}}>
           <Button size='large' htmlType="submit">Sign Up</Button>
         </Form.Item>
       </Form>

@@ -21,17 +21,17 @@ export default class BaseLayout extends Component {
 		  <Menu style={{textAlign: 'left'}}>
 		    <Menu.Item>
 		      <Link to= '/profile'>
-		        <Icon style={{marginRight: 10}} type="user" /> Profile
+		        <Icon style={{marginRight: 10, color:'#1E90FF'}} type="user" /> Profile
 		      </Link>
 		    </Menu.Item>
 		    <Menu.Item>
-		      <Link to='/favorite'>
-		      	<Icon style={{marginRight: 10}} type="heart" /> Favorite
+		      <Link to='/home'>
+		      	<Icon style={{marginRight: 10, color:'#eb2f96'}} type="heart" /> Favorite
 		      </Link>
 		    </Menu.Item>
 		    <Menu.Item>
-		      <Link to='/login' style={{color:'red'}} >
-		        <Icon style={{marginRight: 10}} type="logout" /> Logout
+		      <Link to='/login' >
+		        <Icon style={{marginRight: 10, color:'red'}} type="logout" /> Logout
 		      </Link>
 		    </Menu.Item>
 		  </Menu>

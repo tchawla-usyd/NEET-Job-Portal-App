@@ -8,6 +8,7 @@ import axios from 'axios';
 import qs from 'querystring';
 import moment from 'moment';
 
+const {RangePicker} = DatePicker;
 
 const config = {
   headers: {
@@ -28,8 +29,8 @@ class Post extends Component {
 		  		"title": values.title,
 		  		"description": values.description,
 		  		"location": values.location,
-		  		"start_date": moment(values.start_date).format('YYYY-MM-DD'),
-		  		"end_date": moment(values.end_date).format('YYYY-MM-DD'),
+		  		"start_date": moment(values.start_date[0]).format('YYYY-MM-DD'),
+		  		"end_date": moment(values.start_date[1]).format('YYYY-MM-DD'),
 		  		"skills": values.skills.tags,
 		  		"job_category": 1
 		  	}
@@ -63,7 +64,7 @@ class Post extends Component {
     	const { getFieldDecorator } = this.props.form;
 	    const formItemLayout = {
 	      labelCol: { span: 4, offset: 6},
-	      wrapperCol: { span: 6 },
+	      wrapperCol: { span: 5 },
 	      align: "middle"
 	    };
 	    
@@ -83,16 +84,10 @@ class Post extends Component {
 		          })(<Input/>)}
         		</Form.Item>
 
-        		<Form.Item {...formItemLayout} label="Start Date">
+        		<Form.Item {...formItemLayout} label="Application Open Date">
 		          {getFieldDecorator('start_date', {
-		            rules: [{ required: true, message: 'Please enter the Start Date!' }],
-		          })(<DatePicker />)}
-        		</Form.Item>
-
-        		<Form.Item {...formItemLayout} label="End Date">
-		          {getFieldDecorator('end_date', {
-		            rules: [{ required: true, message: 'Please enter the End Date!' }],
-		          })(<DatePicker />)}
+		            rules: [{ required: true, message: 'Please enter the Start/End Date!' }],
+		          })(<RangePicker />)}
         		</Form.Item>
 
         		<Form.Item {...formItemLayout} label="Job Description">
@@ -108,8 +103,8 @@ class Post extends Component {
         		</Form.Item>
 
         		{/* Submit Button */}
-		        <Form.Item wrapperCol={{span: 5,offset: 11,}}>
-		          <Button type="primary" htmlType="submit">Post</Button>
+		        <Form.Item style= {{textAlign: 'center'}}>
+		          <Button size='large' htmlType="submit">Post</Button>
 		        </Form.Item>
 	    	</Form>
 	    </BaseLayout>
