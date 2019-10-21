@@ -52,16 +52,12 @@ public class DatabaseUserManager implements IUserManager {
 	}
 	
 	@Override
-	public ArrayList<User> getUserByType(Integer id) {
-		
-		final List<User> list = this.sessionFactory.getCurrentSession().createQuery("FROM User").list();
+	public ArrayList<User> getUserByType(Integer userType) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		final List<User> list  = currentSession.createCriteria(User.class)
+				.add(Restrictions.eq("userTypeID", userType))
+				.list();
 		return new ArrayList<User>(list);
-		
-//		Session currentSession = this.sessionFactory.getCurrentSession();
-//		final List<User> userList  = currentSession.createCriteria(User.class)
-//				.add(Restrictions.eq("UserTypeID", id))
-//				.list();
-//		return userList;
 	}
 
 	@Override

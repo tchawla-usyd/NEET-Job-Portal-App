@@ -63,8 +63,8 @@ public class UserService implements IUserService {
 	}
 	
 	@Override
-	public ArrayList<User> GetUserByType(Integer userId) {
-		ArrayList<User> users  = this.userManager.getUserByType(userId);
+	public ArrayList<User> GetUserByType(Integer userType) {
+		ArrayList<User> users  = this.userManager.getUserByType(userType);
 		return users;
 	}
 }

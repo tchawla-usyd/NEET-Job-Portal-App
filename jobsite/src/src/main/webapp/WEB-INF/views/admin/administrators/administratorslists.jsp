@@ -19,7 +19,7 @@
 			</section>
 			<section class="content container-fluid">
 				<h1>Administrator in the system</h1>
-				<table class="display" id="user_list">
+				<table class="table table-striped table-bordered" style="width:100%" id="user_list">
 					<thead>
 						<tr>
 							<th>ID</th>
@@ -28,6 +28,7 @@
 							<th>Email</th>
 							<th>Active</th>
 							<th>Locked</th>
+							<th></th>
 						</tr>
 					</thead>
 					<c:forEach items="${users}" var="user">
@@ -48,5 +49,10 @@
 		<jsp:include page="../common/controlsidebar.jsp"></jsp:include>
 	</div>
 	<jsp:include page="../common/footerscript.jsp"></jsp:include>
+	<script type="text/javascript">
+		$(document).ready(function() {
+		    $('#user_list').DataTable();
+		} );
+	</script>
 </body>
 </html>
