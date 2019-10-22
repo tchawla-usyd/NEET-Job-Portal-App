@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ import com.neet.jobsite.model.CandidateJobApplied;
 import com.neet.jobsite.model.SkillSet;
 import com.neet.jobsite.model.User;
 import com.neet.jobsite.response.ApplicantsResponse;
+import com.neet.jobsite.response.CandidateResponse;
+import com.neet.jobsite.response.UserDetailResponse;
 
 @Service(value = "candidateService")
 public class CandidateService {
@@ -24,6 +28,9 @@ public class CandidateService {
 	@Autowired
 	@Qualifier("candidateManager")
 	private CandidateManager candidateManager;
+	
+	@Resource(name="userService")
+	private UserService userService;
 	
 	
 	public void applyJob(Integer jobId, String userToken) {
@@ -93,9 +100,15 @@ public class CandidateService {
 		
 	}
 	
-	public Candidate getCandidate(Long candidateId, String userToken) {
+	public CandidateResponse getCandidate(Long candidateId, String userToken) {
+		UserDetailResponse basicUser = userService.getUser((int) (long) candidateId);
 		Candidate candidate = candidateManager.getCandidateById((int) (long) candidateId);
-		return candidate;
+		
+		CandidateResponse res = new CandidateResponse();
+		res.setBasicInfo(basicUser);
+		res.setCandidateInfo(candidate);
+		
+		return res;
 	}
 	
 	

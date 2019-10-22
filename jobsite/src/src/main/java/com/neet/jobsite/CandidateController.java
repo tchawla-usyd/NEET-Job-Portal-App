@@ -23,6 +23,7 @@ import com.neet.jobsite.model.Candidate;
 import com.neet.jobsite.model.CandidateJobApplied;
 import com.neet.jobsite.model.SkillSet;
 import com.neet.jobsite.response.ApplicantsResponse;
+import com.neet.jobsite.response.CandidateResponse;
 
 @Controller
 @RequestMapping(value="/candidate/**")
@@ -92,7 +93,7 @@ public class CandidateController {
 	public String getCandidate(@PathVariable("id") Long candidateId) {
 		String userToken = "abcd";
 		
-		Candidate candidate = candidateService.getCandidate(candidateId, userToken);
+		CandidateResponse candidate = candidateService.getCandidate(candidateId, userToken);
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		
