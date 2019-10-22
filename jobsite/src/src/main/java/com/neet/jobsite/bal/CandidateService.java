@@ -93,7 +93,10 @@ public class CandidateService {
 		
 	}
 	
-	
+	public Candidate getCandidate(Long candidateId, String userToken) {
+		Candidate candidate = candidateManager.getCandidateById((int) (long) candidateId);
+		return candidate;
+	}
 	
 	
 	private Integer getUserId(String userToken) {
@@ -105,6 +108,8 @@ public class CandidateService {
 		// TODO Auto-generated method stub
 		return true;
 	}
+
+
 
 
 

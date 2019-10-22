@@ -6,17 +6,20 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neet.jobsite.bal.CandidateService;
 import com.neet.jobsite.bal.JobService;
+import com.neet.jobsite.model.Candidate;
 import com.neet.jobsite.model.CandidateJobApplied;
 import com.neet.jobsite.model.SkillSet;
 import com.neet.jobsite.response.ApplicantsResponse;
@@ -29,7 +32,8 @@ public class CandidateController {
 	private CandidateService candidateService;
 	
 	@RequestMapping(value="/job/add", method=RequestMethod.POST)
-	public String addApplication(HttpServletRequest httpServletRequest) {
+	@ResponseStatus(value = HttpStatus.OK)
+	public void addApplication(HttpServletRequest httpServletRequest) {
 		
 		Integer jobId = Integer.parseInt(httpServletRequest.getParameter("job_id"));
 
@@ -37,7 +41,6 @@ public class CandidateController {
 		String userToken = httpServletRequest.getParameter("token");
 		
 		candidateService.applyJob(jobId, userToken);
-		return "redirect:/home.jsp";
 	}
 	
 	@RequestMapping(value="/getapplicants/{id}", 
@@ -82,5 +85,26 @@ public class CandidateController {
 		return jsonReturn;
 	}
 	
+	@RequestMapping(value="/view/{id}", 
+			method=RequestMethod.GET, 
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public String getCandidate(@PathVariable("id") Long candidateId) {
+		String userToken = "abcd";
+		
+		Candidate candidate = candidateService.getCandidate(candidateId, userToken);
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		String jsonReturn = null;
+		
+		try {
+			jsonReturn = objectMapper.writeValueAsString(candidate);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		return jsonReturn;
+	}
 		
 }
