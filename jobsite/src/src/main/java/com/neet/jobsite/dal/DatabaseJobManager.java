@@ -20,6 +20,7 @@ import com.neet.jobsite.model.Job;
 import com.neet.jobsite.model.JobCategory;
 import com.neet.jobsite.model.SkillSet;
 import com.neet.jobsite.model.SkillsForJob;
+import com.neet.jobsite.model.User;
 
 
 @Repository(value = "jobDAO")
@@ -70,11 +71,22 @@ public class DatabaseJobManager implements JobManager {
 	@Override
 	public List<Job> getJobByCandidate(long candidate_id) {
 		Session session = this.sessionFactory.getCurrentSession();
-		Query query = session.createQuery("FROM Job WHERE UserID = :id");
+		Query query = session.createQuery("SELECT JobID FROM CandidateJobApplied WHERE UserID = :id");
 		query.setParameter("id", candidate_id);
 	
-		List<Job> list = query.list();
-		return list;
+		List<Long> ids = new ArrayList<Long>();		
+		
+		for(Object id: query.list()) {
+			Integer intID = (Integer) id;
+			ids.add(new Long(intID));
+		}
+		
+		Query jobQuery = session.createQuery("FROM Job WHERE Id in (:ids)");
+		jobQuery.setParameterList("ids", ids);
+		
+		List<Job> jobs = jobQuery.list();
+		
+		return jobs;
 	}
 
 	@Override

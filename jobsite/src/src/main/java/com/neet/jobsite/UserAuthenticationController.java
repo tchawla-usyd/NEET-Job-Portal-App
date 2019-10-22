@@ -1,5 +1,8 @@
 package com.neet.jobsite;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.Resource;
@@ -70,9 +73,48 @@ public class UserAuthenticationController extends BaseMVCController {
 		String lastName = request.getParameter("lastName");
 		String email = request.getParameter("Email");
 		String password = request.getParameter("Password");
-		Integer userTypeValue = Integer.parseInt(request.getParameter("radioUser"));
+		String userTypeValue = request.getParameter("radioUser");
+		
+		List<String> skills = new ArrayList<String>();
+		if(request.getParameter("skills") != null) {
+			skills = Arrays.asList(request.getParameterValues("skills"));
+		}
+		String education= null;
+		if(request.getParameter("education") != null) {
+			education = request.getParameter(request.getParameter("education"));
+		}
+		String experience = null;
+		if(request.getParameter("experience") != null) {
+			experience = request.getParameter(request.getParameter("experience"));
+		}
+		
+		//checking for employer
+		String companyName = null;
+		if(request.getParameter("CompanyName") != null) {
+			companyName = request.getParameter(request.getParameter("CompanyName"));
+		}
+		Integer userIntTypeValue = 0;
+		//job seeker
+		if(userTypeValue == "seeker") {
+			userIntTypeValue = 4;
+		} else {
+			//employer
+			userIntTypeValue = 3;
+		}
+		
 		//todo: User Type
-		this.userService.AddUser(firstName, lastName, email, password, userTypeValue);
-		return "home";
+		try {
+			this.userService.AddUser(firstName, lastName, email, password, userIntTypeValue, skills, education, experience, companyName);
+			if(userIntTypeValue == 4) {
+				//route to user dashboard
+				return "home";
+			} else {
+				// route to employer dashboard
+				return "home";
+			}
+		} catch (Exception e) {
+			return "authenticate/register";
+		}
+		
 	}
 }

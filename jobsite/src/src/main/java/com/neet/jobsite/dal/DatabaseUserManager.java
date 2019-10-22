@@ -1,5 +1,6 @@
 package com.neet.jobsite.dal;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.neet.jobsite.model.Company;
+import com.neet.jobsite.model.SkillSet;
 import com.neet.jobsite.model.User;
+import com.neet.jobsite.model.candidateInfo;
 
 @Service(value="userManager")
 @Transactional
@@ -71,6 +75,22 @@ public class DatabaseUserManager implements IUserManager {
 		Session currentSession = this.sessionFactory.getCurrentSession();
 		User product = (User) currentSession.get(User.class, id);
 		currentSession.delete(product);
+	}
+
+	@Override
+	public void addSkills(SkillSet userSkills) {
+		this.sessionFactory.getCurrentSession().save(userSkills);
+	}
+
+	@Override
+	public void addUserInfo(candidateInfo userInfo) {
+		this.sessionFactory.getCurrentSession().save(userInfo);		
+	}
+
+	@Override
+	public void addCompanyInfo(Company userCompany) {
+		this.sessionFactory.getCurrentSession().save(userCompany);
+		
 	}
 	
 }

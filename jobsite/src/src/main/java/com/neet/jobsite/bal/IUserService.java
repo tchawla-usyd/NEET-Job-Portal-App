@@ -9,10 +9,13 @@ public interface IUserService {
 
 	ArrayList<User> GetAllUsers();
 
-	User AddUser(String firstName, String lastName, String email, String password, Integer userType);
+	//User AddUser(String firstName, String lastName, String email, String password, Integer userType);
 
 	User GetUserById(long userId);
 
 	ArrayList<User> GetUserByType(Integer userId);
+
+	void AddUser(String firstName, String lastName, String email, String password, Integer userIntTypeValue,
+			List<String> skills, String education, String experience, String companyName);
 
 }
