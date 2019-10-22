@@ -21,13 +21,13 @@ class Post extends Component {
 		this.props.form.validateFieldsAndScroll((err, values) => {
 		  if (!err) {
 		  	var payload = {
-		  		"title": values.title,
-		  		"description": values.description,
-		  		"location": values.location,
-		  		"start_date": moment(values.start_date[0]).format('YYYY-MM-DD'),
-		  		"end_date": moment(values.start_date[1]).format('YYYY-MM-DD'),
-		  		"skills": values.skills.tags,
-		  		"job_category": 1
+		  		title: values.title,
+		  		description: values.description,
+		  		location: values.location,
+		  		start_date: moment(values.start_date[0]).format('YYYY-MM-DD'),
+		  		end_date: moment(values.start_date[1]).format('YYYY-MM-DD'),
+		  		skills: values.skills.tags,
+		  		job_category: 1
 		  	}
 
 		    console.log(values)

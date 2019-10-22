@@ -106,6 +106,7 @@ public class JobService {
 		if (isValidUser(userToken)) {
 			
 			Integer userId = getUserId(userToken);
+			System.out.println(startDate); 
 			java.sql.Date startDateSQL = getDate(startDate);
 			java.sql.Date endDateSQL = getDate(endDate);
 			
@@ -122,6 +123,8 @@ public class JobService {
 
 			job.setIsActive(isActive);
 			job.setUserID(userId);
+			
+			System.out.println(job.getStartDate());
 			
 			jobManager.updateJob(job);
 		}
@@ -238,8 +241,9 @@ public class JobService {
 
 	private java.sql.Date getDate(String startDate) {
 		
-		if (startDate == null)
+		if (startDate == null) {
 			return null;
+		}
 		
 		Date sDate = null;
 		try {
@@ -248,6 +252,9 @@ public class JobService {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println(sDate.getTime());
+		
 		return new java.sql.Date(sDate.getTime());
 	}
 

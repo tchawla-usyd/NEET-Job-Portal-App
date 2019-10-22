@@ -15,8 +15,7 @@ export default class Paragraph_ extends Component {
 	handleToggle = (e) => {
 		if(this.state.edit){
 			// Save the change
-			
-			console.log(this.state.input);
+			this.props.handleSubmit({"description": this.state.input});
 		}
 		this.setState({edit: !this.state.edit});
 	}

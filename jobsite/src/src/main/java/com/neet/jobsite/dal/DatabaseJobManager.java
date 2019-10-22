@@ -79,6 +79,8 @@ public class DatabaseJobManager implements JobManager {
 	@Override
 	public void updateJob(Job job) {
 		Session currentSession = this.sessionFactory.getCurrentSession();
+		System.out.println(job.getStartDate());
+		System.out.println(job.getId());
 		currentSession.merge(job);
 
 	}

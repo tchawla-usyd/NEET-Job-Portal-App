@@ -31,7 +31,8 @@ export default class Job extends Component {
     	this.id = urlParams.get('id');
         axios.get(GET_JOB + this.id)
         .then(res => { 
-        	this.setState({...res.data, loading: false});})
+        	this.setState({...res.data, loading: false});
+        })
         .catch(function (error) {
 		    console.log(error);
 		});
@@ -43,6 +44,7 @@ export default class Job extends Component {
 	}
 
     handleSubmit = (payload) => {
+        console.log(payload);
         axios.post(EDIT_JOB, qs.stringify({"job_id": this.id, ...payload}), HEADER)
         .then(res => {
             if (res.status == 200) {
@@ -62,19 +64,24 @@ export default class Job extends Component {
     		{this.state.loading ? <Spinner /> :
 				<div><Title style={{display:'inline-block', margin: 60, marginBottom: 10}} 
 				editable={{ 
-                    onChange: (s)=>this.handleSubmit({"title":s}),
+                    onChange: (s)=>this.handleSubmit({title:s}),
                 }}>{title}</Title>
 				<div style={{marginLeft: 60, marginBottom: 5}}><Icon type="idcard" theme="twoTone" style={{marginRight: 10}}/>Microsoft Inc.</div>
 				<div style={{marginLeft: 60, marginBottom: 50}}><Icon type="environment" theme="twoTone" style={{marginRight: 10}}/>{this.state.location}</div>
 				
 				<Divider_>Description</Divider_>
-				<Paragraph_>{this.state.description}</Paragraph_>
+				<Paragraph_ handleSubmit={this.handleSubmit}>{this.state.description}</Paragraph_>
 
 				<Divider_>Skills</Divider_>
-				<div style={para_style}><Tags skills={this.state.skills}/> </div>
+				<div style={para_style}><Tags onChange={this.handleSubmit} skills={this.state.skills}/> </div>
 
 				<Divider_>Application Open</Divider_>
-				<RangePicker style={para_style} />
+				<RangePicker 
+                style={para_style} 
+                onChange={(moments, dates) => this.handleSubmit(
+                    {start_date: moment(moments[0]).format('YYYY-MM-DD'),
+                    end_date: moment(moments[1]).format('YYYY-MM-DD')})
+                } defaultValue={[moment(this.state.startDate, 'YYYY-MM-DD'), moment(this.state.endDate, 'YYYY-MM-DD')]}/>
 
 				<Divider_>Applicants</Divider_>
 				<SeekerList /></div>
