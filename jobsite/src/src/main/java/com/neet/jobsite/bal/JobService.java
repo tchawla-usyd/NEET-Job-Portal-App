@@ -237,6 +237,10 @@ public class JobService {
 	}
 
 	private java.sql.Date getDate(String startDate) {
+		
+		if (startDate == null)
+			return null;
+		
 		Date sDate = null;
 		try {
 			sDate = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);

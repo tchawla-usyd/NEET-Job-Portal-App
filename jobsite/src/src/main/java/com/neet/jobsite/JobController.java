@@ -62,8 +62,9 @@ public class JobController  extends BaseMVCController {
 		String location = httpServletRequest.getParameter("location");
 		String startDate = httpServletRequest.getParameter("start_date");
 		String endDate = httpServletRequest.getParameter("end_date");
-		Integer jobCategory = Integer.parseInt(httpServletRequest.getParameter("job_category"));
-	
+		String jobCategory_tmp = httpServletRequest.getParameter("job_category");
+		Integer jobCategory = jobCategory_tmp == null ? null : Integer.parseInt(jobCategory_tmp);
+		
 		// authorized token to get user id
 		String userToken = httpServletRequest.getParameter("token");
 		

@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import { Typography, Input, Button } from 'antd';
 
+import {EDIT_JOB} from "../constants/BackendAPI"
+
 const { Text, Paragraph } = Typography;
 
 const para_style = {marginLeft:60,  marginRight: 50, marginBottom: 40, marginTop: 40, fontSize: 18};
@@ -13,6 +15,7 @@ export default class Paragraph_ extends Component {
 	handleToggle = (e) => {
 		if(this.state.edit){
 			// Save the change
+			
 			console.log(this.state.input);
 		}
 		this.setState({edit: !this.state.edit});

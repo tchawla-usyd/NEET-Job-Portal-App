@@ -1,6 +1,9 @@
 import React, {Component} from "react";
 import axios from 'axios';
-import { Divider, Avatar, DatePicker, Typography, Input, Icon, Button } from 'antd';
+import qs from 'querystring';
+import moment from 'moment';
+
+import { Divider, Avatar, DatePicker, Typography, Input, Icon, Button, message } from 'antd';
 
 import BaseLayout from '../components/BaseLayout';
 import Paragraph_ from '../components/Paragraph_';
@@ -8,7 +11,7 @@ import Tags from '../components/Tags';
 import SeekerList from '../components/SeekerList';
 import Spinner from '../components/Spinner';
 
-import {GET_JOB} from "../constants/BackendAPI"
+import {GET_JOB, EDIT_JOB, HEADER} from "../constants/BackendAPI"
 
 const {RangePicker} = DatePicker;
 const { Title, Text, Paragraph } = Typography;
@@ -39,6 +42,18 @@ export default class Job extends Component {
 
 	}
 
+    handleSubmit = (payload) => {
+        axios.post(EDIT_JOB, qs.stringify({"job_id": this.id, ...payload}), HEADER)
+        .then(res => {
+            if (res.status == 200) {
+                this.setState({...payload});
+                message.success('Changes Saved');
+            }else{
+                message.error("Something is wrong !");
+            }
+        })
+    }
+
     render(){
     	const Divider_ = (props) => <Divider orientation="left"><Text style={{fontSize: 30}} strong  >{props.children}</Text></Divider>;
     	let title = this.state.title;
@@ -46,7 +61,9 @@ export default class Job extends Component {
     		<BaseLayout> 
     		{this.state.loading ? <Spinner /> :
 				<div><Title style={{display:'inline-block', margin: 60, marginBottom: 10}} 
-				editable={{ onChange: this.onChange }}>{title}</Title>
+				editable={{ 
+                    onChange: (s)=>this.handleSubmit({"title":s}),
+                }}>{title}</Title>
 				<div style={{marginLeft: 60, marginBottom: 5}}><Icon type="idcard" theme="twoTone" style={{marginRight: 10}}/>Microsoft Inc.</div>
 				<div style={{marginLeft: 60, marginBottom: 50}}><Icon type="environment" theme="twoTone" style={{marginRight: 10}}/>{this.state.location}</div>
 				

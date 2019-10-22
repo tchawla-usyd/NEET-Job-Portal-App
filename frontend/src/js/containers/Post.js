@@ -1,20 +1,15 @@
 import React, {Component} from "react";
 import {Form, Input, DatePicker, Tag, Tooltip, Icon, Button, message} from 'antd';
-
-import BaseLayout from '../components/BaseLayout';
-import Tags from '../components/Tags';
-
 import axios from 'axios';
 import qs from 'querystring';
 import moment from 'moment';
 
+import BaseLayout from '../components/BaseLayout';
+import Tags from '../components/Tags';
+import {ADD_JOB, HEADER} from '../constants/BackendAPI'
 const {RangePicker} = DatePicker;
 
-const config = {
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded'
-  }
-}
+
 
 class Post extends Component {
     constructor(props) {
@@ -38,7 +33,7 @@ class Post extends Component {
 		    console.log(values)
 		    console.log(payload)
 		    /* TODO: Backend */
-            axios.post('http://localhost:8081/jobsite/job/add', qs.stringify(payload), config)
+            axios.post(ADD_JOB, qs.stringify(payload), HEADER)
             .then(res => {
                 if (res.status == 200) {
                     // const token = res.data.token;
@@ -47,7 +42,7 @@ class Post extends Component {
                     // this.props.history.push("/songs");
 					this.props.history.push("/home");
                 }else{
-                    message.error("Wrong Username/Password !");
+                    message.error("Something is wrong !");
                 }
 	        }).catch (e =>{
 	        	this.props.history.push("/home");

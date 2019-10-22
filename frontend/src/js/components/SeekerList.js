@@ -49,7 +49,7 @@ export default class SeekerListing extends Component {
                     {tag.toUpperCase()}
                   </Tag>
                 );
-              })}
+              }).slice(0, 5)}
             </span>
           ),
         }

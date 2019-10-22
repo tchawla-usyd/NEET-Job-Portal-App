@@ -6,6 +6,9 @@ import logo from "../../NEET.png";
 
 const { Header, Footer, Content } = Layout;
 
+// dummy
+const isEmployer = true;
+
 export default class BaseLayout extends Component {
     constructor(props) {
         super(props);
@@ -18,19 +21,26 @@ export default class BaseLayout extends Component {
 	              alignItems:'center'};
    		const MenuItem = Menu.Item;
    		const menu = (
-		  <Menu style={{textAlign: 'left'}}>
-		    <Menu.Item>
+		  <Menu style={{textAlign: 'middle'}}>
+		    <Menu.Item >
 		      <Link to= '/profile'>
 		        <Icon style={{marginRight: 10, color:'#1E90FF'}} type="user" /> Profile
 		      </Link>
 		    </Menu.Item>
-		    <Menu.Item>
+
+		    <Menu.Item >
 		      <Link to='/home'>
+		      	<Icon style={{marginRight: 10, color:'#52c41a'}} type="profile" /> Application
+		      </Link>
+		    </Menu.Item>
+
+		    <Menu.Item>
+		      <Link to='/home' >
 		      	<Icon style={{marginRight: 10, color:'#eb2f96'}} type="heart" /> Favorite
 		      </Link>
 		    </Menu.Item>
 		    <Menu.Item>
-		      <Link to='/login' >
+		      <Link to='/login'>
 		        <Icon style={{marginRight: 10, color:'red'}} type="logout" /> Logout
 		      </Link>
 		    </Menu.Item>

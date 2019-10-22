@@ -24,7 +24,7 @@ export default class JobListing extends Component {
           key: 'title',
           align: 'center',
           sorter: (a, b) => a.title.localeCompare(b.title),
-          render: text => <Text strong><Link to='/job'>{text}</Link></Text>,
+          render: text => <Text strong><Link to='/job?id=15'>{text}</Link></Text>,
         },{
           title: 'Company',
           dataIndex: 'company',
@@ -42,6 +42,7 @@ export default class JobListing extends Component {
           dataIndex: 'skills',
           key: 'skills',
           align: 'center',
+          colSpan: 10,
           sorter: isEmployer ? null : (a, b) => a.skills.filter(skill => userSkills.includes(skill)).length - 
             b.skills.filter(skill => userSkills.includes(skill)).length ,
           render: tags => (
@@ -53,7 +54,7 @@ export default class JobListing extends Component {
                     {tag.toUpperCase()}
                   </Tag>
                 );
-              })}
+              }).slice(0, 5)}
             </span>
           ),
         },{
