@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +33,8 @@ public class JobController  extends BaseMVCController {
 	private static final Logger logger = LoggerFactory.getLogger(JobController.class);
 
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public String addJob(HttpServletRequest httpServletRequest) {
+	@ResponseStatus(value = HttpStatus.OK)
+	public void addJob(HttpServletRequest httpServletRequest) {
 		
 		String title = httpServletRequest.getParameter("title");
 		String description = httpServletRequest.getParameter("description");
@@ -49,12 +52,12 @@ public class JobController  extends BaseMVCController {
 		logger.info(title);
 			
 		jobService.addJob(title, description, location, startDate, endDate, jobCategory, userToken, skills);
-		return "redirect:/home.jsp";
+
 	}
 	
-
 	@RequestMapping(value="/edit", method=RequestMethod.POST)
-	public String editJob(HttpServletRequest httpServletRequest) {
+	@ResponseStatus(value = HttpStatus.OK)
+	public void editJob(HttpServletRequest httpServletRequest) {
 		
 		long UID = Long.parseLong(httpServletRequest.getParameter("job_id"));
 		String title = httpServletRequest.getParameter("title");
@@ -71,17 +74,17 @@ public class JobController  extends BaseMVCController {
 		logger.info(title);
 			
 		jobService.editJob(UID, title, description, location, startDate, endDate, jobCategory, userToken);
-		return "redirect:/home.jsp";
+
 	}
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.DELETE)
-	public String deleteJob(@PathVariable("id") Integer id) {
+	@ResponseStatus(value = HttpStatus.OK)
+	public void deleteJob(@PathVariable("id") Integer id) {
 		
 		// authorized token
 		String authToken = "abcd";
 		
 		jobService.deleteJob(id, authToken);
-		return "redirect:/home.jsp";
 	}
 
 	@RequestMapping(value="/getjob/{id}", 
@@ -124,23 +127,21 @@ public class JobController  extends BaseMVCController {
 	}
 
 	@RequestMapping(value="/getjob/{job_id}/add/skill/{skill_id}", method=RequestMethod.PUT)
-	public String addSkillToJob(@PathVariable("job_id") Integer jobId, @PathVariable("skill_id") Integer skillId) {
+	@ResponseStatus(value = HttpStatus.OK)
+	public void addSkillToJob(@PathVariable("job_id") Integer jobId, @PathVariable("skill_id") Integer skillId) {
 		
 		String authToken = "abcd";
 		
 		jobService.addSkillToJob(jobId, skillId, authToken);
-		
-		return "redirect:/home.jsp";
 	}
 	
 	@RequestMapping(value="/getjob/{job_id}/delete/skill/{skill_id}", method=RequestMethod.DELETE)
-	public String deleteSkillFromJob(@PathVariable("job_id") Integer jobId, @PathVariable("skill_id") Integer skillId) {
+	@ResponseStatus(value = HttpStatus.OK)
+	public void deleteSkillFromJob(@PathVariable("job_id") Integer jobId, @PathVariable("skill_id") Integer skillId) {
 		
 		String authToken = "abcd";
 		
-		jobService.deleteSkillFromJob(jobId, skillId, authToken);
-		
-		return "redirect:/home.jsp";
+		jobService.deleteSkillFromJob(jobId, skillId, authToken);		
 	}
 	
 	
