@@ -108,16 +108,18 @@ public class JobService {
 			Integer userId = getUserId(userToken);
 			java.sql.Date startDateSQL = getDate(startDate);
 			java.sql.Date endDateSQL = getDate(endDate);
-			boolean isActive = isActiveDate(startDateSQL, endDateSQL);
 			
 			Job job = jobManager.getJobById(uID);
 			
-			job.setTitle(title);
-			job.setJobDescription(description);
-			job.setLocation(location);
-			job.setStartDate(startDateSQL);
-			job.setEndDate(endDateSQL);
-			job.setJobCategoryID(jobCategory);	
+			job.setTitle(title == null ? job.getTitle() : title);
+			job.setJobDescription(description == null ? job.getJobDescription() : description);
+			job.setLocation(location == null ? job.getLocation() : location);
+			job.setStartDate(startDateSQL == null ? job.getStartDate() : startDateSQL);
+			job.setEndDate(endDateSQL == null ? job.getEndDate() : endDateSQL);
+			job.setJobCategoryID(jobCategory == null ? job.getJobCategoryID() : jobCategory);
+			
+			boolean isActive = isActiveDate(job.getStartDate(), job.getEndDate());
+
 			job.setIsActive(isActive);
 			job.setUserID(userId);
 			
