@@ -6,10 +6,13 @@ import java.io.IOException;
 import java.util.Date;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -39,17 +42,24 @@ public class BucketController extends BaseMVCController{
 
 	@RequestMapping(value="/uploadFile", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-    public String uploadFile(@RequestPart(value = "file") MultipartFile file) {
+    public String uploadFile(@RequestPart(value = "file") MultipartFile file, 
+    		HttpServletResponse response, @RequestHeader("Authorization") String userToken) {
         String fileUrl = this.amazonClient.uploadFile(file);
         boolean isUploaded = (fileUrl != null);
         
         S3UploadResponse res = new S3UploadResponse();
         res.setFile_url(fileUrl);
         res.setIs_success(isUploaded);
+                
+        if(authenticateByToken(userToken)) {
+			HttpSession session = context.getSession(false);
+			Integer userId = (Integer) session.getAttribute("userId");
+	        candidateService.addResume(userId, fileUrl);
+		}
+		else {
+			response.setStatus(403);
+		}
         
-        String userToken = "abcd";
-        
-        candidateService.addResume(userToken, fileUrl);
         
         ObjectMapper objectMapper = new ObjectMapper();
 		

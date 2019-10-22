@@ -33,71 +33,55 @@ public class CandidateService {
 	private UserService userService;
 	
 	
-	public void applyJob(Integer jobId, String userToken) {
-		if (isValidUser(userToken)) {
-			Integer userId = getUserId(userToken);
-			
-			CandidateJobApplied application = new CandidateJobApplied();
-			application.setApplyDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
-			application.setJobID(jobId);
-			application.setUserID(userId);
-			
-			candidateManager.applyJob(application);
-		}
-	}
-	
-	public void addResume(String userToken, String fileUrl) {
-		if (isValidUser(userToken)) {
-			Integer userId = getUserId(userToken);
-			
-			Candidate candidate = candidateManager.getCandidateById(userId);
-			candidate.setResume(fileUrl);
-			candidateManager.editCandidateInfo(candidate);
-		}
+	public void applyJob(Integer jobId, Integer userId) {			
+		CandidateJobApplied application = new CandidateJobApplied();
+		application.setApplyDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+		application.setJobID(jobId);
+		application.setUserID(userId);
 		
+		candidateManager.applyJob(application);
 	}
 	
-	public List<SkillSet> getCandidateSkills(Long candidateId, String userToken) {
+	public void addResume(Integer userId, String fileUrl) {
+			
+		Candidate candidate = candidateManager.getCandidateById(userId);
+		candidate.setResume(fileUrl);
+		candidateManager.editCandidateInfo(candidate);
+	}
+	
+	public List<SkillSet> getCandidateSkills(Long candidateId, Integer userId) {
 		List<SkillSet> skills = candidateManager.getCandidateSkillsById(candidateId);
 		return skills;
 	}
 	
-	public List<ApplicantsResponse> getApplicants(Long jobId, String userToken) {
-		if (isValidUser(userToken)) {
-			Integer userId = getUserId(userToken);
+	public List<ApplicantsResponse> getApplicants(Long jobId, Integer userId) {			
+		List<CandidateJobApplied> applications = candidateManager.getApplicationInfo(jobId);
+		
+		List<User> users = candidateManager.getApplicants(jobId);
+		
+		List<Long> ids = new ArrayList<Long>();
+		
+		for(User user: users) {
+			ids.add(user.getId());
+		}
+					
+		List<ApplicantsResponse> applicants = new ArrayList<ApplicantsResponse>();
+		
+		for(int i = 0; i < ids.size(); i++) {
+			ApplicantsResponse app = new ApplicantsResponse();
+			app.setUser_id(users.get(i).getId());
+			app.setFirst_name(users.get(i).getFirstName());
+			app.setLast_name(users.get(i).getLastName());
+			app.setEmail(users.get(i).getEmail());
+			app.setApplyDate(applications.get(i).getApplyDate().toString());
 			
-			List<CandidateJobApplied> applications = candidateManager.getApplicationInfo(jobId);
+			List<SkillSet> skills = candidateManager.getCandidateSkillsById(users.get(i).getId());
+			app.setSkills(skills);
 			
-			List<User> users = candidateManager.getApplicants(jobId);
-			
-			List<Long> ids = new ArrayList<Long>();
-			
-			for(User user: users) {
-				ids.add(user.getId());
-			}
-						
-			List<ApplicantsResponse> applicants = new ArrayList<ApplicantsResponse>();
-			Format formatter = new SimpleDateFormat("yyyy-MM-dd");
-			
-			for(int i = 0; i < ids.size(); i++) {
-				ApplicantsResponse app = new ApplicantsResponse();
-				app.setUser_id(users.get(i).getId());
-				app.setFirst_name(users.get(i).getFirstName());
-				app.setLast_name(users.get(i).getLastName());
-				app.setEmail(users.get(i).getEmail());
-				app.setApplyDate(applications.get(i).getApplyDate().toString());
-				
-				List<SkillSet> skills = candidateManager.getCandidateSkillsById(users.get(i).getId());
-				app.setSkills(skills);
-				
-				applicants.add(app);
-			}
-			
-			return applicants;
+			applicants.add(app);
 		}
 		
-		return null;
-		
+		return applicants;		
 	}
 	
 	public CandidateResponse getCandidate(Long candidateId, String userToken) {
@@ -111,16 +95,7 @@ public class CandidateService {
 		return res;
 	}
 	
-	
-	private Integer getUserId(String userToken) {
-		// TODO Auto-generated method stub
-		return 1;
-	}
 
-	private boolean isValidUser(String userToken) {
-		// TODO Auto-generated method stub
-		return true;
-	}
 
 
 
