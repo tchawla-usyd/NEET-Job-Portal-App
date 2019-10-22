@@ -71,10 +71,13 @@ public class JobController  extends BaseMVCController {
 		// authorized token to get user id
 		String userToken = httpServletRequest.getParameter("token");
 		
+		List<String> skills = null;
+		if (httpServletRequest.getParameterValues("skills") != null)
+				skills = Arrays.asList(httpServletRequest.getParameterValues("skills"));
 		
 		logger.info(title);
 			
-		jobService.editJob(UID, title, description, location, startDate, endDate, jobCategory, userToken);
+		jobService.editJob(UID, title, description, location, startDate, endDate, jobCategory, userToken, skills);
 
 	}
 	

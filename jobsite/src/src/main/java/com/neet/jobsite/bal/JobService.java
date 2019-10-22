@@ -67,7 +67,6 @@ public class JobService {
 			
 			List<SkillSet> skillsets = getSkillSetList(skills, userId);
 			for(SkillSet skillSet : skillsets) {
-				
 				SkillsForJob jobSkill = new SkillsForJob();
 				jobSkill.setJobID((int) job.getId());
 				jobSkill.setSkillID((int) skillSet.getId());
@@ -78,30 +77,10 @@ public class JobService {
 		}
 		
 	}
-	
-	private List<SkillSet> getSkillSetList(List<String> skillList, Integer userId) {
-		List<SkillSet> skillsets = new ArrayList<SkillSet>();
-		
-		for(String name : skillList) {
-			SkillSet skill = skillService.getSkillByName(name);
-			if(skill == null) {
-				skillService.addSkill(name, userId);
-			}
-			
-			skill = skillService.getSkillByName(name);
-			skillsets.add(skill);
 
-		}
-		return skillsets;
-	}
-
-	private List<String> getSkillList(String skills) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public void editJob(long uID, String title, String description, String location, String startDate, String endDate,
-						Integer jobCategory, String userToken) {
+						Integer jobCategory, String userToken, List<String> skills) {
 			
 		if (isValidUser(userToken)) {
 			
@@ -127,9 +106,36 @@ public class JobService {
 			System.out.println(job.getStartDate());
 			
 			jobManager.updateJob(job);
+			
+			if(skills != null) {
+				
+				List<SkillSet> newSkills = getSkillSetList(skills, userId);
+				List<SkillSet> skillsToAdd = new ArrayList<SkillSet>(newSkills);
+				List<SkillSet> oldSkills = new ArrayList<SkillSet>();
+
+				
+				try {
+					oldSkills = jobManager.getSkillsByJob((int) job.getId());
+				} catch (NoSkillsException e) {}
+				
+				List<SkillSet> skillsToRemove = new ArrayList<SkillSet>(oldSkills);
+				
+				skillsToAdd.removeAll(oldSkills);
+				System.out.println("SkillsToAdd: " + skillsToAdd);
+				skillsToRemove.removeAll(newSkills);
+				System.out.println("SkillsToRemove: " + skillsToRemove);
+
+				
+				
+				updateSkills(skillsToAdd, skillsToRemove, job);
+				
+				
+			}
+			
 		}
 		
 	}
+	
 	
 	public JobResponse getJob(Long jobId) {		
 		Job job = jobManager.getJobById(jobId);
@@ -189,6 +195,11 @@ public class JobService {
 	public void addSkillToJob(Integer jobId, Integer skillId, String userToken) {
 		if (isValidUser(userToken)) {
 			Integer userId = getUserId(userToken);
+			
+			SkillSet skill = skillService.getSkillById(skillId);
+			if(skill == null) {
+				
+			}
 			
 			SkillsForJob jobSkill = new SkillsForJob();
 			jobSkill.setJobID(jobId);
@@ -264,6 +275,45 @@ public class JobService {
 	}
 
 	
+	private List<SkillSet> getSkillSetList(List<String> skillList, Integer userId) {
+		List<SkillSet> skillsets = new ArrayList<SkillSet>();
+		
+		for(String name : skillList) {
+			SkillSet skill = skillService.getSkillByName(name);
+			if(skill == null) {
+				skillService.addSkill(name, userId);
+			}
+			
+			skill = skillService.getSkillByName(name);
+			skillsets.add(skill);
+
+		}
+		return skillsets;
+	}
+	
+	private void updateSkills(List<SkillSet> skillsToAdd, List<SkillSet> skillsToRemove, Job job) {
+		for(SkillSet skillSet : skillsToAdd) {
+			
+			SkillsForJob jobSkill = new SkillsForJob();
+			jobSkill.setJobID((int) job.getId());
+			jobSkill.setSkillID((int) skillSet.getId());
+			jobSkill.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+			
+			jobManager.addSkillToJob(jobSkill);
+		}
+		
+		for(SkillSet skillSet : skillsToRemove) {
+			SkillsForJob jobSkill;
+			try {
+				jobSkill = jobManager.getSkillsForJob( (int) job.getId(), (int) skillSet.getId());
+				jobManager.deleteSkillFromJob(jobSkill);
+
+			} catch (NoSkillsException e) {
+			}
+		}
+
+	}
+
 
 
 

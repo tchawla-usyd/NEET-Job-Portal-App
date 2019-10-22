@@ -1,5 +1,6 @@
 package com.neet.jobsite.dal;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,9 +102,16 @@ public class DatabaseJobManager implements JobManager {
 	}
 
 	@Override
-	public void addSkillToJob(SkillsForJob jobSkill) {
+	public void addSkillToJob(SkillsForJob jobSkill){
 		Session currentSession = this.sessionFactory.getCurrentSession();
-		currentSession.save(jobSkill);
+		Query query = currentSession.createQuery("FROM SkillsForJob WHERE JobID = :jid AND SkillID = :sid");
+		query.setParameter("jid", jobSkill.getJobID());
+		query.setParameter("sid", jobSkill.getSkillID());
+		
+		if(query.list().isEmpty()) {
+			currentSession.save(jobSkill);
+		}
+		
 		
 	}
 	
