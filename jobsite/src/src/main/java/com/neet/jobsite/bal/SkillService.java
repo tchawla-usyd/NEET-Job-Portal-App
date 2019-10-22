@@ -29,5 +29,10 @@ public void addSkill(String name, Integer userId) {
 		skill.setCreatedBy(userId);
 		skillManager.addSkillSet(skill);
 	}
+
+public SkillSet getSkillById(Integer skillId) {
+	// TODO Auto-generated method stub
+	return skillManager.getSkillSetById(new Long(skillId));
+}
 	
 }

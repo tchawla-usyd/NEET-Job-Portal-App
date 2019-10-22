@@ -67,4 +67,13 @@ public class SkillSet implements Serializable {
 	public void setId(long id) {
 		this.Id = id;
 	}
+	
+	@Override
+    public boolean equals(Object anObject) {
+        if (!(anObject instanceof SkillSet)) {
+            return false;
+        }
+        SkillSet otherMember = (SkillSet)anObject;
+        return otherMember.getId() == this.getId();
+    }
 }
