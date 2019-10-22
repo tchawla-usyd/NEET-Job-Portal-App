@@ -1,24 +1,19 @@
 import React, {Component} from "react";
+import axios from 'axios';
 import { Table, Divider, Tag, Input, Button, Icon, Typography, message} from 'antd';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+
+import {GET_CANS_FOR} from '../constants/BackendAPI';
 
 const { Search } = Input;
 const { Text } = Typography;
-
-const data = [
-  {
-    key: '1',
-    name: 'Rex Shen',
-    email: '123@gmail.com',
-    skills: ['nice', 'developer'],
-  }
-];
 
 export default class SeekerListing extends Component {
   
     constructor(props) {
         super(props);
-        let isEmployer = true;
+
+        //columns for the table
         this.columns = [
         {
           title: 'Candidate',
@@ -32,6 +27,11 @@ export default class SeekerListing extends Component {
           key: 'email',
           align: 'center',
           render: text => <a href={"mailto:" + text}>{text}</a>
+        },{
+          title: 'Applied At',
+          dataIndex: 'applyDate',
+          key: 'applyDate',
+          align: 'center',
         },{
           title: 'Skills',
           dataIndex: 'skills',
@@ -54,31 +54,28 @@ export default class SeekerListing extends Component {
           ),
         }
       ];
-    }
 
-    handleClickLike = (e, record) => {
-      record.like = !record.like;
-      //TODO: add to db
-
-      if(record.like){
-        message.success(record.title + ' Saved');
-      }
-      this.forceUpdate();
-    }
-    
-    handleFilter = (value) => {
-      //TODO
-      console.log(value);
+      this.state = {data: []};
+      //get applicants for job
+      axios.get(GET_CANS_FOR + this.props.job_id)
+        .then(res => { 
+          this.setState({data: res.data.map((entry) => {
+          return({
+            key: entry.user_id,
+            name: entry.first_name + ' ' + entry.last_name,
+            email: entry.email,
+            skills: entry.skills.map(skill => skill.name),
+            applyDate: entry.applyDate});
+          })});
+        })
+        .catch(function (error) {
+          console.log(error);
+      });
     }
 
     render(){
-      // const onRow=(record, rowIndex) => {
-      //   return {
-      //     onClick: ()=>console.log(rowIndex)
-      //   }
-      // };
-      return (
-          <Table style={{marginLeft:60,  marginRight: 50, marginBottom: 40, marginTop: 40}} columns={this.columns} dataSource={data} pagination={false}/>
-        );
+      console.log();
+      return <Table style={{marginLeft:60,  marginRight: 50, marginBottom: 40, marginTop: 40}} 
+        columns={this.columns} dataSource={this.state.data} pagination={false}/>;
     }
 }

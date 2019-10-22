@@ -6,7 +6,6 @@ export default class Tags extends Component {
     	super(props);
 	    this.state = {
 	    	tags: props.skills ? this.props.skills.map(skill => {
-	    		console.log(1);
 	    		return skill.name}):[],
 	    	inputVisible: false,
 	    	inputValue: '',
@@ -18,7 +17,7 @@ export default class Tags extends Component {
 	    const { onChange } = this.props;
 	    if (onChange) {
 	      onChange({
-	        tags: this.state.tags,
+	        skills: this.state.tags,
 	      });
 	    }
   	};
@@ -27,7 +26,6 @@ export default class Tags extends Component {
 		const tags = this.state.tags.filter(tag => tag !== removedTag);
 		console.log(tags);
 		this.setState({ tags }, this.triggerChange);
-		this.triggerChange();
 	};
 
 	showInput = () => {
@@ -42,7 +40,7 @@ export default class Tags extends Component {
 		const { inputValue } = this.state;
 		let { tags } = this.state;
 		if (inputValue && tags.indexOf(inputValue) === -1) {
-		  tags = [...tags, inputValue];
+		  tags = [...tags, inputValue.toUpperCase()];
 		}
 		this.setState({
 		  tags,
@@ -57,8 +55,9 @@ export default class Tags extends Component {
     	const { tags, inputVisible, inputValue } = this.state;
     	const color = ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"];
     	return (
-    		<span>
+    		<span >
     		{tags.map((tag, index) => {
+    		  tag = tag.toUpperCase();
 	          const isLongTag = tag.length > 20;
 	          const tagElem = (
 	            <Tag key={tag} color={color[Math.floor(Math.random()*color.length)]} closable='true' onClose={() => this.handleClose(tag)}>

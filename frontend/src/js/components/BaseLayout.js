@@ -64,7 +64,7 @@ export default class BaseLayout extends Component {
 					  </Dropdown>
 				</span>
 				<MenuItem className="myitem" style={{...itemStyle, marginRight: 20}} key='3'>nav 3</MenuItem>
-				<MenuItem className="myitem" style={itemStyle} key='2'>nav 2</MenuItem>
+				<MenuItem className="myitem" style={itemStyle} key='2'><Link to='/slides'>Slides</Link></MenuItem>
 		        <MenuItem className="myitem" style={itemStyle} key='1'><Link to='/home'>Dashboard</Link></MenuItem>
 		      </Menu>
 		      

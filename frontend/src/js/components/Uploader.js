@@ -6,9 +6,9 @@ export default class Uploader extends Component {
     fileList: [
       {
         uid: '-1',
-        name: 'xxx.png',
+        name: this.props.resume.substring(this.props.resume.lastIndexOf('/')+1),
         status: 'done',
-        url: 'http://www.google.com/xxx.png',
+        url: this.props.resume,
       },
     ],
   };
@@ -24,7 +24,7 @@ export default class Uploader extends Component {
     fileList = fileList.map(file => {
       if (file.response) {
         // Component will show file.url as link
-        file.url = file.response.url;
+        file.url = file.response.file_url;
       }
       return file;
     });

@@ -75,6 +75,8 @@ public class JobController  extends BaseMVCController {
 		if (httpServletRequest.getParameterValues("skills") != null)
 				skills = Arrays.asList(httpServletRequest.getParameterValues("skills"));
 		
+		System.out.println(skills);
+		
 		logger.info(title);
 			
 		jobService.editJob(UID, title, description, location, startDate, endDate, jobCategory, userToken, skills);

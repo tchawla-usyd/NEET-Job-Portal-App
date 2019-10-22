@@ -26,12 +26,10 @@ class Post extends Component {
 		  		location: values.location,
 		  		start_date: moment(values.start_date[0]).format('YYYY-MM-DD'),
 		  		end_date: moment(values.start_date[1]).format('YYYY-MM-DD'),
-		  		skills: values.skills.tags,
+		  		skills: values.skills.skills,
 		  		job_category: 1
 		  	}
 
-		    console.log(values)
-		    console.log(payload)
 		    /* TODO: Backend */
             axios.post(ADD_JOB, qs.stringify(payload), HEADER)
             .then(res => {

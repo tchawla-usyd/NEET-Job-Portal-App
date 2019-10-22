@@ -11,7 +11,7 @@ export default class Paragraph_ extends Component {
 		super(props);
 		this.state = {edit: false};
 	}
-
+	
 	handleToggle = (e) => {
 		if(this.state.edit){
 			// Save the change

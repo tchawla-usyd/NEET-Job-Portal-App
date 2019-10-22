@@ -6,6 +6,8 @@ import Home from "../containers/Home"
 import Post from "../containers/Post"
 import Profile from "../containers/Profile"
 import Job from "../containers/Job"
+import Slides from "../containers/Slides"
+
 
 
 export default ({ childProps }) =>
@@ -17,6 +19,7 @@ export default ({ childProps }) =>
   <Route path="/post" exact component={Post} props={childProps} />
   <Route path="/profile" exact component={Profile} props={childProps} />
   <Route path="/job" exact component={Job} props={childProps} />
+  <Route path="/slides" exact component={Slides} props={childProps} />
 
 
 { /* Finally, catch all unmatched routes */ }

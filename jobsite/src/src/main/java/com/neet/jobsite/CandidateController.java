@@ -32,7 +32,7 @@ public class CandidateController {
 	@Resource(name="candidateService")
 	private CandidateService candidateService;
 	
-	@RequestMapping(value="/job/add", method=RequestMethod.POST)
+	@RequestMapping(value="/apply", method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void addApplication(HttpServletRequest httpServletRequest) {
 		
@@ -94,6 +94,9 @@ public class CandidateController {
 		String userToken = "abcd";
 		
 		CandidateResponse candidate = candidateService.getCandidate(candidateId, userToken);
+
+		
+		System.out.println(candidate);
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		

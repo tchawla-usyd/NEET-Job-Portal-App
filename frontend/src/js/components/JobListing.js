@@ -1,17 +1,18 @@
 import React, {Component} from "react";
 import axios from 'axios';
-import { Table, Divider, Tag, Input, Button, Icon, Typography, message, Pagination} from 'antd';
+import qs from 'querystring';
+import { Table, Divider, Tag, Input, Button, Icon, Typography, message, Pagination, Dropdown, Menu} from 'antd';
 import { Link } from 'react-router-dom'
 
-import {GET_JOB_FOR} from "../constants/BackendAPI"
+import {APPLY, GET_JOB_FOR, HEADER} from "../constants/BackendAPI"
 import Spinner from '../components/Spinner';
 
 const { Search } = Input;
 const { Text } = Typography;
 
 //dummy
-const userSkills = ['cool', 'teacher', 'developer'];
-const isEmployer = true;
+const userSkills = ['jobs', 'teacher', 'developer'];
+const isEmployer = false;
 
 export default class JobListing extends Component {
   
@@ -24,7 +25,7 @@ export default class JobListing extends Component {
           key: 'title',
           align: 'center',
           sorter: (a, b) => a.title.localeCompare(b.title),
-          render: text => <Text strong><Link to='/job?id=15'>{text}</Link></Text>,
+          render: (text, record) => <Text strong><Link to={'/job?id='+ record.key}>{text}</Link></Text>,
         },{
           title: 'Company',
           dataIndex: 'company',
@@ -42,9 +43,8 @@ export default class JobListing extends Component {
           dataIndex: 'skills',
           key: 'skills',
           align: 'center',
-          colSpan: 10,
           sorter: isEmployer ? null : (a, b) => a.skills.filter(skill => userSkills.includes(skill)).length - 
-            b.skills.filter(skill => userSkills.includes(skill)).length ,
+            b.skills.filter(skill => userSkills.includes(skill)).length,
           render: tags => (
             <span>
               {tags.map(tag => {
@@ -63,20 +63,20 @@ export default class JobListing extends Component {
           align: 'center',
           render: (text, record) => (
             <span>
-            <Button type= 'link' onClick={(e) => this.handleClickLike(e, record)}>
+            <Button type= 'link' onClick={(e) => this.handleClickLike(record)}>
                 {record.like ?  <Icon style={{fontSize: 18}} type="heart" theme='twoTone' twoToneColor="#eb2f96" />
                  : <Icon style={{fontSize: 18, color: '#666666'}} type="heart" />}
               </Button>
               <Divider style={{fontSize: 20}} type="vertical" />
-              <Link to='' style={{fontSize: 15}}>Apply</Link>
+              <Button type= 'link' onClick={(e) => this.handleApply(record.key)} style={{fontSize: 15}}>Apply</Button>
             </span>
           ),
         },
       ];
-
       this.columns = isEmployer ? columns.slice(0, -1) : columns;
 
-      this.state = {loading: false};
+      this.locations = [];
+      this.state = {loading: true};
       axios.get(GET_JOB_FOR + 1)
         .then(res => { 
         var jobs = res.data.map(job =>{
@@ -90,13 +90,33 @@ export default class JobListing extends Component {
           this.setState({
             jobs: jobs, 
             filteredJobs: jobs,
-            loading: false});
+            filteredSearch: jobs}, 
+            this.sortLocations);
         }).catch(function (error) {
           console.log(error);
       });
     }
 
-    handleClickLike = (e, record) => {
+    sortLocations = () => {
+      this.locations = [...new Set(this.state.jobs.map((job) => job.location))];
+      this.locationJobs = new Object();
+      this.locations.map((target => this.locationJobs[target] = 
+      this.state.jobs.filter(({location}) => location.toLowerCase() == target.toLowerCase())));
+      this.locationJobs['Location'] = this.state.jobs;
+      this.setState({
+            filterLocationBy: 'Location',
+            loading: false,
+          });
+    }
+
+    handleApply = (job_id) =>{
+      axios.post(APPLY, qs.stringify({job_id: job_id}), HEADER)
+        .then(res => {
+          message.success("Apply Success!");
+        });
+    }
+
+    handleClickLike = (record) => {
       record.like = !record.like;
       //TODO: add to db
 
@@ -122,16 +142,37 @@ export default class JobListing extends Component {
             })
 
             //matching all the title, company, location and skills starts with the value
-            return title.startsWith(value) || company.startsWith(value) || matchSkills;
+            return title.startsWith(value) || location.startsWith(value) || company.startsWith(value) || matchSkills;
           });
       this.setState({
-        filteredJobs: filteredJobs
+        filteredSearch: filteredJobs,
+        filteredJobs: filteredJobs.filter(value => this.locationJobs[this.state.filterLocationBy].includes(value))
       });
     }
 
+    onFilterLocation = (target) =>{
+      if(target == 'Clear'){
+        this.setState({
+          filterLocationBy: 'Location',
+          filteredJobs: this.state.filteredSearch
+        });
+      }else{
+        const filteredJobs = 
+        this.setState({
+          filterLocationBy: target,
+          filteredJobs: this.state.filteredSearch.filter((job) => target == job.location)
+        });
+      }
+      
+    }
 
     render(){
-      console.log(this.state.jobs);
+      const locationMenu = 
+        <Menu>
+          {this.locations.map((location) => <Menu.Item onClick={(e)=>this.onFilterLocation(location)} style={{textAlign: 'center'}} key={location}><Button type='link'>{location}</Button></Menu.Item>)}
+          <Menu.Item onClick={(e)=>this.onFilterLocation('Clear')} style={{textAlign: 'center'}} key='clear'><Button type='link' >Clear</Button></Menu.Item>
+        </Menu>;
+
       return (
         <div>
           {/* Seach Bar */}
@@ -140,6 +181,17 @@ export default class JobListing extends Component {
           onChange={(e)=> this.handleSearch(e.target.value)}
           onSearch={(value)=> this.handleSearch(value)}
           enterButton={<Button style={{ width: 60 }} icon="search" />} />
+
+          { /* Filter By */}
+          <span style={{marginLeft: 20, verticalAlign: 'bottom'}}>
+          <Text style={{marginRight: 5}}>Filtered By: </Text>
+            <Dropdown overlay={locationMenu} trigger='click' placement="bottomCenter">
+              <Button type='link'>
+                {this.state.filterLocationBy} <Icon type="down" />
+              </Button>
+            </Dropdown>
+          </span>
+
 
           {/* Post Button */}
           {isEmployer ? <Link to='/post' style={{float: 'right'}}><Button shape="round" size='large'>Post</Button></Link> : ''}

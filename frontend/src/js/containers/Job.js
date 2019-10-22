@@ -84,7 +84,7 @@ export default class Job extends Component {
                 } defaultValue={[moment(this.state.startDate, 'YYYY-MM-DD'), moment(this.state.endDate, 'YYYY-MM-DD')]}/>
 
 				<Divider_>Applicants</Divider_>
-				<SeekerList /></div>
+				<SeekerList job_id={this.id}/></div>
 			}
     		</BaseLayout> 
     	)
