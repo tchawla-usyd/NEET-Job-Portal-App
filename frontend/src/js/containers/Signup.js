@@ -1,15 +1,21 @@
 import React, {Component} from "react";
 import axios from 'axios';
+import qs from 'querystring';
 import { Form, Input, Tooltip, Icon, Row, Col, Checkbox, Button, Radio} from 'antd';
 
 import logo from "../../NEET.png";
 import Tags from "../components/Tags";
+import {SIGNUP, HEADER} from "../constants/BackendAPI"
 
 //Singup Page
 class Signup extends Component {
   constructor(props) {
     super(props);
-    this.state = {isEmployer:'nothing',}
+
+    //Auth
+    this.headers = {headers:{...HEADER}};
+
+    this.state = {isEmployer:'nothing',};
   }
 
   //send input information to backend to create new user 
@@ -17,20 +23,19 @@ class Signup extends Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log(values)
-        /* TODO: Backend */
-        // try {
-        //     // check user is signed up here, so far this does nothing lmao
-        //     axios.post('http://ec2-54-252-139-212.ap-southeast-2.compute.amazonaws.com:8000/user/api/add_user/', values).
-        //     then(res => {
-        //       if (res.status == 200) {
-        //           this.props.history.push("/");//go to login page
-        //       }
-        //       console.log(res.data);
-        //     })
-        //   }catch (e) {
-        //     alert(e.message);
-        // }
+        console.log(values);
+        console.log(this.headers);
+        try {
+            // check user is signed up here, so far this does nothing lmao
+            axios.post(SIGNUP,  qs.stringify(values), this.headers).
+            then(res => {
+              if (res.status == 200) {
+                  this.props.history.push("/");//go to login page
+              }
+            })
+          }catch (e) {
+            alert(e.message);
+        }
       }
     });
   }
@@ -145,7 +150,7 @@ class Signup extends Component {
         </Form.Item>
 
         <Form.Item {...FormItemLayout} label="I am">
-          {getFieldDecorator('radio-group', {rules: [{
+          {getFieldDecorator('user_type', {rules: [{
               required: true, message: 'Please Select Who You Are!'
             }]})(
             <Radio.Group onChange={this.handleRadioChange}>

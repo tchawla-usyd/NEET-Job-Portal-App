@@ -12,14 +12,13 @@ const isEmployer = true;
 export default class BaseLayout extends Component {
     constructor(props) {
         super(props);
+        if(!this.props.parentProps.isAuthenticated){
+        	this.props.parentProps.history.push('/');
+        	return null;
+        }
     }
 
    	render(){
-   		console.log(this);
-   		if(!this.props.parentProps.isAuthenticated){
-        	this.props.parentProps.history.push('/');
-        	return '';
-        }
    		const itemStyle = {float:'right', 
    				  display:'flex',
 	              justifyContent:"center",
