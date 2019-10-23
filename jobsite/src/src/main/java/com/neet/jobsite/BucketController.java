@@ -1,10 +1,5 @@
 package com.neet.jobsite;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Date;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,6 +18,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neet.jobsite.bal.AmazonClient;
 import com.neet.jobsite.bal.CandidateService;
+import com.neet.jobsite.response.ErrorResponse;
 import com.neet.jobsite.response.S3UploadResponse;
 
 @Controller
@@ -40,35 +36,37 @@ public class BucketController extends BaseMVCController{
         this.amazonClient = amazonClient;
     }
 
-	@RequestMapping(value="/uploadFile", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/uploadFile", 
+					method=RequestMethod.POST, 
+					produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
     public String uploadFile(@RequestPart(value = "file") MultipartFile file, 
     		HttpServletResponse response, @RequestHeader("Authorization") String userToken) {
-        String fileUrl = this.amazonClient.uploadFile(file);
-        boolean isUploaded = (fileUrl != null);
         
-        S3UploadResponse res = new S3UploadResponse();
-        res.setFile_url(fileUrl);
-        res.setIs_success(isUploaded);
+        ObjectMapper objectMapper = new ObjectMapper();
+		String jsonReturn = null;
                 
         if(authenticateByToken(userToken)) {
 			HttpSession session = context.getSession(false);
 			Integer userId = (Integer) session.getAttribute("userId");
-	        candidateService.addResume(userId, fileUrl);
+			
+			String fileUrl = this.amazonClient.uploadFile(file);
+		    boolean isUploaded = (fileUrl != null);
+		    
+		    if(isUploaded)
+		    	candidateService.addResume(userId, fileUrl);
+			
+			S3UploadResponse res = new S3UploadResponse();
+	        res.setFile_url(fileUrl);
+	        res.setIs_success(isUploaded);
+	        
+	        jsonReturn = objectToJSON(objectMapper, res);
+			
 		}
 		else {
 			response.setStatus(403);
-		}
-        
-        
-        ObjectMapper objectMapper = new ObjectMapper();
-		
-		String jsonReturn = null;
-		try {
-			jsonReturn = objectMapper.writeValueAsString(res);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
+			jsonReturn = objectToJSON(objectMapper, new ErrorResponse("Authentication Failed"));
+		} 
 		
 		return jsonReturn;
         
