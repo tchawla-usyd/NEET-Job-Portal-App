@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neet.jobsite.bal.IAuthenticateService;
@@ -36,6 +39,9 @@ public class UserAuthenticationController extends BaseMVCController {
 	@Resource(name = "userService")
 	private IUserService userService;
 	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		return "redirect:authenticate/login";
@@ -45,10 +51,15 @@ public class UserAuthenticationController extends BaseMVCController {
 	public String login(Locale locale, Model model) {
 		model.addAttribute("login",new User());
 		return "authenticate/login";
+		
 	}
 	
+
+	
+
 	@RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
-	public String loginProcess(HttpServletRequest request) {
+	@ResponseStatus(value = HttpStatus.OK)
+	public void loginProcess(HttpServletRequest request,HttpServletResponse response) {
 		String email = request.getParameter("Email");
 		String password =	request.getParameter("Password");
 		boolean result= this.authenticateBal.Authenticate(email, password);
@@ -57,24 +68,28 @@ public class UserAuthenticationController extends BaseMVCController {
 			HttpSession session = context.getSession(false);
 			session.setAttribute("loggedInUser","GAVIN");
 			//jsonReturn = objectMapper.writeValueAsString();
-			return "home";
+			response.setStatus(200);
+			System.out.println("Success OK");
 		}
 		else {
 			//jsonReturn = objectMapper.writeValueAsString();
-			return "redirect:authenticate/login";
+			response.setStatus(403);
+			System.out.println("Failed");
 		}
-		//please check the username and password from the server
-		//update appropriate error message from the action if there is any
-		//if successfull move to appropriate dashboard
-		//model.addAttribute("login",new User());
 		
 	}
+	
+
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String showRegister(Locale locale, Model model) {
 		model.addAttribute("register", new User());
 		return "authenticate/register";
 	}
+
+	
+
+	
 
 	@RequestMapping(value = "/registerProcess", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
@@ -84,6 +99,10 @@ public class UserAuthenticationController extends BaseMVCController {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String userTypeValue = request.getParameter("user_type");
+		
+		//encryption
+			password = bCryptPasswordEncoder.encode(password);
+			//String userTypeValue = request.getParameter("radioUser");
 		
 		
 		//Checking for details for Job Seeker
@@ -136,6 +155,8 @@ public class UserAuthenticationController extends BaseMVCController {
 		System.out.println( firstName + lastName + email + password + userIntTypeValue + skills + education + experience + companyName);
 		response.setStatus(200);
 		System.out.print("Success OK");
+		}
+
 		
-	}
+	
 }

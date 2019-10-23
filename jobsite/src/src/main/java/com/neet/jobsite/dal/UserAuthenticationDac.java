@@ -26,22 +26,36 @@ public class UserAuthenticationDac implements IUserAuthenticationDac {
 	}
 	
 	@Override
-	public boolean Authenticate(String username, String password) {
-		try {
+	public User Authenticate(String username) {
 			//Query query = this.sessionFactory.getCurrentSession().createQuery("From User where Email = :Email AND password = :Password");
 //			Query query = this.sessionFactory.getCurrentSession().createQuery("From User");
 ////			query.setParameter("Email", username);
 ////			query.setParameter("Password", password);
 			Session currentSession = this.sessionFactory.getCurrentSession();
-			List userList  = currentSession.createCriteria(User.class)
+			
+			List<User> userList  = currentSession.createCriteria(User.class)
 					.add(Restrictions.eq("email", username))
-					.add(Restrictions.eq("password", password))
 					.list();
-			if(userList != null && userList.isEmpty()==false)
-				return true;
-		}catch(Exception ex){
-			return false;
-		}
-		return false;
+		return userList.get(0);
 	}
+	
+//	@Override
+//	public boolean Authenticate(String username, String password) {
+//		try {
+//			//Query query = this.sessionFactory.getCurrentSession().createQuery("From User where Email = :Email AND password = :Password");
+////			Query query = this.sessionFactory.getCurrentSession().createQuery("From User");
+//////			query.setParameter("Email", username);
+//////			query.setParameter("Password", password);
+//			Session currentSession = this.sessionFactory.getCurrentSession();
+//			List userList  = currentSession.createCriteria(User.class)
+//					.add(Restrictions.eq("email", username))
+//					.add(Restrictions.eq("password", password))
+//					.list();
+//			if(userList != null && userList.isEmpty()==false)
+//				return true;
+//		}catch(Exception ex){
+//			return false;
+//		}
+//		return false;
+//	}
 }
