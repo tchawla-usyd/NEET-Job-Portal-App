@@ -14,6 +14,8 @@ const {RangePicker} = DatePicker;
 class Post extends Component {
     constructor(props) {
         super(props);
+        this.token = localStorage.getItem("token");
+        this.headers = {headers:{...HEADER, 'Authorization': this.token}};
     }
 
 	handleSubmit = async(e) => {
@@ -31,7 +33,7 @@ class Post extends Component {
 		  	}
 
 		    /* TODO: Backend */
-            axios.post(ADD_JOB, qs.stringify(payload), HEADER)
+            axios.post(ADD_JOB, qs.stringify(payload), this.header)
             .then(res => {
                 if (res.status == 200) {
                     // const token = res.data.token;
@@ -61,7 +63,7 @@ class Post extends Component {
 	    };
 	    
     	return(
-    	<BaseLayout>
+    	<BaseLayout parentProps={this.props}>
 	    	<p className='title' style={{display: 'flex',  justifyContent:'center', alignItems:'center', fontSize: 50}}>Post A Job</p>
 	    	<Form style={{paddingTop: 10}} onSubmit= {this.handleSubmit}>
 				<Form.Item {...formItemLayout} label="Job Title">

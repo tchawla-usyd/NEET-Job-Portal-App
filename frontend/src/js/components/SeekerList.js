@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Table, Divider, Tag, Input, Button, Icon, Typography, message} from 'antd';
 import { Link } from 'react-router-dom';
 
-import {GET_CANS_FOR} from '../constants/BackendAPI';
+import {GET_CANS_FOR, HEADER} from '../constants/BackendAPI';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -12,6 +12,10 @@ export default class SeekerListing extends Component {
   
     constructor(props) {
         super(props);
+
+        // Auth
+        this.token = localStorage.getItem("token");
+        this.headers = {headers:{...HEADER, 'Authorization': this.token}};
 
         //columns for the table
         this.columns = [
@@ -57,7 +61,7 @@ export default class SeekerListing extends Component {
 
       this.state = {data: []};
       //get applicants for job
-      axios.get(GET_CANS_FOR + this.props.job_id)
+      axios.get(GET_CANS_FOR + this.props.job_id, this.headers)
         .then(res => { 
           this.setState({data: res.data.map((entry) => {
           return({

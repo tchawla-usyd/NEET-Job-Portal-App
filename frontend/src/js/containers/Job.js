@@ -20,6 +20,11 @@ const para_style = {marginLeft:60,  marginRight: 50, marginBottom: 40, marginTop
 export default class Job extends Component {
     constructor(props) {
         super(props);
+
+        //Auth
+        this.token = localStorage.getItem("token");
+        this.headers = {headers:{...HEADER, 'Authorization': this.token}};
+
         this.state={
         	loading: true
         };
@@ -29,7 +34,7 @@ export default class Job extends Component {
         	return;
         }
     	this.id = urlParams.get('id');
-        axios.get(GET_JOB + this.id)
+        axios.get(GET_JOB + this.id, this.headers)
         .then(res => { 
         	this.setState({...res.data, loading: false});
         })
@@ -45,7 +50,7 @@ export default class Job extends Component {
 
     handleSubmit = (payload) => {
         console.log(payload);
-        axios.post(EDIT_JOB, qs.stringify({"job_id": this.id, ...payload}), HEADER)
+        axios.post(EDIT_JOB, qs.stringify({"job_id": this.id, ...payload}), this.headers)
         .then(res => {
             if (res.status == 200) {
                 this.setState({...payload});
@@ -60,7 +65,7 @@ export default class Job extends Component {
     	const Divider_ = (props) => <Divider orientation="left"><Text style={{fontSize: 30}} strong  >{props.children}</Text></Divider>;
     	let title = this.state.title;
     	return(
-    		<BaseLayout> 
+    		<BaseLayout parentProps={this.props}> 
     		{this.state.loading ? <Spinner /> :
 				<div><Title style={{display:'inline-block', margin: 60, marginBottom: 10}} 
 				editable={{ 

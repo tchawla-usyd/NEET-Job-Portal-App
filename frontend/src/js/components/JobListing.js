@@ -18,6 +18,11 @@ export default class JobListing extends Component {
   
     constructor(props) {
         super(props);
+
+        this.token = localStorage.getItem("token");
+        this.headers = {headers:{...HEADER, 'Authorization': this.token}};
+
+        // Columns info
         let columns = [
         {
           title: 'Job Title',
@@ -77,7 +82,7 @@ export default class JobListing extends Component {
 
       this.locations = [];
       this.state = {loading: true};
-      axios.get(GET_JOB_FOR + 1)
+      axios.get(GET_JOB_FOR + 1, this.headers)
         .then(res => { 
         var jobs = res.data.map(job =>{
               return {key: job.uid,
@@ -110,7 +115,7 @@ export default class JobListing extends Component {
     }
 
     handleApply = (job_id) =>{
-      axios.post(APPLY, qs.stringify({job_id: job_id}), HEADER)
+      axios.post(APPLY, qs.stringify({job_id: job_id}), this.headers)
         .then(res => {
           message.success("Apply Success!");
         });
@@ -185,7 +190,7 @@ export default class JobListing extends Component {
           { /* Filter By */}
           <span style={{marginLeft: 20, verticalAlign: 'bottom'}}>
           <Text style={{marginRight: 5}}>Filtered By: </Text>
-            <Dropdown overlay={locationMenu} trigger='click' placement="bottomCenter">
+            <Dropdown overlay={locationMenu} trigger={['click']} placement="bottomCenter">
               <Button type='link'>
                 {this.state.filterLocationBy} <Icon type="down" />
               </Button>

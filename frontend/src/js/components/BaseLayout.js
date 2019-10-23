@@ -15,6 +15,11 @@ export default class BaseLayout extends Component {
     }
 
    	render(){
+   		console.log(this);
+   		if(!this.props.parentProps.isAuthenticated){
+        	this.props.parentProps.history.push('/');
+        	return '';
+        }
    		const itemStyle = {float:'right', 
    				  display:'flex',
 	              justifyContent:"center",
@@ -40,7 +45,7 @@ export default class BaseLayout extends Component {
 		      </Link>
 		    </Menu.Item>
 		    <Menu.Item>
-		      <Link to='/login'>
+		      <Link onClick={this.props.parentProps.handleLogout} to='/login'>
 		        <Icon style={{marginRight: 10, color:'red'}} type="logout" /> Logout
 		      </Link>
 		    </Menu.Item>

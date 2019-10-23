@@ -2,9 +2,7 @@
 
 // header
 export const HEADER = {
-  headers: {
     'Content-Type': 'application/x-www-form-urlencoded'
-  }
 }
 
 // common prefix

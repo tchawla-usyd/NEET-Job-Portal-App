@@ -32,10 +32,15 @@ export default class Uploader extends Component {
   };
 
   render() {
+    // Auth
+    const token = localStorage.getItem("token");
+    const headers = {'Authorization': token};
+
     const props = {
       action: 'http://localhost:8081/jobsite/storage/uploadFile',
       onChange: this.handleChange,
       multiple: true,
+      headers: headers,
     };
     return (
       <Upload {...props} fileList={this.state.fileList}>

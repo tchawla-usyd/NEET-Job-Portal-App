@@ -6,7 +6,7 @@ import BaseLayout from '../components/BaseLayout';
 export default class Slides extends Component {
 	render(){
 		return(
-		<BaseLayout>
+		<BaseLayout parentProps={this.props}>
 			<Carousel autoplay>
 		    <div>
 		      <h3>1</h3>

@@ -19,6 +19,10 @@ export default class Profile extends Component {
 	constructor(props){
 		super(props);
 
+		// Auth
+		this.token = localStorage.getItem("token");
+        this.headers = {headers:{...HEADER, 'Authorization': this.token}};
+
 		this.state={
         	loading_profile: true,
         	loading_skills: true
@@ -31,14 +35,14 @@ export default class Profile extends Component {
         }
 
 		this.id = urlParams.get('id');
-        axios.get(GET_CAN + this.id)
+        axios.get(GET_CAN + this.id, this.headers)
         .then(res => { 
         	this.setState({...res.data, 
         		name: res.data.basicInfo.firstName + ' ' + res.data.basicInfo.lastName,
         		loading_profile: false});
         })
 
-        axios.get(GET_CAN_SKILLS + this.id)
+        axios.get(GET_CAN_SKILLS + this.id, this.headers)
         .then(res => { 
         	this.setState({skills: res.data, 
         		loading_skills: false});
@@ -67,7 +71,7 @@ export default class Profile extends Component {
 		// const Paragraph_ = (props) => <Paragraph editable={{ onChange: this.onChange }} style={para_style}>{props.children}</Paragraph>;
 		const Divider_ = (props) => <Divider orientation="left"><Text style={{fontSize: 30}} strong  >{props.children}</Text></Divider>;
 		return(
-		<BaseLayout>
+		<BaseLayout parentProps={this.props}>
 		{this.state.loading_profile ||  this.state.loading_skills ? <Spinner /> :
 			<div>
 			<Avatar size={200} shape="square" style={{margin: 50, color: '#ffffff', backgroundColor: '#666666', fontSize: 80 }}>{this.getInit(this.state.name)}</Avatar>
