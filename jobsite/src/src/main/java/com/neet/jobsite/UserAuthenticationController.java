@@ -1,6 +1,7 @@
 package com.neet.jobsite;
 
 import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neet.jobsite.bal.IAuthenticateService;
@@ -34,6 +38,9 @@ public class UserAuthenticationController extends BaseMVCController {
 	@Resource(name = "userService")
 	private IUserService userService;
 	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		return "redirect:authenticate/login";
@@ -49,6 +56,9 @@ public class UserAuthenticationController extends BaseMVCController {
 	public String loginProcess(HttpServletRequest request) {
 		String email = request.getParameter("Email");
 		String password =	request.getParameter("Password");
+		
+		//encrypting password
+		//password = bCryptPasswordEncoder.encode(password);
 		boolean result= this.authenticateBal.Authenticate(email, password);
 		if(result)
 		{
@@ -80,6 +90,9 @@ public class UserAuthenticationController extends BaseMVCController {
 		String lastName = request.getParameter("lastName");
 		String email = request.getParameter("Email");
 		String password = request.getParameter("Password");
+		
+		//encryption
+		password = bCryptPasswordEncoder.encode(password);
 		String userTypeValue = request.getParameter("radioUser");
 		
 		//temporary skills list for testing
