@@ -9,47 +9,81 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.neet.jobsite.dal.ICompanyManager;
+import com.neet.jobsite.dal.IJobSeekingDac;
 import com.neet.jobsite.model.Company;
-import com.neet.jobsite.response.CandateJobRow;
+import com.neet.jobsite.model.Job;
+import com.neet.jobsite.model.SkillSet;
+import com.neet.jobsite.model.SkillsForJob;
+import com.neet.jobsite.response.CandidateJobRow;
 import com.neet.jobsite.response.CandidateJobListResponse;
 
 @Service(value = "jobSeekingService")
-public class JobSeekingService {
+public class JobSeekingService implements IJobSeekingService{
 
-	@Resource(name = "companyManager")
-	private ICompanyManager companyManager;
+	@Resource(name = "jobSeekingDac")
+	private IJobSeekingDac jobSeekingDac;
+	
+	@Override
+	public List<Company> getCompanys(){
+		return this.jobSeekingDac.getCompanys();
+	}
 
-	public CandidateJobListResponse GetJobResponse(long userId) {
+	@Override
+	public List<Job> GetJobsByUserId(Integer id) {
+		return this.jobSeekingDac.GetJobsByUserId(id);
+	}
 
-		Company company = null;
-		company = companyManager.GetCompnayByUserId(userId);
-
+	@Override
+	public CandidateJobListResponse createJobRow(List<Company> companyList, List<Job> jobList) {
+		
 		CandidateJobListResponse fakeresponse = new CandidateJobListResponse();
-		List<CandateJobRow> jobRows = new ArrayList<CandateJobRow>();
+		List<CandidateJobRow> jobRows = new ArrayList<CandidateJobRow>();
+		List<SkillsForJob> skillSet;
+		List<SkillSet> skillNameSet;
+		List<String> skills;
+		
+		//get list of skills as well
+		
+		for(Job item : jobList) {
+			CandidateJobRow row1 = new CandidateJobRow();
+			
+			row1.setJobTitle(item.getTitle());
+			row1.setLocation(item.getLocation());
+			row1.setDateAdded(item.getStartDate());
+			row1.setJobId(item.getId());
+			row1.setJobDescription(item.getJobDescription());
+			
+			//getting company name
+			for(Company item1 : companyList) {
+				if(item1.getUserID() == item.getUserID()) {
+					row1.setCompany(item1.getCompanyName());
+				}
+			}
+			
+			
+			//getting set of skills
+			skillSet = new ArrayList<SkillsForJob>();
+			skillSet = this.jobSeekingDac.getSkillSet((int)item.getId());
+			
+			//now fetching skill name list
+			skillNameSet = new ArrayList<SkillSet>();
+			skills = new ArrayList<String>();
+			
+			for(SkillsForJob skillId : skillSet) {
+				skillNameSet = this.jobSeekingDac.getSkillNameSet((long)skillId.getSkillID());
+				for(SkillSet itemName:skillNameSet) {
+					skills.add(itemName.getName());
+				}
+				skillNameSet = new ArrayList<SkillSet>();
+			}
+			
+			row1.setSkills(skills);
+			
+			jobRows.add(row1);
+			fakeresponse.setJobRows(jobRows);
 
-		CandateJobRow row1 = new CandateJobRow();
-		row1.setJobTitle("Software engg");
-		row1.setCompany("Google");
-		row1.setLocation("Sydney");
-		List<String> skills = new ArrayList<String>();
-		skills.add("Java");
-		skills.add("Spring");
-		row1.setSkills(skills);
-		row1.setDateAdded(new Date(2019, 1, 1));
-		jobRows.add(row1);
-
-		CandateJobRow row2 = new CandateJobRow();
-		row2.setJobTitle("Software engg");
-		row2.setCompany("Google");
-		row2.setLocation("Sydney");
-		List<String> skills1 = new ArrayList<String>();
-		skills1.add("Java");
-		skills1.add("Spring");
-		row2.setSkills(skills1);
-		row2.setDateAdded(new Date(2019, 1, 1));
-		jobRows.add(row2);
-
-		fakeresponse.setJobRows(jobRows);
+		}
 		return fakeresponse;
+		
 	}
 }

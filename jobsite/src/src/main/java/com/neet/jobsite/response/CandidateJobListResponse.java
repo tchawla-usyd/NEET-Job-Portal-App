@@ -4,13 +4,13 @@ package com.neet.jobsite.response;
 import java.util.List;
 
 public class CandidateJobListResponse {
-	private List<CandateJobRow> jobRows;
+	private List<CandidateJobRow> jobRows;
 
-	public List<CandateJobRow> getJobRows() {
+	public List<CandidateJobRow> getJobRows() {
 		return jobRows;
 	}
 
-	public void setJobRows(List<CandateJobRow> jobRows) {
+	public void setJobRows(List<CandidateJobRow> jobRows) {
 		this.jobRows = jobRows;
 	}
 }

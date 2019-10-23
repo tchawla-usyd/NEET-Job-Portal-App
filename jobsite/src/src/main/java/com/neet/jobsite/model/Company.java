@@ -24,7 +24,7 @@ public class Company implements Serializable {
 	@Id
 	@Column(name="Id")
 	@GeneratedValue
-	private long id;
+	private long Id;
 	
 	@Column(name="CompanyName")
 	private String CompanyName;
@@ -40,6 +40,14 @@ public class Company implements Serializable {
 	
 	@Column(name="UserID")
 	private long UserID;
+	
+	public long getId() {
+		return this.Id;
+	}
+	
+	public void setId(Long id) {
+		this.Id = id;
+	}
 	
 	public String getCompanyName() {
 		return CompanyName;

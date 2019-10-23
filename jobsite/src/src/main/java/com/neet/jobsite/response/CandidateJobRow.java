@@ -3,12 +3,31 @@ package com.neet.jobsite.response;
 import java.sql.Date;
 import java.util.List;
 
-public class CandateJobRow {
+public class CandidateJobRow {
 	private String jobTitle;
 	private String company;
 	private String location;
 	private List<String> skills;
 	private Date dateAdded;
+	private long jobId;
+	private String jobDescription;
+	
+	public long getJobId() {
+		return this.jobId;
+	}
+	
+	public void setJobId(long jobId) {
+		this.jobId = jobId;
+	}
+	
+	public String getJobDescription() {
+		return this.jobDescription;
+	}
+	
+	public void setJobDescription(String jobDescription) {
+		this.jobDescription = jobDescription;
+	}
+	
 	public String getJobTitle() {
 		return this.jobTitle;
 	}
