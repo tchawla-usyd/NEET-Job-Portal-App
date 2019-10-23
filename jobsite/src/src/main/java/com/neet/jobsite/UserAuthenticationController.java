@@ -85,17 +85,13 @@ public class UserAuthenticationController extends BaseMVCController {
 		String password = request.getParameter("password");
 		String userTypeValue = request.getParameter("user_type");
 		
-		//temporary skills list for testing
-//		List<String> tempUserSkills = new ArrayList<String>();
-//		tempUserSkills.add("python");
-//		tempUserSkills.add("Java");
-//		tempUserSkills.add("Scala");
 		
-		List<String> skills = new ArrayList<String>();
+		//Checking for details for Job Seeker
+		List<String> skills = null;
 		String education= null;
 		String experience = null;
 		try {
-		if(!request.getParameter("skills").isEmpty()) {
+		if(Arrays.asList(request.getParameterValues("skills")) != null) {
 			skills = Arrays.asList(request.getParameterValues("skills"));
 		}
 		
@@ -121,12 +117,19 @@ public class UserAuthenticationController extends BaseMVCController {
 		Integer userIntTypeValue = 0;
 	
 		//job seeker
-		if(userTypeValue == "seeker") {
+		if(userTypeValue.equals("seeker")) {
 			userIntTypeValue = 4;
 		} else {
 			//employer
 			userIntTypeValue = 3;
 		}
+		
+		int i =1;
+		for(String item : skills) {
+			System.out.println(i+": "+item);
+			i++;
+		}
+		
 		
 		//todo: User Type
 		this.userService.AddUser(firstName, lastName, email, password, userIntTypeValue, skills, education, experience, companyName);

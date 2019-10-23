@@ -43,7 +43,7 @@ export default class Tags extends Component {
 		  tags = [...tags, inputValue.toUpperCase()];
 		}
 		this.setState({
-		  tags,
+		  tags: tags,
 		  inputVisible: false,
 		  inputValue: '',
 		},this.triggerChange);
@@ -57,7 +57,7 @@ export default class Tags extends Component {
     	return (
     		<span >
     		{tags.map((tag, index) => {
-    		  tag = tag.toUpperCase();
+			  tag = tag.toUpperCase();
 	          const isLongTag = tag.length > 20;
 	          const tagElem = (
 	            <Tag key={tag} color={color[Math.floor(Math.random()*color.length)]} closable='true' onClose={() => this.handleClose(tag)}>

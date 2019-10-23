@@ -23,8 +23,6 @@ class Signup extends Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log(values);
-        console.log(this.headers);
         try {
             // check user is signed up here, so far this does nothing lmao
             axios.post(SIGNUP,  qs.stringify(values), this.headers).
