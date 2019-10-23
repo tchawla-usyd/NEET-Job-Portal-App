@@ -79,17 +79,20 @@ public class DatabaseUserManager implements IUserManager {
 
 	@Override
 	public void addSkills(SkillSet userSkills) {
-		this.sessionFactory.getCurrentSession().save(userSkills);
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		currentSession.save(userSkills);
 	}
 
 	@Override
 	public void addUserInfo(candidateInfo userInfo) {
-		this.sessionFactory.getCurrentSession().save(userInfo);		
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		currentSession.save(userInfo);		
 	}
 
 	@Override
 	public void addCompanyInfo(Company userCompany) {
-		this.sessionFactory.getCurrentSession().save(userCompany);
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		currentSession.save(userCompany);
 		
 	}
 	
