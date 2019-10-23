@@ -1,5 +1,6 @@
 package com.neet.jobsite.dal;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import com.neet.jobsite.model.Job;
 import com.neet.jobsite.model.JobCategory;
 import com.neet.jobsite.model.SkillSet;
 import com.neet.jobsite.model.SkillsForJob;
+import com.neet.jobsite.model.User;
 
 
 @Repository(value = "jobDAO")
@@ -69,16 +71,29 @@ public class DatabaseJobManager implements JobManager {
 	@Override
 	public List<Job> getJobByCandidate(long candidate_id) {
 		Session session = this.sessionFactory.getCurrentSession();
-		Query query = session.createQuery("FROM Job WHERE UserID = :id");
+		Query query = session.createQuery("SELECT JobID FROM CandidateJobApplied WHERE UserID = :id");
 		query.setParameter("id", candidate_id);
 	
-		List<Job> list = query.list();
-		return list;
+		List<Long> ids = new ArrayList<Long>();		
+		
+		for(Object id: query.list()) {
+			Integer intID = (Integer) id;
+			ids.add(new Long(intID));
+		}
+		
+		Query jobQuery = session.createQuery("FROM Job WHERE Id in (:ids)");
+		jobQuery.setParameterList("ids", ids);
+		
+		List<Job> jobs = jobQuery.list();
+		
+		return jobs;
 	}
 
 	@Override
 	public void updateJob(Job job) {
 		Session currentSession = this.sessionFactory.getCurrentSession();
+		System.out.println(job.getStartDate());
+		System.out.println(job.getId());
 		currentSession.merge(job);
 
 	}
@@ -99,9 +114,16 @@ public class DatabaseJobManager implements JobManager {
 	}
 
 	@Override
-	public void addSkillToJob(SkillsForJob jobSkill) {
+	public void addSkillToJob(SkillsForJob jobSkill){
 		Session currentSession = this.sessionFactory.getCurrentSession();
-		currentSession.save(jobSkill);
+		Query query = currentSession.createQuery("FROM SkillsForJob WHERE JobID = :jid AND SkillID = :sid");
+		query.setParameter("jid", jobSkill.getJobID());
+		query.setParameter("sid", jobSkill.getSkillID());
+		
+		if(query.list().isEmpty()) {
+			currentSession.save(jobSkill);
+		}
+		
 		
 	}
 	

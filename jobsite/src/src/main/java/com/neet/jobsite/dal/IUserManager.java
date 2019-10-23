@@ -1,9 +1,13 @@
 package com.neet.jobsite.dal;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.neet.jobsite.model.Company;
+import com.neet.jobsite.model.SkillSet;
 import com.neet.jobsite.model.User;
+import com.neet.jobsite.model.candidateInfo;
 
 public interface IUserManager {
 	
@@ -17,6 +21,12 @@ public interface IUserManager {
     
     public void deleteUser(long id);
 
-	List<User> getUserByType(Integer id);
+    ArrayList<User> getUserByType(Integer id);
+
+	public void addSkills(SkillSet userSkills);
+
+	public void addUserInfo(candidateInfo userSkills);
+
+	public void addCompanyInfo(Company userCompany);
     
 }

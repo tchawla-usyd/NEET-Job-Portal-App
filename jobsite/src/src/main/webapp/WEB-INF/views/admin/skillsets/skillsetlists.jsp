@@ -24,21 +24,25 @@
 				<%-- <c:url value="/resources/dist/img/user2-160x160.jpg" /> --%>
 				<h1>All skills changed</h1>
 				<a href="<c:url value= "../adminSkillset/add" />"><button>Add</button></a>
-				<table>
+				<table id="skill_table" class="table table-striped table-bordered" style="width:100%">
 					<thead>
 						<tr>
 							<th>ID</th>
 							<th>Name</th>
+							<th></th>
+							<th></th>
 						</tr>
 					</thead>
-					<c:forEach items="${skillSets}" var="skillSet">
-						<tr>
-							<td><c:out value="${skillSet.id}" /></td>
-							<td><c:out value="${skillSet.name}" /></td>
-							<td><a href="../adminSkillset/edit/${skillSet.id }">edit</a></td>
-							<td><a href="../adminSkillset/delete/${skillSet.id }">delete</a></td>
-						</tr>
-					</c:forEach>
+					<tbody>
+						<c:forEach items="${skillSets}" var="skillSet">
+							<tr>
+								<td><c:out value="${skillSet.id}" /></td>
+								<td><c:out value="${skillSet.name}" /></td>
+								<td><a href="../adminSkillset/edit/${skillSet.id }">edit</a></td>
+								<td><a href="../adminSkillset/delete/${skillSet.id }">delete</a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
 				</table>
 
 			</section>
@@ -47,5 +51,10 @@
 		<jsp:include page="../common/controlsidebar.jsp"></jsp:include>
 	</div>
 	<jsp:include page="../common/footerscript.jsp"></jsp:include>
+	<script type="text/javascript">
+		$(document).ready(function() {
+		    $('#skill_table').DataTable();
+		} );
+	</script>
 </body>
 </html>

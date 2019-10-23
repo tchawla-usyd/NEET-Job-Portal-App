@@ -18,16 +18,41 @@
 				</ol>
 			</section>
 			<section class="content container-fluid">
-				<!--------------------------
-        | Your Page Content Here |
-        -------------------------->
-				<h1></h1>
-				<P>The time on the server is ${serverTime}.</P>
+				<h1>Companies in the system</h1>
+				<table class="table table-striped table-bordered" style="width:100%" id="user_list">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Email</th>
+							<th>Active</th>
+							<th>Locked</th>
+							<th></th>
+						</tr>
+					</thead>
+					<c:forEach items="${users}" var="user">
+						<tr>
+							<td><c:out value="${user.id}" /></td>
+							<td><c:out value="${user.firstName}" /></td>
+							<td><c:out value="${user.lastName}" /></td>
+							<td><c:out value="${user.email}" /></td>
+							<td><c:out value="${user.isActive}" /></td>
+							<td><c:out value="${user.isLocked}" /></td>
+							<td><a href="../adminSkillset/edit/${user.id}">View Details</a></td>
+						</tr>
+					</c:forEach>
+				</table>
 			</section>
 		</div>
 		<jsp:include page="../common/mainfooter.jsp"></jsp:include>
 		<jsp:include page="../common/controlsidebar.jsp"></jsp:include>
 	</div>
 	<jsp:include page="../common/footerscript.jsp"></jsp:include>
+	<script type="text/javascript">
+		$(document).ready(function() {
+		    $('#user_list').DataTable();
+		} );
+	</script>
 </body>
 </html>

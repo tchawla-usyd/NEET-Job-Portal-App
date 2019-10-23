@@ -1,24 +1,21 @@
 import React, {Component} from "react";
 import {Form, Input, DatePicker, Tag, Tooltip, Icon, Button, message} from 'antd';
-
-import BaseLayout from '../components/BaseLayout';
-import Tags from '../components/Tags';
-
 import axios from 'axios';
 import qs from 'querystring';
 import moment from 'moment';
 
+import BaseLayout from '../components/BaseLayout';
+import Tags from '../components/Tags';
+import {ADD_JOB, HEADER} from '../constants/BackendAPI'
 const {RangePicker} = DatePicker;
 
-const config = {
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded'
-  }
-}
+
 
 class Post extends Component {
     constructor(props) {
         super(props);
+        this.token = localStorage.getItem("token");
+        this.headers = {headers:{...HEADER, 'Authorization': this.token}};
     }
 
 	handleSubmit = async(e) => {
@@ -26,19 +23,17 @@ class Post extends Component {
 		this.props.form.validateFieldsAndScroll((err, values) => {
 		  if (!err) {
 		  	var payload = {
-		  		"title": values.title,
-		  		"description": values.description,
-		  		"location": values.location,
-		  		"start_date": moment(values.start_date[0]).format('YYYY-MM-DD'),
-		  		"end_date": moment(values.start_date[1]).format('YYYY-MM-DD'),
-		  		"skills": values.skills.tags,
-		  		"job_category": 1
+		  		title: values.title,
+		  		description: values.description,
+		  		location: values.location,
+		  		start_date: moment(values.start_date[0]).format('YYYY-MM-DD'),
+		  		end_date: moment(values.start_date[1]).format('YYYY-MM-DD'),
+		  		skills: values.skills.skills,
+		  		job_category: 1
 		  	}
 
-		    console.log(values)
-		    console.log(payload)
 		    /* TODO: Backend */
-            axios.post('http://localhost:8081/jobsite/job/add', qs.stringify(payload), config)
+            axios.post(ADD_JOB, qs.stringify(payload), this.header)
             .then(res => {
                 if (res.status == 200) {
                     // const token = res.data.token;
@@ -47,7 +42,7 @@ class Post extends Component {
                     // this.props.history.push("/songs");
 					this.props.history.push("/home");
                 }else{
-                    message.error("Wrong Username/Password !");
+                    message.error("Something is wrong !");
                 }
 	        }).catch (e =>{
 	        	this.props.history.push("/home");
@@ -68,7 +63,7 @@ class Post extends Component {
 	    };
 	    
     	return(
-    	<BaseLayout>
+    	<BaseLayout parentProps={this.props}>
 	    	<p className='title' style={{display: 'flex',  justifyContent:'center', alignItems:'center', fontSize: 50}}>Post A Job</p>
 	    	<Form style={{paddingTop: 10}} onSubmit= {this.handleSubmit}>
 				<Form.Item {...formItemLayout} label="Job Title">

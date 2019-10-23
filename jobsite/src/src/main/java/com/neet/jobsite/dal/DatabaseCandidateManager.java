@@ -128,7 +128,9 @@ public class DatabaseCandidateManager implements CandidateManager{
 			ids.add(new Long(intID));
 		}
 		
-		
+		if(ids.isEmpty()) {
+			return new ArrayList<SkillSet>();
+		}
 		Query skillQuery = currentSession.createQuery("FROM SkillSet WHERE Id in (:ids)");
 		skillQuery.setParameterList("ids", ids);
 		

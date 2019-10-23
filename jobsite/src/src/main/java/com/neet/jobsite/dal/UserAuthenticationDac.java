@@ -34,8 +34,8 @@ public class UserAuthenticationDac implements IUserAuthenticationDac {
 ////			query.setParameter("Password", password);
 			Session currentSession = this.sessionFactory.getCurrentSession();
 			List userList  = currentSession.createCriteria(User.class)
-					.add(Restrictions.eq("Email", username))
-					.add(Restrictions.eq("Password", password))
+					.add(Restrictions.eq("email", username))
+					.add(Restrictions.eq("password", password))
 					.list();
 			if(userList != null && userList.isEmpty()==false)
 				return true;
