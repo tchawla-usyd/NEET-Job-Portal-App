@@ -102,6 +102,7 @@ public class UserService implements IUserService {
 			//Adding education and experience in the DB
 			
 			candidateInfo userInfo = new candidateInfo();
+			userInfo.setId((int)newUser.getId());
 			userInfo.setEducation(education);
 			userInfo.setExperience(experience);
 			userInfo.setResume(null);

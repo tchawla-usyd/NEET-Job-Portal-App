@@ -1,18 +1,27 @@
 package com.neet.jobsite.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="candidateinfo")
 public class candidateInfo {
 	
 	@Id
 	@Column(name="Id")
-	@GeneratedValue
 	private long Id;
 	
 	@Column(name="education")
 	private String education;
+	
+	@Column(name="experience")
+	private String experience;
+	
+	@Column(name="resume")
+	private String resume;
 	
 	public long getId() {
 		return Id;
@@ -46,11 +55,7 @@ public class candidateInfo {
 		this.resume = resume;
 	}
 
-	@Column(name="experience")
-	private String experience;
-	
-	@Column(name="resume")
-	private String resume;
+
 	
 	
 
