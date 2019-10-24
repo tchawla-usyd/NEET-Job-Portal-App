@@ -22,10 +22,11 @@ class Signup extends Component {
   handleSubmit = async(e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(values);
       if (!err) {
         try {
             // check user is signed up here, so far this does nothing lmao
-            axios.post(SIGNUP,  qs.stringify(values), this.headers).
+            axios.post(SIGNUP,  qs.stringify(Object.assign(values, {skills: values.skills.skills})), this.headers).
             then(res => {
               if (res.status == 200) {
                   this.props.history.push("/");//go to login page
