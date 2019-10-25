@@ -15,7 +15,7 @@ public interface IUserManager {
     
     public void addUser(User User);
     
-    public User getUserById(long id);
+    public User getUserById(long email);
     
     public void updateUser(User User);
     
@@ -28,5 +28,11 @@ public interface IUserManager {
 	public void addUserInfo(candidateInfo userSkills);
 
 	public void addCompanyInfo(Company userCompany);
+
+	public User getUserByEmail(String email);
+
+	public void deleteCandidateInfor(long id);
+
+	public void deleteSkills(long id);
     
 }

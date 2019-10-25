@@ -118,4 +118,46 @@ public class UserService implements IUserService {
 		}
 		
 	}
+
+	@Override
+	public boolean updateUser(String email, String education, String experience, String resume, List<String> skills) {
+
+		User getUser = new User();
+
+		try {
+			//getting user details based on the email id
+			getUser = this.userManager.getUserByEmail(email);
+			
+			//deleting candidate info and adding updated info
+			this.userManager.deleteCandidateInfor(getUser.getId());
+			
+			//adding Candidate info
+			candidateInfo userInfo = new candidateInfo();
+			userInfo.setId(getUser.getId());
+			userInfo.setEducation(education);
+			userInfo.setExperience(experience);
+			userInfo.setResume(resume);
+			this.userManager.addUserInfo(userInfo);
+			
+			//deleting skills
+			this.userManager.deleteSkills(getUser.getId());
+			
+			//Adding updated skills
+			SkillSet userSkills;
+			for(String item : skills) {
+				userSkills = new SkillSet();
+				
+				userSkills.setCreatedBy((int)getUser.getId());
+				userSkills.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+				userSkills.setName(item);
+				
+				this.userManager.addSkills(userSkills);
+			}
+			
+		} catch (Exception e) {}
+		
+		
+		
+		return false;
+	}
 }
