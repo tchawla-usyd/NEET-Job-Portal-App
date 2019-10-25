@@ -51,5 +51,19 @@
   .toolbar {
   	margin-bottom:10px;
   }
+  
+/*   .dropdown-menu { */
+/*   	color: #b8c7ce !important; */
+/*   	border-radius: 5px; */
+/*   } */
+  
+/*   .dropdown-menu .dropdown-item{ */
+/*   	padding:5px !important; */
+/*   	margin-right:5px !important; */
+/*   } */
+  
+/*   .dropdown-menu .dropdown-item div{ */
+/*   	margin-right:5px !important; */
+/*   } */
   </style>      
 </head>
