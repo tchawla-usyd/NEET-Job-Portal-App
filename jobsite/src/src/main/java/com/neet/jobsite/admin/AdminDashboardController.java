@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -108,5 +109,18 @@ public class AdminDashboardController {
 		ArrayList<User> users = this.userService.GetUserByType(2);
 		model.addAttribute("users", users );
 		return "admin/administrators/administratorslists";
+	}
+	
+	@RequestMapping(value="/admin/viewadmin/{id}", method=RequestMethod.GET)
+	public String viewadmin(@PathVariable("id") Long id, Model uiModel) {
+		User user = this.userService.GetUserById(id);
+		uiModel.addAttribute("user", user );
+		return "admin/administrators/viewadmin";
+	}
+	
+	@RequestMapping(value="/addadmin", method=RequestMethod.GET)
+	public String viewadmin(Locale locale, Model model) {
+		model.addAttribute("user", new User() );
+		return "admin/administrators/addadmin";
 	}
 }
