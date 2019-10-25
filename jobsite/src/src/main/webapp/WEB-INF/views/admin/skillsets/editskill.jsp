@@ -18,10 +18,6 @@
 				</ol>
 			</section>
 			<section class="content container-fluid">
-				<!--------------------------
-		        | Your Page Content Here |
-		        -------------------------->
-				
 				<h1>You can edit the product shown below</h1>
 					<sf:form method="POST" modelAttribute="SkillSet">
 						<fieldset>
@@ -30,10 +26,6 @@
 									<th><label for="product_description">Name:</label></th>
 									<td><sf:input path="Name"/></td>
 								</tr>
-			<!-- 					<tr> -->
-			<!-- 						<th><label for="product_price">Price</label></th> -->
-			<%-- 						<td><sf:input path="price"/></td> --%>
-			<!-- 					</tr> -->
 								<tr>
 									<th><a href="<c:url value="admin/skillsets""><button>Cancel</button></a></th>
 									<!-- This hidden field is required for Hibernate to recognize this Product -->
