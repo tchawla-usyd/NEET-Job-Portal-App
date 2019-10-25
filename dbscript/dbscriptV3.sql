@@ -199,7 +199,7 @@ CREATE TABLE `user` (
   `FirstName` varchar(45) DEFAULT NULL,
   `LastName` varchar(45) DEFAULT NULL,
   `Email` varchar(45) DEFAULT NULL,
-  `Password` varchar(45) DEFAULT NULL,
+  `Password` varchar(100) DEFAULT NULL,
   `IsActive` tinyint(4) DEFAULT NULL,
   `IsLocked` tinyint(4) DEFAULT NULL,
   `CreatedDate` datetime NOT NULL,
