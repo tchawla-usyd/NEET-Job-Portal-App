@@ -54,23 +54,24 @@ public class UserController extends BaseMVCController {
 	
 	@RequestMapping(value="/edit", method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
-	public String editUser(HttpServletRequest request, HttpServletResponse response) {
+	public void editUser(HttpServletRequest request, HttpServletResponse response) {
 		String email =  request.getParameter("email");
 		String education = request.getParameter("education");
 		String experience = request.getParameter("experience");
 		String resume = request.getParameter("resume");
 		List<String> skills = Arrays.asList(request.getParameterValues("skills"));
-		
+		boolean result = false;
 		try {
-			boolean result = Iuserservice.updateUser(email, education, experience, resume, skills);
+			result = Iuserservice.updateUser(email, education, experience, resume, skills);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		//if true, response.setStatus(200)
-		//else 
-		
-		return null;
+		if(result) {
+			response.setStatus(200);
+		} else {
+			response.setStatus(403);
+		}
 	}
 	 
 }
