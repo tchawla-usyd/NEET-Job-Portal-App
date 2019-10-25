@@ -21,6 +21,8 @@ public interface IUserService {
 	boolean updateUser(String email, String education, String experience, String resume, List<String> skills);
 
 	void AddAdmin(String firstName, String lastName, String email, String password, Integer userIntTypeValue);
+
+	void UpdateAdmin(User user);
 	
 	
 }
