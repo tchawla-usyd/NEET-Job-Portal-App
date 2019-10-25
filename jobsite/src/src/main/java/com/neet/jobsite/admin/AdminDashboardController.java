@@ -171,7 +171,7 @@ public class AdminDashboardController {
 			userToUpdate.setFirstName(firstName);
 			userToUpdate.setLastName(lastName);
 			userToUpdate.setIsLocked(Boolean.parseBoolean(isLocked));
-			userToUpdate.setIsLocked(Boolean.parseBoolean(isActive));
+			userToUpdate.setIsActive(Boolean.parseBoolean(isActive));
 
 			this.userService.UpdateAdmin(userToUpdate);
 			
@@ -180,6 +180,23 @@ public class AdminDashboardController {
 			return "admin/administrators/addadmin";
 		}
 
+		return "redirect:/admin/administrators";
+	}
+	
+	
+	@RequestMapping(value = "/admin/deleteadmin/{id}", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public String deleteadmin_post(@PathVariable("id") Long id, Model uiModel) {
+		try 
+		{
+			this.userService.DeleteUser(id);
+		} 
+		catch (Exception ex) 
+		{
+			logger.error(ex.getMessage());
+		}
+		finally {
+		}
 		return "redirect:/admin/administrators";
 	}
 }

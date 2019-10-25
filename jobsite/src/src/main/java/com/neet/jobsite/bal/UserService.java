@@ -181,4 +181,9 @@ public class UserService implements IUserService {
 	public void UpdateAdmin(User user) {
 		this.userManager.updateUser(user);;
 	}
+	
+	@Override
+	public void DeleteUser(long id) {
+		this.userManager.deleteUser(id);
+	}
 }
