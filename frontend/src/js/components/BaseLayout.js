@@ -14,7 +14,6 @@ export default class BaseLayout extends Component {
         super(props);
         if(!this.props.parentProps.isAuthenticated){
         	this.props.parentProps.history.push('/');
-        	return null;
         }
     }
 

@@ -1,7 +1,9 @@
 package com.neet.jobsite.dal;
 
+import com.neet.jobsite.model.User;
+
 public interface IUserAuthenticationDac {
 
-	boolean Authenticate(String username, String password);
+	User Authenticate(String username);
 
 }
