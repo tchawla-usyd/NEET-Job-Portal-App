@@ -10,6 +10,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neet.jobsite.bal.IAuthenticateService;
 import com.neet.jobsite.response.ErrorResponse;
+import com.neet.jobsite.configuration.JwtFilter;
+
 
 public class BaseMVCController {
 
