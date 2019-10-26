@@ -10,15 +10,18 @@
 		<div class="content-wrapper">
 			<section class="content-header">
 				<h1>
-					Employers <small>Manage Employers Information and Quota</small>
+					Companies <small>View Company Information</small>
 				</h1>
 				<ol class="breadcrumb">
-					<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-					<li class="active">Here</li>
+					<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+					<li class="active">Companies</li>
 				</ol>
 			</section>
 			<section class="content container-fluid">
-				<h1>Companies in the system</h1>
+				<div class="toolbar">
+					<div class="btn-group" role="group" aria-label="Basic example">
+					</div>
+				</div>
 				<table class="table table-striped table-bordered"
 					style="width: 100%" id="user_list">
 					<thead>
