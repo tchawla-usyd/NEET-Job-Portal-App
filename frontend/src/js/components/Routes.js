@@ -21,6 +21,8 @@ export default ({ childProps }) =>
   <Route_ path="/profile" exact component={Profile} props={childProps} />
   <Route_ path="/job" exact component={Job} props={childProps} />
   <Route_ path="/about" exact component={Slides} props={childProps} />
+  <Route_ path="/application" exact component={Home} props={childProps} />
+
 
 
 { /* Finally, catch all unmatched routes */ }

@@ -6,16 +6,26 @@ import logo from "../../img/NEET.png";
 
 const { Header, Footer, Content } = Layout;
 
-// dummy
-const isEmployer = true;
+
 
 export default class BaseLayout extends Component {
     constructor(props) {
         super(props);
+        
+        // dummy
+		this.isEmployer = true;
+		this.name = "Rex Shen";
+
         if(!this.props.parentProps.isAuthenticated){
         	this.props.parentProps.history.push('/');
         }
     }
+
+    getInit = (name) =>{
+		var initials = name.match(/\b\w/g) || [];
+		initials = ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
+		return initials;
+	};
 
    	render(){
    		console.log(this.props);
@@ -32,8 +42,9 @@ export default class BaseLayout extends Component {
 		      </Link>
 		    </Menu.Item>
 
-		    <Menu.Item >
-		      <Link to='/home'>
+		    {this.isEmployer ? '' 
+		    :<div><Menu.Item >
+		      <Link to='/application'>
 		      	<Icon style={{marginRight: 10, color:'#52c41a'}} type="profile" /> Application
 		      </Link>
 		    </Menu.Item>
@@ -42,7 +53,8 @@ export default class BaseLayout extends Component {
 		      <Link to='/home' >
 		      	<Icon style={{marginRight: 10, color:'#eb2f96'}} type="heart" /> Favorite
 		      </Link>
-		    </Menu.Item>
+		    </Menu.Item></div>}
+
 		    <Menu.Item>
 		      <Link onClick={this.props.parentProps.handleLogout} to='/login'>
 		        <Icon style={{marginRight: 10, color:'red'}} type="logout" /> Logout
@@ -64,7 +76,7 @@ export default class BaseLayout extends Component {
 		        <span style={itemStyle}>
 				  <Dropdown placement="bottomCenter"
 				  	overlay={menu} trigger={['click']}>
-					    <a href="#"><Avatar size="large" shape="square" style={{margin: 10, color: '#666666', backgroundColor: '#ffffff', fontSize: 15}}>RS</Avatar></a>
+					    <a href="#"><Avatar size="large" shape="square" style={{margin: 10, color: '#666666', backgroundColor: '#ffffff', fontSize: 15}}>{this.getInit(this.name)}</Avatar></a>
 					  </Dropdown>
 				</span>
 				<MenuItem className="myitem" style={{...itemStyle, marginRight: 20}} key='3'>nav 3</MenuItem>

@@ -13,12 +13,14 @@ import {GET_CAN, GET_CAN_SKILLS, EDIT_USER, HEADER} from "../constants/BackendAP
 const { Title, Text, Paragraph } = Typography;
 const para_style = {marginLeft:60,  marginRight: 50, marginBottom: 40, marginTop: 40, fontSize: 18};
 
-const isEmployer = false;
 //Profile Page
 export default class Profile extends Component {
 	
 	constructor(props){
 		super(props);
+
+		this.isEmployer = false;
+		this.userId = 3;
 
 		// Auth
 		this.token = localStorage.getItem("token");
@@ -36,6 +38,7 @@ export default class Profile extends Component {
         }
 
 		this.id = urlParams.get('id');
+		this.self = this.userId == this.id;
         axios.get(GET_CAN + this.id, this.headers)
         .then(res => { 
         	this.setState({...res.data, 
@@ -52,7 +55,7 @@ export default class Profile extends Component {
 	}
 
 	handleSubmit = (payload) => {
-        axios.post(EDIT_USER, qs.stringify({"userId": this.id, ...payload}), this.headers)
+        axios.post(EDIT_USER, qs.stringify({"this.userId": this.id, ...payload}), this.headers)
         .then(res => {
             if (res.status == 200) {
                 this.setState({candidateInfo: Object.assign({}, this.state.candidateInfo, payload)});
@@ -88,16 +91,16 @@ export default class Profile extends Component {
 				<Icon type="mail" theme="twoTone" /><a href={"mailto:" + 123} style={{marginLeft:10}}>{this.state.basicInfo.email}</a>
 			</div>
 			<Divider_>Education</Divider_>
-			<Paragraph_ name='education' handleSubmit={this.handleSubmit} >{this.state.candidateInfo.education == null ? "" : this.state.candidateInfo.education}</Paragraph_>
+			<Paragraph_ editable={this.self} name='education' handleSubmit={this.handleSubmit} >{this.state.candidateInfo.education == null ? "" : this.state.candidateInfo.education}</Paragraph_>
 
 			<Divider_>Skills</Divider_>
-			<div style={para_style}><Tags onChange={this.handleSubmit} skills={this.state.skills}/> </div>
+			<div style={para_style}><Tags editable={this.self} onChange={this.handleSubmit} skills={this.state.skills}/> </div>
 
 			<Divider_>Experience</Divider_>
-			<Paragraph_ name='experience' handleSubmit={this.handleSubmit} >{this.state.candidateInfo.experience == null ? "" : this.state.candidateInfo.experience}</Paragraph_>
+			<Paragraph_ editable={this.self} name='experience' handleSubmit={this.handleSubmit} >{this.state.candidateInfo.experience == null ? "" : this.state.candidateInfo.experience}</Paragraph_>
 
 			<Divider_>Resume</Divider_>
-			<div style={{...para_style, width: 200}}><Uploader resume={this.state.candidateInfo.resume} /></div>
+			<div style={{...para_style, width: 200}}><Uploader editable={this.self} resume={this.state.candidateInfo.resume} /></div>
 			</div>
 		}
 		</BaseLayout>);

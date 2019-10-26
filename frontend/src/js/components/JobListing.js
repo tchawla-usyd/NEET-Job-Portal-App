@@ -4,22 +4,23 @@ import qs from 'querystring';
 import { Table, Divider, Tag, Input, Button, Icon, Typography, message, Pagination, Dropdown, Menu} from 'antd';
 import { Link } from 'react-router-dom'
 
-import {APPLY, GET_JOB_FOR, GET_CAN_JOBS, HEADER} from "../constants/BackendAPI"
+import {APPLY, GET_JOB_FOR, GET_APPLIED, GET_ALL, HEADER} from "../constants/BackendAPI"
 import Spinner from '../components/Spinner';
 
 const { Search } = Input;
 const { Text } = Typography;
-
-//dummy
-const userId = 3;
-const userSkills = ['jobs', 'teacher', 'developer'];
-const isEmployer = false;
 
 export default class JobListing extends Component {
   
     constructor(props) {
         super(props);
 
+        //dummy
+        this.userId = 3;
+        this.userSkills = ['jobs', 'teacher', 'developer'];
+        this.isEmployer = false;
+
+        this.isApplied = this.props.parentProps.location.pathname == '/application';
         this.token = localStorage.getItem("token");
         this.headers = {headers:{...HEADER, 'Authorization': this.token}};
 
@@ -49,8 +50,8 @@ export default class JobListing extends Component {
           dataIndex: 'skills',
           key: 'skills',
           align: 'center',
-          sorter: isEmployer ? null : (a, b) => a.skills.filter(skill => userSkills.includes(skill)).length - 
-            b.skills.filter(skill => userSkills.includes(skill)).length,
+          sorter: this.isEmployer ? null : (a, b) => a.skills.filter(skill => this.userSkills.includes(skill)).length - 
+            b.skills.filter(skill => this.userSkills.includes(skill)).length,
           render: tags => (
             <span>
               {tags.map(tag => {
@@ -80,11 +81,11 @@ export default class JobListing extends Component {
           ),
         },
       ];
-      this.columns = isEmployer ? columns.slice(0, -1) : columns;
+      this.columns = this.isEmployer ? columns.slice(0, -1) : columns;
 
       this.locations = [];
       this.state = {loading: true};
-      axios.get(GET_CAN_JOBS + userId, this.headers)
+      axios.get(this.isEmployer ? GET_JOB_FOR + this.userId : GET_ALL, this.headers)
         .then(res => { 
         var jobs = res.data.map(job =>{
             return {key: job.uid,
@@ -96,7 +97,13 @@ export default class JobListing extends Component {
             applied: false,
           }});
 
-        jobs = this.getApplied(jobs);
+        if(!this.isEmployer){
+          jobs = this.getApplied(jobs);
+          if(this.isApplied){
+            jobs = jobs.filter((job)=> job.applied == true);
+          }
+        }
+
         this.setState({
           jobs: jobs, 
           filteredJobs: jobs,
@@ -114,13 +121,13 @@ export default class JobListing extends Component {
       this.state.jobs.filter(({location}) => location.toLowerCase() == target.toLowerCase())));
       this.locationJobs['Location'] = this.state.jobs;
       this.setState({
-            filterLocationBy: 'Location',
-            loading: false,
-          });
+        filterLocationBy: 'Location',
+        loading: false,
+      });
     }
 
     getApplied = (jobs) =>{
-      axios.get(GET_JOB_FOR + userId, this.headers)
+      axios.get(GET_APPLIED + this.userId, this.headers)
         .then(res => { 
         var applied_jobs = res.data;
         jobs.forEach((job) =>{
@@ -224,7 +231,7 @@ export default class JobListing extends Component {
 
 
           {/* Post Button */}
-          {isEmployer ? <Link to='/post' style={{float: 'right'}}><Button shape="round" size='large'>Post</Button></Link> : ''}
+          {this.isEmployer ? <Link to='/post' style={{float: 'right'}}><Button shape="round" size='large'>Post</Button></Link> : ''}
 
           {/* Table */}
           {this.state.loading ? <Spinner /> :

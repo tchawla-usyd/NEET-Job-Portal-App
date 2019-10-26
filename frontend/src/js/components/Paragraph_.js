@@ -35,9 +35,9 @@ export default class Paragraph_ extends Component {
 		}else{
 			return(
 				<div style={para_style}>
-					<span style={{float:'right', verticalAlign: 'top'}}>
+					{this.props.editable ? <span style={{float:'right', verticalAlign: 'top'}}>
 						<Button type="link" icon='edit' onClick={this.handleToggle}>Edit</Button>
-					</span>
+					</span> : ''}
 					<Paragraph style={{whiteSpace: 'pre-line'}}>{this.props.children}</Paragraph>
 				</div>
 			);

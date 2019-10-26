@@ -41,13 +41,14 @@ export default class Login extends Component {
             .then(res => {
                 if (res.status == 200) {
                     const token = res.data.token;
-                    localStorage.setItem('token', token);// set token in local storage for continuous authentication
+                    localStorage.setItem('token', token); // set token in local storage for continuous authentication
+                    localStorage.setItem('uid', res.data.id); // store user id locally for now
                     this.props.setAuthenticated();
                     this.props.history.push("/about");
                 }else{
                     message.error("Wrong Username/Password !");
                 }
-            })
+            });
         } catch (e) {
             alert(e.message);
             this.setState({isLoading: false});

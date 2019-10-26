@@ -15,7 +15,7 @@ export default class Home extends Component {
    	render(){
    		return (
    		<BaseLayout parentProps={this.props}>
-   			<JobListing />
+   			<JobListing parentProps={this.props}/>
     	</BaseLayout>);
    	}
 }
