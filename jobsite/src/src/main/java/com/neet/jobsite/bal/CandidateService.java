@@ -91,6 +91,7 @@ public class CandidateService {
 		CandidateResponse res = new CandidateResponse();
 		res.setBasicInfo(basicUser);
 		res.setCandidateInfo(candidate);
+		System.out.println(res.getCandidateInfo());
 		
 		return res;
 	}

@@ -68,6 +68,7 @@ export default class Profile extends Component {
 	}
 
 	render() {
+		console.log(this.state);
 		// const Paragraph_ = (props) => <Paragraph editable={{ onChange: this.onChange }} style={para_style}>{props.children}</Paragraph>;
 		const Divider_ = (props) => <Divider orientation="left"><Text style={{fontSize: 30}} strong  >{props.children}</Text></Divider>;
 		return(
