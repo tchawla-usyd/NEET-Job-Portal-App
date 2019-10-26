@@ -46,7 +46,19 @@ public class BucketController extends BaseMVCController{
 	@ResponseBody
     public String uploadFile(@RequestPart(value = "file") MultipartFile file, 
     		HttpServletResponse response, @RequestHeader("Authorization") String userToken) {
+        String fileUrl = this.amazonClient.uploadFile(file);
+        boolean isUploaded = (fileUrl != null);
         
+<<<<<<< HEAD
+        S3UploadResponse res = new S3UploadResponse();
+        res.setFile_url(fileUrl);
+        res.setIs_success(isUploaded);
+                
+        if(authenticateByToken(userToken)) {
+			HttpSession session = context.getSession(false);
+			Integer userId = (Integer) session.getAttribute("userId");
+	        candidateService.addResume(userId, fileUrl);
+=======
         ObjectMapper objectMapper = new ObjectMapper();
 		String jsonReturn = null;
         Claims claims = authenticateByToken(userToken);
@@ -65,11 +77,22 @@ public class BucketController extends BaseMVCController{
 	        res.setIs_success(isUploaded);
 	        
 	        jsonReturn = objectToJSON(objectMapper, res);
-	    }
+			
+>>>>>>> gavin-jwt
+		}
 		else {
 			response.setStatus(403);
 		}
         
+        
+        ObjectMapper objectMapper = new ObjectMapper();
+		
+		String jsonReturn = null;
+		try {
+			jsonReturn = objectMapper.writeValueAsString(res);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 		
 		return jsonReturn;
         

@@ -27,13 +27,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neet.jobsite.bal.IAuthenticateService;
 import com.neet.jobsite.bal.IUserService;
 import com.neet.jobsite.model.User;
-
+<<<<<<< HEAD
+=======
 import com.neet.jobsite.response.ErrorResponse;
 //import com.neet.jobsite.configuration;
 import com.neet.jobsite.response.TokenResponse;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
+>>>>>>> gavin-jwt
 
 @Controller
 @RequestMapping(value = "/authenticate/**")
@@ -64,16 +67,32 @@ public class UserAuthenticationController extends BaseMVCController {
 
 	
 
-	@RequestMapping(value = "/loginProcess", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
-	@ResponseBody
-	public String loginProcess(HttpServletRequest request,HttpServletResponse response) {
+	public void loginProcess(HttpServletRequest request,HttpServletResponse response) {
 		String email = request.getParameter("Email");
 		String password =	request.getParameter("Password");
+<<<<<<< HEAD
+		boolean result= this.authenticateBal.Authenticate(email, password);
+		if(result)
+		{
+			HttpSession session = context.getSession(false);
+			session.setAttribute("loggedInUser","GAVIN");
+			//jsonReturn = objectMapper.writeValueAsString();
+			response.setStatus(200);
+			System.out.println("Success OK");
+		}
+		else {
+			//jsonReturn = objectMapper.writeValueAsString();
+			response.setStatus(403);
+			System.out.println("Failed");
+		}
+=======
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		String jsonReturn = null;
 		
+        System.out.println(email);
 		User user = this.authenticateBal.Authenticate(email, password);
 		if(user != null)
 		{	
@@ -100,6 +119,9 @@ public class UserAuthenticationController extends BaseMVCController {
 		
 		return jsonReturn;	
 
+	
+>>>>>>> gavin-jwt
+		
 	}
 	
 

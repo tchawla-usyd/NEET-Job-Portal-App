@@ -36,5 +36,15 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/gavin_000/.m2/repository/io/jsonwebtoken/jjwt/0.9.1/jjwt-0.9.1.jar" sourcepath="C:/Users/gavin_000/.m2/repository/io/jsonwebtoken/jjwt/0.9.1/jjwt-0.9.1-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="org.eclipse.jst.component.archivename" value="jjwt-0.9.1.jar"/>
+			<attribute name="maven.groupId" value="io.jsonwebtoken"/>
+			<attribute name="maven.artifactId" value="jjwt"/>
+			<attribute name="maven.version" value="0.9.1"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

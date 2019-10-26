@@ -19,13 +19,19 @@ public class AuthenticateService implements IAuthenticateService {
 	BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder() ;
 	
 	@Override
-	public boolean Authenticate(String username, String password) {
+	public User Authenticate(String username, String password) {
 		System.out.println("Test run");
 		User tempUser = new User();
 		tempUser = this.userAuthenticationDac.Authenticate(username);
 		//System.out.println(tempUser.getPassword());
 		Boolean passVerification =  bCryptPasswordEncoder.matches(password, tempUser.getPassword());
-		return passVerification;
+		
+		if(passVerification) {
+			return tempUser;
+		}
+		
+		return null;
+		
 	}
 	
 	@Override

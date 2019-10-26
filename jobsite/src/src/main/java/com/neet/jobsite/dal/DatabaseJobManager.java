@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.neet.jobsite.JobController;
 import com.neet.jobsite.exception.NoSkillsException;
 import com.neet.jobsite.model.CandidateJobApplied;
+import com.neet.jobsite.model.Company;
 import com.neet.jobsite.model.Job;
 import com.neet.jobsite.model.JobCategory;
 import com.neet.jobsite.model.SkillSet;
@@ -179,6 +180,15 @@ public class DatabaseJobManager implements JobManager {
 		}
 		
 		return skills.get(0);
+	}
+
+	@Override
+	public Company getCompanyByCreator(Integer userID) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		Query query = currentSession.createQuery("FROM Company WHERE UserID = :id");
+		query.setParameter("id", new Long(userID));
+
+		return (Company) query.uniqueResult();
 	}
 	
 	

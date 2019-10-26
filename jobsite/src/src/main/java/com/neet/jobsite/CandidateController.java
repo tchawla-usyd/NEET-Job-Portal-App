@@ -1,12 +1,10 @@
 package com.neet.jobsite;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,16 +16,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neet.jobsite.bal.CandidateService;
-import com.neet.jobsite.bal.JobService;
-import com.neet.jobsite.model.Candidate;
-import com.neet.jobsite.model.CandidateJobApplied;
 import com.neet.jobsite.model.SkillSet;
 import com.neet.jobsite.response.ApplicantsResponse;
 import com.neet.jobsite.response.CandidateResponse;
 import com.neet.jobsite.response.ErrorResponse;
+
+import io.jsonwebtoken.Claims;
 
 @Controller
 @RequestMapping(value="/candidate/**")
@@ -42,10 +38,9 @@ public class CandidateController extends BaseMVCController{
 			HttpServletResponse response, @RequestHeader("Authorization") String userToken) {
 		
 		Integer jobId = Integer.parseInt(httpServletRequest.getParameter("job_id"));
-		
-		if(authenticateByToken(userToken)) {
-			HttpSession session = context.getSession(false);
-			Integer userId = (Integer) session.getAttribute("userId");
+        Claims claims = authenticateByToken(userToken);
+		if(claims != null) {
+			Integer userId = (Integer) claims.get("uid");
 			candidateService.applyJob(jobId, userId);
 		}
 		else {
@@ -65,26 +60,17 @@ public class CandidateController extends BaseMVCController{
 		String jsonReturn = null;
 		
 		List<ApplicantsResponse> applicants = null;
-		
-		if(authenticateByToken(userToken)) {
-			HttpSession session = context.getSession(false);
-			Integer userId = (Integer) session.getAttribute("userId");
+        Claims claims = authenticateByToken(userToken);
+
+		if(claims != null) {
+			Integer userId = (Integer) claims.get("uid");
 			applicants = candidateService.getApplicants(jobId, userId);
-			
-			try {
-				jsonReturn = objectMapper.writeValueAsString(applicants);
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
+			jsonReturn = objectToJSON(objectMapper, applicants);
 		}
 		else {
 			response.setStatus(403);
-			
-			try {
-				jsonReturn = objectMapper.writeValueAsString(new ErrorResponse("Authentication Failed"));
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
+			jsonReturn = objectToJSON(objectMapper, new ErrorResponse("Authentication Failed"));
+
 			
 		}
 		
@@ -102,26 +88,16 @@ public class CandidateController extends BaseMVCController{
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		String jsonReturn = null;
-		
-		if(authenticateByToken(userToken)) {
-			HttpSession session = context.getSession(false);
-			Integer userId = (Integer) session.getAttribute("userId");
+        Claims claims = authenticateByToken(userToken);
+
+		if(claims != null) {
+			Integer userId = (Integer) claims.get("uid");
 			List<SkillSet> skills = candidateService.getCandidateSkills(candidateId, userId);
-			
-			try {
-				jsonReturn = objectMapper.writeValueAsString(skills);
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
+			jsonReturn = objectToJSON(objectMapper, skills);
 		}
 		else {
 			response.setStatus(403);
-			try {
-				jsonReturn = objectMapper.writeValueAsString(new ErrorResponse("Authentication Failed"));
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
-			
+			jsonReturn = objectToJSON(objectMapper, new ErrorResponse("Authentication Failed"));
 		}
 
 		return jsonReturn;
@@ -133,34 +109,23 @@ public class CandidateController extends BaseMVCController{
 	@ResponseBody
 
 	public String getCandidate(@PathVariable("id") Long candidateId, 
-			@RequestHeader("Authorization") String userToken,
-			HttpServletResponse response) {		
+			@RequestHeader("Authorization") String userToken, HttpServletResponse response) {		
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		String jsonReturn = null;
-		
-		if(authenticateByToken(userToken)) {
-			HttpSession session = context.getSession(false);
-			Integer userId = (Integer) session.getAttribute("userId");
-			CandidateResponse candidate = candidateService.getCandidate(candidateId, userToken);
-			
-			try {
-				jsonReturn = objectMapper.writeValueAsString(candidate);
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
+        Claims claims = authenticateByToken(userToken);
+
+		if(claims != null) {
+			Integer userId = (Integer) claims.get("uid");
+			CandidateResponse candidate = candidateService.getCandidate(candidateId, userId);
+			jsonReturn = objectToJSON(objectMapper, candidate);
 		}
 		else {
 			response.setStatus(403);
-			try {
-				jsonReturn = objectMapper.writeValueAsString(new ErrorResponse("Authentication Failed"));
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
+			jsonReturn = objectToJSON(objectMapper, new ErrorResponse("Authentication Failed"));
 			
 		}
 		
-
 		return jsonReturn;
 	}
 		
