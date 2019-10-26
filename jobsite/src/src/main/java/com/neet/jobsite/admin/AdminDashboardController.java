@@ -102,13 +102,6 @@ public class AdminDashboardController {
 		return "admin/users/userslists";
 	}
 
-	@RequestMapping(value = "/employers", method = RequestMethod.GET)
-	public String employers(Locale locale, Model model) {
-		ArrayList<User> users = this.userService.GetUserByType(3);
-		model.addAttribute("users", users);
-		return "admin/employers/employerslists";
-	}
-
 	@RequestMapping(value = "/administrators", method = RequestMethod.GET)
 	public String adminusers(Locale locale, Model model) {
 		ArrayList<User> users = this.userService.GetUserByType(2);
@@ -142,7 +135,7 @@ public class AdminDashboardController {
 			// encryption
 			password = bCryptPasswordEncoder.encode(password);
 
-			// Admin
+			// administrator
 			Integer userIntTypeValue = 2;
 
 			this.userService.AddAdmin(firstName, lastName, email, password, userIntTypeValue);
