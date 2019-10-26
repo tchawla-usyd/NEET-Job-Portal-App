@@ -84,7 +84,7 @@ public class CandidateService {
 		return applicants;		
 	}
 	
-	public CandidateResponse getCandidate(Long candidateId, String userToken) {
+	public CandidateResponse getCandidate(Long candidateId, Integer userId) {
 		UserDetailResponse basicUser = userService.getUser((int) (long) candidateId);
 		Candidate candidate = candidateManager.getCandidateById((int) (long) candidateId);
 		
