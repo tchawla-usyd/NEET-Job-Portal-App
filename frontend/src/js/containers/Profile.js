@@ -20,7 +20,7 @@ export default class Profile extends Component {
 		super(props);
 
 		this.isEmployer = false;
-		this.userId = 3;
+		this.userId = 13;
 
 		// Auth
 		this.token = localStorage.getItem("token");
@@ -55,7 +55,7 @@ export default class Profile extends Component {
 	}
 
 	handleSubmit = (payload) => {
-        axios.post(EDIT_USER, qs.stringify({"this.userId": this.id, ...payload}), this.headers)
+        axios.post(EDIT_USER, qs.stringify({"userId": this.id, ...payload}), this.headers)
         .then(res => {
             if (res.status == 200) {
                 this.setState({candidateInfo: Object.assign({}, this.state.candidateInfo, payload)});

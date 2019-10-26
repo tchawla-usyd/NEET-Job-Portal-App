@@ -18,7 +18,7 @@ export default class JobListing extends Component {
         //dummy
         this.userId = 3;
         this.userSkills = ['jobs', 'teacher', 'developer'];
-        this.isEmployer = false;
+        this.isEmployer = true;
 
         this.isApplied = this.props.parentProps.location.pathname == '/application';
         this.token = localStorage.getItem("token");

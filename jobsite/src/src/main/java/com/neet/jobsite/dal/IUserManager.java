@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.neet.jobsite.model.CandidateSkills;
 import com.neet.jobsite.model.Company;
 import com.neet.jobsite.model.SkillSet;
 import com.neet.jobsite.model.User;
@@ -34,5 +35,13 @@ public interface IUserManager {
 	public void deleteCandidateInfor(long id);
 
 	public void deleteSkills(long id);
+
+	public void addCandidateSkills(CandidateSkills userCandidateSkills);
+
+	public void updateEducation(long userId, String education);
+
+	public void updateExperience(long userId, String experience);
+
+	public void deleteCandidateSkills(long userId);
     
 }

@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.neet.jobsite.dal.IUserManager;
+import com.neet.jobsite.model.CandidateSkills;
 import com.neet.jobsite.model.Company;
 import com.neet.jobsite.model.SkillSet;
 import com.neet.jobsite.model.User;
@@ -97,6 +98,14 @@ public class UserService implements IUserService {
 				userSkills.setName(item);
 
 				this.userManager.addSkills(userSkills);
+				
+				//adding skills to candidateskills
+				CandidateSkills userCandidateSkills = new CandidateSkills();
+				userCandidateSkills.setUserID((int)newUser.getId());
+				userCandidateSkills.setSkillID((int)userSkills.getId());
+				userCandidateSkills.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+				
+				this.userManager.addCandidateSkills(userCandidateSkills);
 			}
 
 			// Adding education and experience in the DB
@@ -124,35 +133,53 @@ public class UserService implements IUserService {
 			// getting user details based on the email id
 			//getUser = this.userManager.getUserByEmail(email);
 
-			// deleting candidate info and adding updated info
-			this.userManager.deleteCandidateInfor(userId);
-
-			// adding Candidate info
-			candidateInfo userInfo = new candidateInfo();
-			userInfo.setId(userId);
-			userInfo.setEducation(education);
-			userInfo.setExperience(experience);
-			this.userManager.addUserInfo(userInfo);
-
-			// deleting skills
-			this.userManager.deleteSkills(userId);
-
-			// Adding updated skills
-			SkillSet userSkills;
-			for (String item : skills) {
-				userSkills = new SkillSet();
-
-				userSkills.setCreatedBy((int) userId);
-				userSkills.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
-				userSkills.setName(item);
-
-				this.userManager.addSkills(userSkills);
+			// deleting candidate info and adding updated info if education and experience are not empty
+			if(education!=null && experience!=null) {
+				candidateInfo userInfo = new candidateInfo();
+				userInfo.setId(userId);
+				userInfo.setEducation(education);
+				userInfo.setExperience(experience);
+				
+				this.userManager.deleteCandidateInfor(userId);
+				
+				this.userManager.addUserInfo(userInfo);
+			} else if(education!=null) {
+				this.userManager.updateEducation(userId, education);
+			} else if(experience!=null) {
+				this.userManager.updateExperience(userId, experience);
 			}
+			if(skills!= null) {
+				// deleting skills
+				this.userManager.deleteSkills(userId);	
+				
+				//Deleting from candidate skills table
+				this.userManager.deleteCandidateSkills(userId);
 
+				// Adding updated skills
+				SkillSet userSkills;
+				for (String item : skills) {
+					userSkills = new SkillSet();
+
+					userSkills.setCreatedBy((int) userId);
+					userSkills.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+					userSkills.setName(item);
+
+					this.userManager.addSkills(userSkills);
+					
+					//Adding into Candidate skills table
+					CandidateSkills userCandidateSkills = new CandidateSkills();
+					userCandidateSkills.setUserID((int)userId);
+					userCandidateSkills.setSkillID((int)userSkills.getId());
+					userCandidateSkills.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+					
+					this.userManager.addCandidateSkills(userCandidateSkills);
+				}
+				
+			}
+			return true;
 		} catch (Exception e) {
+			return false;
 		}
-
-		return false;
 	}
 
 	@Override
