@@ -95,5 +95,30 @@ public class DatabaseUserManager implements IUserManager {
 		currentSession.save(userCompany);
 		
 	}
+
+	@Override
+	public User getUserByEmail(String email) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		List <User> userRetrieved = currentSession.createCriteria(User.class).
+				add(Restrictions.eq("email", email)).list();
+		return userRetrieved.get(0);
+	}
+
+	@Override
+	public void deleteCandidateInfor(long id) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		
+		candidateInfo userCandidate = (candidateInfo) currentSession.get(candidateInfo.class, id);
+		currentSession.delete(userCandidate);		
+	}
+
+	@Override
+	public void deleteSkills(long id) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		
+		List<SkillSet> userSkills = (List<SkillSet>) currentSession.createCriteria(SkillSet.class).
+				add(Restrictions.eq("Id", id)).list();
+		currentSession.delete(userSkills);
+	}
 	
 }

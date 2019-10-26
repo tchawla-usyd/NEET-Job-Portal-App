@@ -28,9 +28,15 @@ public class AuthenticateService implements IAuthenticateService {
 		return passVerification;
 	}
 	
-//	@Override
-//	public boolean Authenticate(String username, String password) {
-//		System.out.println("Test run");
-//		return this.userAuthenticationDac.Authenticate(username, password);
-//	}
+	@Override
+	public User AuthenticateAdmin(String username, String password) {
+		User tempUser = new User();
+		tempUser = this.userAuthenticationDac.Authenticate(username);
+		Boolean passVerification =  bCryptPasswordEncoder.matches(password, tempUser.getPassword());
+		//admin and enterprise admin would be allowed to login the admin site.
+		if(passVerification && tempUser.getUserTypeID()== 1 || tempUser.getUserTypeID()== 2) {
+			return tempUser;
+		}
+		return null;
+	}
 }
