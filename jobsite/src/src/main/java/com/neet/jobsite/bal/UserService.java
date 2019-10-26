@@ -120,34 +120,32 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public boolean updateUser(String email, String education, String experience, String resume, List<String> skills) {
-
-		User getUser = new User();
+	public boolean updateUser(long userId, String education, String experience, String resume, List<String> skills) {
 
 		try {
 			// getting user details based on the email id
-			getUser = this.userManager.getUserByEmail(email);
+			//getUser = this.userManager.getUserByEmail(email);
 
 			// deleting candidate info and adding updated info
-			this.userManager.deleteCandidateInfor(getUser.getId());
+			this.userManager.deleteCandidateInfor(userId);
 
 			// adding Candidate info
 			candidateInfo userInfo = new candidateInfo();
-			userInfo.setId(getUser.getId());
+			userInfo.setId(userId);
 			userInfo.setEducation(education);
 			userInfo.setExperience(experience);
 			userInfo.setResume(resume);
 			this.userManager.addUserInfo(userInfo);
 
 			// deleting skills
-			this.userManager.deleteSkills(getUser.getId());
+			this.userManager.deleteSkills(userId);
 
 			// Adding updated skills
 			SkillSet userSkills;
 			for (String item : skills) {
 				userSkills = new SkillSet();
 
-				userSkills.setCreatedBy((int) getUser.getId());
+				userSkills.setCreatedBy((int) userId);
 				userSkills.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 				userSkills.setName(item);
 
