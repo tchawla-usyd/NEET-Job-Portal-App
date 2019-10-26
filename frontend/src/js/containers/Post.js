@@ -91,7 +91,7 @@ class Post extends Component {
         		<Form.Item {...formItemLayout} label="Job Description">
 		          {getFieldDecorator('description', {
 		            rules: [{ required: false}],
-		          })(<Input.TextArea rows={4}/>)}
+		          })(<Input.TextArea style={{whiteSpace: 'pre-line'}} rows={4}/>)}
         		</Form.Item>
 
         		<Form.Item {...formItemLayout} label="Job Skills">

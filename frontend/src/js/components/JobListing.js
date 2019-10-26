@@ -11,6 +11,7 @@ const { Search } = Input;
 const { Text } = Typography;
 
 //dummy
+const userId = 3;
 const userSkills = ['jobs', 'teacher', 'developer'];
 const isEmployer = false;
 
@@ -83,23 +84,24 @@ export default class JobListing extends Component {
 
       this.locations = [];
       this.state = {loading: true};
-      axios.get(GET_JOB_FOR + 1, this.headers)
+      axios.get(GET_CAN_JOBS + userId, this.headers)
         .then(res => { 
-        console.log(res);
         var jobs = res.data.map(job =>{
-              return {key: job.uid,
-              title: job.title,
-              company: 'Micro',
-              location: job.location,
-              skills: job.skills.map(skill => skill.name),
-              like: false,
-              applied: false,
-            }});
-          this.setState({
-            jobs: jobs, 
-            filteredJobs: jobs,
-            filteredSearch: jobs}, 
-            this.sortLocations);
+            return {key: job.uid,
+            title: job.title,
+            company: 'Micro',
+            location: job.location,
+            skills: job.skills.map(skill => skill.name),
+            like: false,
+            applied: false,
+          }});
+
+        jobs = this.getApplied(jobs);
+        this.setState({
+          jobs: jobs, 
+          filteredJobs: jobs,
+          filteredSearch: jobs}, 
+          this.sortLocations);
         }).catch(function (error) {
           console.log(error);
       });
@@ -115,6 +117,23 @@ export default class JobListing extends Component {
             filterLocationBy: 'Location',
             loading: false,
           });
+    }
+
+    getApplied = (jobs) =>{
+      axios.get(GET_JOB_FOR + userId, this.headers)
+        .then(res => { 
+        var applied_jobs = res.data;
+        jobs.forEach((job) =>{
+          applied_jobs.forEach(({uid}) =>{
+            if(job.key == uid){
+              job.applied = true;
+            }
+          });
+        });
+      }).catch(function (error) {
+        console.log(error);
+      });
+      return jobs;
     }
 
     handleApply = (record) =>{
