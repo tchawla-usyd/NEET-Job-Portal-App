@@ -17,9 +17,13 @@ const {RangePicker} = DatePicker;
 const { Title, Text, Paragraph } = Typography;
 const para_style = {marginLeft:60,  marginRight: 50, marginBottom: 40, marginTop: 40, fontSize: 18};
 
+
 export default class Job extends Component {
     constructor(props) {
         super(props);
+
+        //dummy
+        this.isEmployer = false;
 
         //Auth
         this.token = localStorage.getItem("token");
@@ -74,21 +78,23 @@ export default class Job extends Component {
 				<div style={{marginLeft: 60, marginBottom: 50}}><Icon type="environment" theme="twoTone" style={{marginRight: 10}}/>{this.state.location}</div>
 				
 				<Divider_>Description</Divider_>
-				<Paragraph_ name='description' handleSubmit={this.handleSubmit}>{this.state.description}</Paragraph_>
+				<Paragraph_ editable={this.isEmployer} name='description' handleSubmit={this.handleSubmit}>{this.state.description}</Paragraph_>
 
 				<Divider_>Skills</Divider_>
-				<div style={para_style}><Tags onChange={this.handleSubmit} skills={this.state.skills}/> </div>
+				<div style={para_style}><Tags editable={this.isEmployer} onChange={this.handleSubmit} skills={this.state.skills}/> </div>
 
 				<Divider_>Application Open</Divider_>
 				<RangePicker 
                 style={para_style} 
+                disabled={!this.isEmployer}
                 onChange={(moments, dates) => this.handleSubmit(
                     {start_date: moment(moments[0]).format('YYYY-MM-DD'),
                     end_date: moment(moments[1]).format('YYYY-MM-DD')})
                 } defaultValue={[moment(this.state.startDate, 'YYYY-MM-DD'), moment(this.state.endDate, 'YYYY-MM-DD')]}/>
 
-				<Divider_>Applicants</Divider_>
-				<SeekerList job_id={this.id}/></div>
+				{this.isEmployer ? <div><Divider_>Applicants</Divider_>
+				<SeekerList job_id={this.id}/></div> : ''}
+                </div>
 			}
     		</BaseLayout> 
     	)

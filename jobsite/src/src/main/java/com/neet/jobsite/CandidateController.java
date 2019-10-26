@@ -24,6 +24,8 @@ import com.neet.jobsite.response.ApplicantsResponse;
 import com.neet.jobsite.response.CandidateResponse;
 import com.neet.jobsite.response.ErrorResponse;
 
+import io.jsonwebtoken.Claims;
+
 @Controller
 @RequestMapping(value="/candidate/**")
 public class CandidateController extends BaseMVCController{
@@ -38,9 +40,10 @@ public class CandidateController extends BaseMVCController{
 		
 		Integer jobId = Integer.parseInt(httpServletRequest.getParameter("job_id"));
 		
-		if(authenticateByToken(userToken)) {
-			HttpSession session = context.getSession(false);
-			Integer userId = (Integer) session.getAttribute("userId");
+		Claims claims = authenticateByToken(userToken);
+
+		if(claims != null) {
+			Integer userId = (Integer) claims.get("uid");
 			candidateService.applyJob(jobId, userId);
 		}
 		else {
@@ -61,9 +64,10 @@ public class CandidateController extends BaseMVCController{
 		
 		List<ApplicantsResponse> applicants = null;
 		
-		if(authenticateByToken(userToken)) {
-			HttpSession session = context.getSession(false);
-			Integer userId = (Integer) session.getAttribute("userId");
+		Claims claims = authenticateByToken(userToken);
+
+		if(claims != null) {
+			Integer userId = (Integer) claims.get("uid");
 			applicants = candidateService.getApplicants(jobId, userId);
 			jsonReturn = objectToJSON(objectMapper, applicants);
 		}
@@ -89,9 +93,10 @@ public class CandidateController extends BaseMVCController{
 		
 		String jsonReturn = null;
 		
-		if(authenticateByToken(userToken)) {
-			HttpSession session = context.getSession(false);
-			Integer userId = (Integer) session.getAttribute("userId");
+		Claims claims = authenticateByToken(userToken);
+
+		if(claims != null) {
+			Integer userId = (Integer) claims.get("uid");
 			List<SkillSet> skills = candidateService.getCandidateSkills(candidateId, userId);
 			jsonReturn = objectToJSON(objectMapper, skills);
 		}
@@ -112,11 +117,11 @@ public class CandidateController extends BaseMVCController{
 			@RequestHeader("Authorization") String userToken, HttpServletResponse response) {		
 		
 		ObjectMapper objectMapper = new ObjectMapper();
-		String jsonReturn = null;
-		
-		if(authenticateByToken(userToken)) {
-			HttpSession session = context.getSession(false);
-			Integer userId = (Integer) session.getAttribute("userId");
+		String jsonReturn = null;		
+        Claims claims = authenticateByToken(userToken);
+
+		if(claims != null) {
+			Integer userId = (Integer) claims.get("uid");
 			CandidateResponse candidate = candidateService.getCandidate(candidateId, userId);
 			jsonReturn = objectToJSON(objectMapper, candidate);
 		}

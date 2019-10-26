@@ -60,7 +60,7 @@ export default class Tags extends Component {
 			  tag = tag.toUpperCase();
 	          const isLongTag = tag.length > 20;
 	          const tagElem = (
-	            <Tag key={tag} color={color[Math.floor(Math.random()*color.length)]} closable='true' onClose={() => this.handleClose(tag)}>
+	            <Tag key={tag} color={color[Math.floor(Math.random()*color.length)]} closable={this.props.editable} onClose={() => this.handleClose(tag)}>
 	              {isLongTag ? `${tag.slice(0, 20)}...` : tag}
 	            </Tag>
 	          );
@@ -70,7 +70,7 @@ export default class Tags extends Component {
 	            </Tooltip>
 	          ) : (tagElem);
         	})}
-        	{inputVisible && (
+        	{this.props.editable && inputVisible && (
 	          <Input
 	            ref={this.saveInputRef}
 	            type="text"
@@ -82,7 +82,7 @@ export default class Tags extends Component {
 	            onPressEnter={this.handleInputConfirm}
 	          />
 	        )}
-	        {!inputVisible && (
+	        {this.props.editable && !inputVisible && (
 	          <Tag onClick={this.showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
 	            <Icon type="plus" />New Tag
 	          </Tag>

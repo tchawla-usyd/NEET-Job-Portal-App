@@ -44,9 +44,9 @@ export default class Uploader extends Component {
     };
     return (
       <Upload {...props} fileList={this.state.fileList}>
-        <Button>
+        {this.props.editable ? <Button>
           <Icon type="upload" /> Upload
-        </Button>
+        </Button> : ''}
       </Upload>
     );
   }

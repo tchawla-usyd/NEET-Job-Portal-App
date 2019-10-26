@@ -37,7 +37,7 @@ class Post extends Component {
 		  	}
 
 		    /* TODO: Backend */
-            axios.post(ADD_JOB, qs.stringify(payload), this.header)
+            axios.post(ADD_JOB, qs.stringify(payload), this.headers)
             .then(res => {
                 if (res.status == 200) {
                     // const token = res.data.token;
@@ -91,7 +91,7 @@ class Post extends Component {
         		<Form.Item {...formItemLayout} label="Job Description">
 		          {getFieldDecorator('description', {
 		            rules: [{ required: false}],
-		          })(<Input.TextArea rows={4}/>)}
+		          })(<Input.TextArea style={{whiteSpace: 'pre-line'}} rows={4}/>)}
         		</Form.Item>
 
         		<Form.Item {...formItemLayout} label="Job Skills">
