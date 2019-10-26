@@ -34,6 +34,7 @@ import com.neet.jobsite.configuration.JwtFilter;
 import com.neet.jobsite.model.User;
 //import com.neet.jobsite.configuration;
 import com.neet.jobsite.response.TokenResponse;
+import com.neet.jobsite.response.UserDetailResponse;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -79,6 +80,7 @@ public class UserAuthenticationController extends BaseMVCController {
 	}
 	
 	
+	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Locale locale, Model model) {
 		model.addAttribute("login",new User());
@@ -120,6 +122,8 @@ public class UserAuthenticationController extends BaseMVCController {
 			tokenResponse.setToken(token);
 			tokenResponse.setId(userId);
 			
+			System.out.println("Token:" + tokenResponse.getToken());
+			System.out.println("User Id:" + tokenResponse.getId());
 			
 			try {
 				jsonReturn = objectMapper.writeValueAsString(tokenResponse);
@@ -128,12 +132,14 @@ public class UserAuthenticationController extends BaseMVCController {
 			}
 			
 			System.out.println(jsonReturn);
+			response.setStatus(200);
 			return jsonReturn;	
 			
 		}
 		else {
 			
 			System.out.println("Failed");
+			response.setStatus(403);
 			return null;
 		}
 	
