@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import { Upload, Button, Icon } from 'antd';
 
+import {UPLOAD} from "../constants/BackendAPI"
+
 export default class Uploader extends Component {
   state = {
     fileList: this.props.resume == null ? [] : [
@@ -37,7 +39,7 @@ export default class Uploader extends Component {
     const headers = {'Authorization': token};
 
     const props = {
-      action: 'http://localhost:8081/jobsite/storage/uploadFile',
+      action: UPLOAD,
       onChange: this.handleChange,
       multiple: true,
       headers: headers,

@@ -9,7 +9,7 @@ import Paragraph_ from '../components/Paragraph_';
 import Tags from '../components/Tags';
 import Spinner from '../components/Spinner';
 
-import {GET_CAN, GET_CAN_SKILLS, EDIT_USER, HEADER} from "../constants/BackendAPI"
+import {GET_CAN, GET_CAN_SKILLS, EDIT_USER, GET_USER, HEADER} from "../constants/BackendAPI"
 const { Title, Text, Paragraph } = Typography;
 const para_style = {marginLeft:60,  marginRight: 50, marginBottom: 40, marginTop: 40, fontSize: 18};
 
@@ -19,8 +19,11 @@ export default class Profile extends Component {
 	constructor(props){
 		super(props);
 
-		this.isEmployer = false;
-		this.userId = 13;
+		// user info
+        const userInfo = this.props.userInfo;
+
+		this.isEmployer = userInfo.isEmployer;
+		this.userId = userInfo.id;
 
 		// Auth
 		this.token = localStorage.getItem("token");
@@ -37,25 +40,43 @@ export default class Profile extends Component {
         	return;
         }
 
-		this.id = urlParams.get('id');
-		this.self = this.userId == this.id;
-        axios.get(GET_CAN + this.id, this.headers)
-        .then(res => { 
-        	this.setState({...res.data, 
-        		name: res.data.basicInfo.firstName + ' ' + res.data.basicInfo.lastName,
-        		loading_profile: false});
-        })
+		this.profileId = urlParams.get('id');
+		this.self = this.userId == this.profileId;
+        
+		axios.get(GET_USER + this.profileId, this.headers)
+	      .then(res => {
+	        if (res.status == 200){
+	          this.setState({ name: res.data.firstName + ' ' + res.data.lastName, 
+	          	basicInfo:{
+	          		email: res.data.email,
+	          	},
+	            isEmployer: res.data.userTypeID == 3 ? true : false}, this.getCandidateInfo);
+	        }
+	    });
 
-        axios.get(GET_CAN_SKILLS + this.id, this.headers)
-        .then(res => { 
-        	this.setState({skills: res.data, 
-        		loading_skills: false});
-        })
+        
+	}
 
+	getCandidateInfo = () =>{
+		if(this.state.isEmployer) {
+			this.setState({loading_profile: false, loading_skills: false});
+		} else{
+			axios.get(GET_CAN + this.profileId, this.headers)
+	        .then(res => { 
+	        	this.setState({...res.data, 
+	        		loading_profile: false});
+	        });
+
+	        axios.get(GET_CAN_SKILLS + this.profileId, this.headers)
+	        .then(res => { 
+	        	this.setState({skills: res.data, 
+	        		loading_skills: false});
+	        });
+		}
 	}
 
 	handleSubmit = (payload) => {
-        axios.post(EDIT_USER, qs.stringify({"userId": this.id, ...payload}), this.headers)
+        axios.post(EDIT_USER, qs.stringify({"userId": this.profileId, ...payload}), this.headers)
         .then(res => {
             if (res.status == 200) {
                 this.setState({candidateInfo: Object.assign({}, this.state.candidateInfo, payload)});
@@ -90,7 +111,8 @@ export default class Profile extends Component {
 				<Title>{this.state.name}</Title>
 				<Icon type="mail" theme="twoTone" /><a href={"mailto:" + 123} style={{marginLeft:10}}>{this.state.basicInfo.email}</a>
 			</div>
-			<Divider_>Education</Divider_>
+			
+			{this.state.isEmployer ? '' : <div><Divider_>Education</Divider_>
 			<Paragraph_ editable={this.self} name='education' handleSubmit={this.handleSubmit} >{this.state.candidateInfo.education == null ? "" : this.state.candidateInfo.education}</Paragraph_>
 
 			<Divider_>Skills</Divider_>
@@ -101,6 +123,7 @@ export default class Profile extends Component {
 
 			<Divider_>Resume</Divider_>
 			<div style={{...para_style, width: 200}}><Uploader editable={this.self} resume={this.state.candidateInfo.resume} /></div>
+			</div>}
 			</div>
 		}
 		</BaseLayout>);

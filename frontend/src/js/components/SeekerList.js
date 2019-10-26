@@ -24,7 +24,7 @@ export default class SeekerListing extends Component {
           dataIndex: 'name',
           key: 'name',
           align: 'center',
-          render: text => <Text strong><Link to='/profile'>{text}</Link></Text>,
+          render: (text, record) => <Text strong><Link to={'/profile?id=' + record.key}>{text}</Link></Text>,
         },{
           title: 'Email Address',
           dataIndex: 'email',

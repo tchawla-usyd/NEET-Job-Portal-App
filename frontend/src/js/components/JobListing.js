@@ -4,7 +4,7 @@ import qs from 'querystring';
 import { Table, Divider, Tag, Input, Button, Icon, Typography, message, Pagination, Dropdown, Menu} from 'antd';
 import { Link } from 'react-router-dom'
 
-import {APPLY, GET_JOB_FOR, GET_APPLIED, GET_ALL, HEADER} from "../constants/BackendAPI"
+import {APPLY, GET_JOB_FOR, GET_CAN_SKILLS, GET_APPLIED, GET_ALL, HEADER} from "../constants/BackendAPI"
 import Spinner from '../components/Spinner';
 
 const { Search } = Input;
@@ -15,14 +15,24 @@ export default class JobListing extends Component {
     constructor(props) {
         super(props);
 
-        //dummy
-        this.userId = 3;
-        this.userSkills = ['jobs', 'teacher', 'developer'];
-        this.isEmployer = true;
-
+        // route info
         this.isApplied = this.props.parentProps.location.pathname == '/application';
+        this.isFav = this.props.parentProps.location.pathname == '/favorite';
         this.token = localStorage.getItem("token");
         this.headers = {headers:{...HEADER, 'Authorization': this.token}};
+
+        // user info
+        const userInfo = this.props.parentProps.userInfo;
+        this.userId = userInfo.id;
+        this.isEmployer = userInfo.isEmployer;
+        this.state = {userSkills: []};
+
+        if(!this.isEmployer){
+          axios.get(GET_CAN_SKILLS + this.userId, this.headers)
+          .then(res => { 
+            this.setState({userSkills: res.data});
+          })
+        }
 
         // Columns info
         let columns = [
@@ -39,6 +49,7 @@ export default class JobListing extends Component {
           key: 'company',
           align: 'center',
           sorter: (a, b) => a.company.localeCompare(b.company),
+          render: (text, record) => <Text strong><Link to={'/company?id='+ record.company_id}>{text}</Link></Text>,
         },{
           title: 'Location',
           dataIndex: 'location',
@@ -50,8 +61,8 @@ export default class JobListing extends Component {
           dataIndex: 'skills',
           key: 'skills',
           align: 'center',
-          sorter: this.isEmployer ? null : (a, b) => a.skills.filter(skill => this.userSkills.includes(skill)).length - 
-            b.skills.filter(skill => this.userSkills.includes(skill)).length,
+          sorter: this.isEmployer ? null : (a, b) => a.skills.filter(skill => this.state.userSkills.includes(skill)).length - 
+            b.skills.filter(skill => this.state.userSkills.includes(skill)).length,
           render: tags => (
             <span>
               {tags.map(tag => {
@@ -85,32 +96,32 @@ export default class JobListing extends Component {
 
       this.locations = [];
       this.state = {loading: true};
-      axios.get(this.isEmployer ? GET_JOB_FOR + this.userId : GET_ALL, this.headers)
+      axios.get(this.isEmployer ? (GET_JOB_FOR + this.userId) : GET_ALL, this.headers)
         .then(res => { 
+          console.log(res);
         var jobs = res.data.map(job =>{
             return {key: job.uid,
             title: job.title,
-            company: 'Micro',
+            company: job.companyInfo.companyName,
+            company_id: job.created_by,
             location: job.location,
             skills: job.skills.map(skill => skill.name),
-            like: false,
+            like: this.isFav ? true : false,
             applied: false,
           }});
 
         if(!this.isEmployer){
           jobs = this.getApplied(jobs);
-          if(this.isApplied){
-            jobs = jobs.filter((job)=> job.applied == true);
-          }
-        }
-
-        this.setState({
+          
+        }else{
+          this.setState({
           jobs: jobs, 
           filteredJobs: jobs,
           filteredSearch: jobs}, 
           this.sortLocations);
-        }).catch(function (error) {
-          console.log(error);
+        }
+      }).catch(function (error) {
+        console.log(error);
       });
     }
 
@@ -132,15 +143,20 @@ export default class JobListing extends Component {
         var applied_jobs = res.data;
         jobs.forEach((job) =>{
           applied_jobs.forEach(({uid}) =>{
-            if(job.key == uid){
-              job.applied = true;
-            }
+            if(job.key == uid) job.applied = true;
           });
         });
+        if(this.isApplied){
+          jobs = jobs.filter((job)=> job.applied == true);
+        }
+        this.setState({
+        jobs: jobs, 
+        filteredJobs: jobs,
+        filteredSearch: jobs}, 
+        this.sortLocations);
       }).catch(function (error) {
         console.log(error);
       });
-      return jobs;
     }
 
     handleApply = (record) =>{
@@ -211,7 +227,7 @@ export default class JobListing extends Component {
 
       return (
         <div>
-          <div><Text style={{fontSize: 30}}>Trending Jobs</Text></div>
+          <div><Text style={{fontSize: 30}}>{this.isApplied ? 'Your Applications' : this.isFav ? 'Your Favorite' : 'All Jobs'}</Text></div>
           {/* Seach Bar */}
           <Search placeholder="input search text" 
           style={{ width: 300, marginTop: 20}}

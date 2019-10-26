@@ -6,7 +6,7 @@ export const HEADER = {
 }
 
 // common prefix
-const BACKEND = "http://localhost:8080/jobsite/";
+const BACKEND = "http://localhost:8081/jobsite/";
 
 // employer
 export const GET_JOB = BACKEND + 'job/getjob/';
@@ -22,9 +22,12 @@ export const GET_CAN = BACKEND + 'candidate/view/';
 export const GET_CAN_SKILLS = BACKEND + 'candidate/skills/';
 export const GET_APPLIED = BACKEND + 'job/candidate/';
 export const GET_ALL = BACKEND + 'job/all';
+export const UPLOAD = BACKEND + 'storage/uploadFile';
 
 
 //user
 export const SIGNUP = BACKEND + 'authenticate/registerProcess';
 export const LOGIN = BACKEND + 'authenticate/loginProcess';
+export const GET_USER_ID = BACKEND + 'authenticate/token';
+export const GET_USER = BACKEND + 'user/getuser/';
 export const EDIT_USER = BACKEND + 'user/edit';

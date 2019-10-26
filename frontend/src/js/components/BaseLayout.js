@@ -6,15 +6,15 @@ import logo from "../../img/NEET.png";
 
 const { Header, Footer, Content } = Layout;
 
-
-
 export default class BaseLayout extends Component {
     constructor(props) {
         super(props);
-        
-        // dummy
-		this.isEmployer = true;
-		this.name = "Rex Shen";
+
+        //user info
+        const userInfo = this.props.parentProps.userInfo;
+		this.isEmployer = userInfo.isEmployer;
+		this.name = userInfo.firstName + " " + userInfo.lastName;
+		this.userId = userInfo.id;
 
         if(!this.props.parentProps.isAuthenticated){
         	this.props.parentProps.history.push('/');
@@ -28,40 +28,51 @@ export default class BaseLayout extends Component {
 	};
 
    	render(){
-   		console.log(this.props);
    		const itemStyle = {float:'right', 
    				  display:'flex',
 	              justifyContent:"center",
 	              alignItems:'center'};
    		const MenuItem = Menu.Item;
-   		const menu = (
-		  <Menu style={{textAlign: 'middle'}} >
+   		const menu = this.isEmployer ? 
+		<Menu style={{textAlign: 'middle'}} >
 		    <Menu.Item>
-		      <Link to= '/profile'>
+		      <Link to= {'/profile?id=' + this.userId}>
+		        <Icon style={{marginRight: 10, color:'#1E90FF'}} type="user" /> Profile
+		      </Link>
+		    </Menu.Item>
+		    <Menu.Item>
+		      <Link onClick={this.props.parentProps.handleLogout} to='/login'>
+		        <Icon style={{marginRight: 10, color:'red'}} type="logout" /> Logout
+		      </Link>
+		    </Menu.Item>
+		 </Menu>
+
+		: <Menu style={{textAlign: 'middle'}} >
+		    <Menu.Item>
+		      <Link to= {'/profile?id=' + this.userId}>
 		        <Icon style={{marginRight: 10, color:'#1E90FF'}} type="user" /> Profile
 		      </Link>
 		    </Menu.Item>
 
-		    {this.isEmployer ? '' 
-		    :<div><Menu.Item >
+			<Menu.Item >
 		      <Link to='/application'>
 		      	<Icon style={{marginRight: 10, color:'#52c41a'}} type="profile" /> Application
 		      </Link>
 		    </Menu.Item>
 
 		    <Menu.Item>
-		      <Link to='/home' >
+		      <Link to='/favorite' >
 		      	<Icon style={{marginRight: 10, color:'#eb2f96'}} type="heart" /> Favorite
 		      </Link>
-		    </Menu.Item></div>}
+		    </Menu.Item>
 
 		    <Menu.Item>
 		      <Link onClick={this.props.parentProps.handleLogout} to='/login'>
 		        <Icon style={{marginRight: 10, color:'red'}} type="logout" /> Logout
 		      </Link>
 		    </Menu.Item>
-		  </Menu>
-		);
+		  </Menu>;
+
    		return (
    		<Layout>
 	      <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
@@ -79,8 +90,7 @@ export default class BaseLayout extends Component {
 					    <a href="#"><Avatar size="large" shape="square" style={{margin: 10, color: '#666666', backgroundColor: '#ffffff', fontSize: 15}}>{this.getInit(this.name)}</Avatar></a>
 					  </Dropdown>
 				</span>
-				<MenuItem className="myitem" style={{...itemStyle, marginRight: 20}} key='3'>nav 3</MenuItem>
-				<MenuItem className="myitem" style={itemStyle} key='/about'><Link to='/about'>About</Link></MenuItem>
+				<MenuItem className="myitem" style={{...itemStyle, marginRight: 20}} key='/about'><Link to='/about'>About</Link></MenuItem>
 		        <MenuItem className="myitem" style={itemStyle} key='/home'><Link to='/home'>Dashboard</Link></MenuItem>
 		      </Menu>
 		      
