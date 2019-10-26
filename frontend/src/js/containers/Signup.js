@@ -78,7 +78,7 @@ class Signup extends Component {
                       rules: [{
                         required: true, message: 'Please enter your skills!!',
                       }]
-                    })( <Tags />)}
+                    })( <Tags editable='true' />)}
                   </Form.Item>
                   <Form.Item {...FormItemLayout} label="Education">
                     {getFieldDecorator('education')(<Input.TextArea rows={3}/>)}
