@@ -44,12 +44,10 @@ export default class SeekerListing extends Component {
           render: tags => (
             <span>
               {tags.map(tag => {
-                let color = tag.length > 5 ? 'geekblue' : 'green';
-                if (tag === 'loser') {
-                  color = 'volcano';
-                }
+                const color = ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"];
+                const job_skills = props.skills.map(skill => skill.name);
                 return (
-                  <Tag color={color} key={tag}>
+                  <Tag color={!job_skills.includes(tag) ? "#d9d9d9" : color[Math.floor(Math.random()*color.length)]} key={tag}>
                     {tag.toUpperCase()}
                   </Tag>
                 );
