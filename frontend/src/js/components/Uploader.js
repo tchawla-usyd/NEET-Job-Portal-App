@@ -3,7 +3,7 @@ import { Upload, Button, Icon } from 'antd';
 
 export default class Uploader extends Component {
   state = {
-    fileList: this.props.resume == null ? [] : [
+    fileList: [
       {
         uid: '-1',
         name: this.props.resume.substring(this.props.resume.lastIndexOf('/')+1),

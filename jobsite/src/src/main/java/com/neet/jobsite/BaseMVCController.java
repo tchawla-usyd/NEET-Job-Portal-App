@@ -6,10 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neet.jobsite.bal.IAuthenticateService;
-import com.neet.jobsite.response.ErrorResponse;
 
 public class BaseMVCController {
 
@@ -41,33 +38,6 @@ public class BaseMVCController {
 		
 		session.setAttribute("userId", 1);
 		return true;
-		
-	}
-	
-	public boolean authenticateByToken(String token, Integer userType) {
-		if(token == null)
-			return false;
-		
-		HttpSession session = context.getSession(true);
-		if(token.equals("testBadToken")){
-			return false;
-		}
-		
-		session.setAttribute("userId", 1);
-		return true;
-		
-	}
-	
-	protected String objectToJSON(ObjectMapper objectMapper, Object obj) {
-		
-		String jsonReturn = null;
-		try {
-			jsonReturn = objectMapper.writeValueAsString(obj);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		
-		return jsonReturn;
 		
 	}
 }

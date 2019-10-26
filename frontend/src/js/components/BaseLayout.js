@@ -2,7 +2,7 @@ import { Layout, Menu, Dropdown, Avatar, Icon } from 'antd';
 import { Link } from 'react-router-dom'
 import React, {Component} from "react";
 
-import logo from "../../img/NEET.png";
+import logo from "../../NEET.png";
 
 const { Header, Footer, Content } = Layout;
 
@@ -18,15 +18,14 @@ export default class BaseLayout extends Component {
     }
 
    	render(){
-   		console.log(this.props);
    		const itemStyle = {float:'right', 
    				  display:'flex',
 	              justifyContent:"center",
 	              alignItems:'center'};
    		const MenuItem = Menu.Item;
    		const menu = (
-		  <Menu style={{textAlign: 'middle'}} >
-		    <Menu.Item>
+		  <Menu style={{textAlign: 'middle'}}>
+		    <Menu.Item >
 		      <Link to= '/profile'>
 		        <Icon style={{marginRight: 10, color:'#1E90FF'}} type="user" /> Profile
 		      </Link>
@@ -57,7 +56,7 @@ export default class BaseLayout extends Component {
 		      <Menu
 		        theme="dark"
 		        mode="horizontal"
-		        selectedKeys={[this.props.parentProps.location.pathname]}
+		        defaultSelectedKeys={['0']}
 		        style={{ lineHeight: '64px', margin: 0}}>
 		        <MenuItem style={{display: 'none'}} key='0' />
 		       	
@@ -68,13 +67,13 @@ export default class BaseLayout extends Component {
 					  </Dropdown>
 				</span>
 				<MenuItem className="myitem" style={{...itemStyle, marginRight: 20}} key='3'>nav 3</MenuItem>
-				<MenuItem className="myitem" style={itemStyle} key='/about'><Link to='/about'>About</Link></MenuItem>
-		        <MenuItem className="myitem" style={itemStyle} key='/home'><Link to='/home'>Dashboard</Link></MenuItem>
+				<MenuItem className="myitem" style={itemStyle} key='2'><Link to='/slides'>Slides</Link></MenuItem>
+		        <MenuItem className="myitem" style={itemStyle} key='1'><Link to='/home'>Dashboard</Link></MenuItem>
 		      </Menu>
 		      
 	      </Header>
 	      <Content style={{ padding: '0 50px', marginTop: 64 }}>
-	      	<div style={{ background: '#fff', padding: 24, minHeight: 600 }}>
+	      	<div style={{ background: '#fff', padding: 24, minHeight: 800 }}>
 	      		{this.props.children}
 	      	</div>
 	      </Content>

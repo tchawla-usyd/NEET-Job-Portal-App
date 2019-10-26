@@ -10,36 +10,58 @@
 		<div class="content-wrapper">
 			<section class="content-header">
 				<h1>
-					Skill Sets <small>Manage Skill Sets</small>
+					Skill Sets<small>Manage Skill Sets</small>
 				</h1>
 				<ol class="breadcrumb">
-					<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-					<li class="active">Here</li>
+					<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+					<li class="active">Skill Set</li>
 				</ol>
 			</section>
 			<section class="content container-fluid">
-				<!--------------------------
-		        | Your Page Content Here |
-		        -------------------------->
-				<%-- <c:url value="/resources/dist/img/user2-160x160.jpg" /> --%>
-				<h1>All skills changed</h1>
-				<a href="<c:url value= "../adminSkillset/add" />"><button>Add</button></a>
+				
+		        <div class="toolbar">
+					<div class="btn-group" role="group" aria-label="Basic example">
+						<a href="<c:url value= "../adminSkillset/add" />"><button
+								type="button" class="btn btn-secondary">
+								<i class="fa fa-plus-square"></i>&nbsp;Add
+							</button></a>
+					</div>
+				</div>
 				<table id="skill_table" class="table table-striped table-bordered" style="width:100%">
 					<thead>
 						<tr>
+							<th></th>
 							<th>ID</th>
 							<th>Name</th>
-							<th></th>
-							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${skillSets}" var="skillSet">
 							<tr>
+								<td>
+									<div class="dropdown">
+										<button class="btn btn-secondary dropdown-toggle"
+											type="button" id="dropdownMenuButton" data-toggle="dropdown"
+											aria-haspopup="true" aria-expanded="false">...</button>
+										<div class="dropdown-menu"
+											aria-labelledby="dropdownMenuButton">
+											<a class="dropdown-item"
+												href="<c:url value="/adminSkillset/edit/${skillSet.id}" />">
+												<div>
+													<i class="fa fa-edit"></i>&nbsp;Edit
+												</div>
+											</a> <a class="dropdown-item"
+												data-href="<c:url value="/adminSkillset/delete/${skillSet.id}" />"
+												data-toggle="modal" data-target="#confirm-delete">
+												<div>
+													<i class="fa fa-trash"></i>&nbsp;Delete
+												</div>
+											</a>
+										</div>
+									</div>
+								</td>
 								<td><c:out value="${skillSet.id}" /></td>
 								<td><c:out value="${skillSet.name}" /></td>
-								<td><a href="../adminSkillset/edit/${skillSet.id }">edit</a></td>
-								<td><a href="../adminSkillset/delete/${skillSet.id }">delete</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>

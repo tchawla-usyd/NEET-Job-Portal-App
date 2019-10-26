@@ -105,6 +105,8 @@ public class UserService implements IUserService {
 			userInfo.setId((int) newUser.getId());
 			userInfo.setEducation(education);
 			userInfo.setExperience(experience);
+			userInfo.setResume(null);
+
 			this.userManager.addUserInfo(userInfo);
 		} else if (userIntTypeValue == 3) {
 			// employer
@@ -118,31 +120,34 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public boolean updateUser(long userId, String education, String experience, List<String> skills) {
+	public boolean updateUser(String email, String education, String experience, String resume, List<String> skills) {
+
+		User getUser = new User();
 
 		try {
 			// getting user details based on the email id
-			//getUser = this.userManager.getUserByEmail(email);
+			getUser = this.userManager.getUserByEmail(email);
 
 			// deleting candidate info and adding updated info
-			this.userManager.deleteCandidateInfor(userId);
+			this.userManager.deleteCandidateInfor(getUser.getId());
 
 			// adding Candidate info
 			candidateInfo userInfo = new candidateInfo();
-			userInfo.setId(userId);
+			userInfo.setId(getUser.getId());
 			userInfo.setEducation(education);
 			userInfo.setExperience(experience);
+			userInfo.setResume(resume);
 			this.userManager.addUserInfo(userInfo);
 
 			// deleting skills
-			this.userManager.deleteSkills(userId);
+			this.userManager.deleteSkills(getUser.getId());
 
 			// Adding updated skills
 			SkillSet userSkills;
 			for (String item : skills) {
 				userSkills = new SkillSet();
 
-				userSkills.setCreatedBy((int) userId);
+				userSkills.setCreatedBy((int) getUser.getId());
 				userSkills.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 				userSkills.setName(item);
 
@@ -170,10 +175,15 @@ public class UserService implements IUserService {
 		newUser.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 		this.userManager.addUser(newUser);
 	}
-
+	
+	
 	@Override
-	public User GetUserByEmail(String email) {
-		User user = this.userManager.getUserByEmail(email);
-		return user;
+	public void UpdateAdmin(User user) {
+		this.userManager.updateUser(user);;
+	}
+	
+	@Override
+	public void DeleteUser(long id) {
+		this.userManager.deleteUser(id);
 	}
 }

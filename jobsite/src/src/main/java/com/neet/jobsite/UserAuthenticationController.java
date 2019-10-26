@@ -231,3 +231,4 @@ public class UserAuthenticationController extends BaseMVCController {
 		}
 	
 }
+

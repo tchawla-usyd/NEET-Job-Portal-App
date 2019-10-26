@@ -35,7 +35,7 @@ import com.neet.jobsite.model.User;
 @Controller
 @RequestMapping(value = "/admin/**")
 public class AdminDashboardController {
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AdminDashboardController.class);
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -102,13 +102,6 @@ public class AdminDashboardController {
 		return "admin/users/userslists";
 	}
 
-	@RequestMapping(value = "/employers", method = RequestMethod.GET)
-	public String employers(Locale locale, Model model) {
-		ArrayList<User> users = this.userService.GetUserByType(3);
-		model.addAttribute("users", users);
-		return "admin/employers/employerslists";
-	}
-
 	@RequestMapping(value = "/administrators", method = RequestMethod.GET)
 	public String adminusers(Locale locale, Model model) {
 		ArrayList<User> users = this.userService.GetUserByType(2);
@@ -142,15 +135,61 @@ public class AdminDashboardController {
 			// encryption
 			password = bCryptPasswordEncoder.encode(password);
 
-			// Admin
+			// administrator
 			Integer userIntTypeValue = 2;
 
 			this.userService.AddAdmin(firstName, lastName, email, password, userIntTypeValue);
 			
 		} catch (Exception ex) {
-
+			logger.error(ex.getMessage());
+			return "admin/administrators/addadmin";
 		}
 
+		return "redirect:/admin/administrators";
+	}
+	
+	
+	@RequestMapping(value = "/admin/viewadmin/{id}", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public String updateadmin_post(@PathVariable("id") Long id, Model uiModel, HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			
+			String firstName = request.getParameter("FirstName");
+			String lastName = request.getParameter("LastName");
+			String isLocked = request.getParameter("IsLocked");
+			String isActive = request.getParameter("IsActive");
+			
+			User userToUpdate = this.userService.GetUserById((long)id);
+			userToUpdate.setFirstName(firstName);
+			userToUpdate.setLastName(lastName);
+			userToUpdate.setIsLocked(Boolean.parseBoolean(isLocked));
+			userToUpdate.setIsActive(Boolean.parseBoolean(isActive));
+
+			this.userService.UpdateAdmin(userToUpdate);
+			
+		} catch (Exception ex) {
+			logger.error(ex.getMessage());
+			return "admin/administrators/addadmin";
+		}
+
+		return "redirect:/admin/administrators";
+	}
+	
+	
+	@RequestMapping(value = "/admin/deleteadmin/{id}", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public String deleteadmin_post(@PathVariable("id") Long id, Model uiModel) {
+		try 
+		{
+			this.userService.DeleteUser(id);
+		} 
+		catch (Exception ex) 
+		{
+			logger.error(ex.getMessage());
+		}
+		finally {
+		}
 		return "redirect:/admin/administrators";
 	}
 }
