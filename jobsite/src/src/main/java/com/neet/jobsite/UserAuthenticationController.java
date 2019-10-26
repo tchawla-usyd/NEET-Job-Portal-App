@@ -94,12 +94,12 @@ public class UserAuthenticationController extends BaseMVCController {
 		String email = request.getParameter("Email");
 		String password =	request.getParameter("Password");
 		
-        
+        System.out.println(email);
 		boolean result= this.authenticateBal.Authenticate(email, password);
 		if(result)
 		{
-			HttpSession session = context.getSession(false);
-			session.setAttribute("loggedInUser","GAVIN");
+//			HttpSession session = context.getSession(false);
+//			session.setAttribute("loggedInUser","GAVIN");
 			
 			String token = Jwts.builder().setSubject(email)
 	                .claim("roles","cr@gmail.com").setIssuedAt(new Date())
