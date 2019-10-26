@@ -97,7 +97,7 @@ class Post extends Component {
         		<Form.Item {...formItemLayout} label="Job Skills">
 		          {getFieldDecorator('skills', {
 		            rules: [{ required: true}], message: 'Please add Skills!' 
-		          })(<Tags />)}
+		          })(<Tags editable = 'true'/>)}
         		</Form.Item>
 
         		{/* Submit Button */}
