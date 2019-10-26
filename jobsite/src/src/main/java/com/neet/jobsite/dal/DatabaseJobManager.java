@@ -44,6 +44,11 @@ public class DatabaseJobManager implements JobManager {
 	@Override
 	public List<Job> getJobs() {
 		List<Job> list = this.sessionFactory.getCurrentSession().createQuery("FROM Job").list();
+		
+		if(list.isEmpty()) {
+			return new ArrayList<Job>();
+		}
+		
 		return list;
 	}
 
@@ -77,11 +82,14 @@ public class DatabaseJobManager implements JobManager {
 	
 		List<Long> ids = new ArrayList<Long>();		
 		
+		if(query.list().isEmpty())
+			return new ArrayList<Job>();
+		
 		for(Object id: query.list()) {
 			Integer intID = (Integer) id;
 			ids.add(new Long(intID));
 		}
-		
+				
 		Query jobQuery = session.createQuery("FROM Job WHERE Id in (:ids)");
 		jobQuery.setParameterList("ids", ids);
 		

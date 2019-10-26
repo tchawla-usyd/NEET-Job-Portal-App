@@ -32,10 +32,12 @@ import com.neet.jobsite.bal.IAuthenticateService;
 import com.neet.jobsite.bal.IUserService;
 import com.neet.jobsite.configuration.JwtFilter;
 import com.neet.jobsite.model.User;
+import com.neet.jobsite.response.ClaimsResponse;
 import com.neet.jobsite.response.ErrorResponse;
 //import com.neet.jobsite.configuration;
 import com.neet.jobsite.response.TokenResponse;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -211,6 +213,28 @@ public class UserAuthenticationController extends BaseMVCController {
 		System.out.println( firstName + lastName + email + password + userIntTypeValue + skills + education + experience + companyName);
 		response.setStatus(200);
 		System.out.print("Success OK");
+		}
+	
+		@RequestMapping(value="/token", 
+				method=RequestMethod.GET, 
+				produces=MediaType.APPLICATION_JSON_VALUE)
+		@ResponseBody
+		@ResponseStatus(value = HttpStatus.OK)
+		public String decodeToken(HttpServletResponse response, @RequestHeader("Authorization") String userToken) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			String jsonReturn = null;
+			
+	        Claims claims = authenticateByToken(userToken);
+			if(claims != null) {
+				ClaimsResponse claimsResponse = new ClaimsResponse(claims);
+				jsonReturn = objectToJSON(objectMapper, claimsResponse);
+	
+			}
+			else {
+				response.setStatus(403);
+				jsonReturn = objectToJSON(objectMapper, new ErrorResponse("Authentication Failed"));
+			}
+			return jsonReturn;
 		}
 	
 }

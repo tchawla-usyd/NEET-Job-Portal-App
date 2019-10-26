@@ -8,7 +8,7 @@ public class ClaimsResponse {
 	
 	public ClaimsResponse(Claims claims) {
 		this.userId = (Integer) claims.get("uid");
-		this.userType = (Integer) claims.get("ut");
+		this.setUserType((Integer) claims.get("ut"));
 	}
 	
 	public Integer getUserId() {
@@ -16,5 +16,13 @@ public class ClaimsResponse {
 	}
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+	public Integer getUserType() {
+		return userType;
+	}
+
+	public void setUserType(Integer userType) {
+		this.userType = userType;
 	}
 }

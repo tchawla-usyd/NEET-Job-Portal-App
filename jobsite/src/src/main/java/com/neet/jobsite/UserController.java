@@ -79,26 +79,6 @@ public class UserController extends BaseMVCController {
 		}
 	}
 	
-	@RequestMapping(value="/token/authenticate", 
-			method=RequestMethod.GET, 
-			produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	@ResponseStatus(value = HttpStatus.OK)
-	public String decodeToken(HttpServletResponse response, @RequestHeader("Authorization") String userToken) {
-		ObjectMapper objectMapper = new ObjectMapper();
-		String jsonReturn = null;
-		
-        Claims claims = authenticateByToken(userToken);
-		if(claims != null) {
-			ClaimsResponse claimsResponse = new ClaimsResponse(claims);
-			jsonReturn = objectToJSON(objectMapper, claimsResponse);
 
-		}
-		else {
-			response.setStatus(403);
-			jsonReturn = objectToJSON(objectMapper, new ErrorResponse("Authentication Failed"));
-		}
-		return jsonReturn;
-	}
 	 
 }
