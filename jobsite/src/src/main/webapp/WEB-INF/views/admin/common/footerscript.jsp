@@ -7,5 +7,6 @@
 <script src="<c:url value="/resources/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js" />"></script>
 <script src="<c:url value="/resources/bower_components/jquery-slimscroll/jquery.slimscroll.min.js" />"></script>
 <script src="<c:url value="/resources/bower_components/fastclick/lib/fastclick.js" />"></script>
+<script src="<c:url value="/resources/plugins/iCheck/icheck.min.js" />"></script>
 
 <script src="<c:url value="/resources/dist/js/adminlte.min.js" />"></script>

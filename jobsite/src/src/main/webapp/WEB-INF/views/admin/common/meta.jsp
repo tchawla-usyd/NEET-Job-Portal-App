@@ -33,4 +33,37 @@
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        
+        
+  <style>
+  .dataTables_wrapper {
+  	border:solid silver 1px !important;
+  	padding:10px;
+  	background:white;
+  	border-radius: 5px;
+  }
+  
+  .dataTables_wrapper table thead tr{
+  	background: #222d32;
+  	color: #b8c7ce !important;
+  }
+  
+  .toolbar {
+  	margin-bottom:10px;
+  }
+  
+/*   .dropdown-menu { */
+/*   	color: #b8c7ce !important; */
+/*   	border-radius: 5px; */
+/*   } */
+  
+/*   .dropdown-menu .dropdown-item{ */
+/*   	padding:5px !important; */
+/*   	margin-right:5px !important; */
+/*   } */
+  
+/*   .dropdown-menu .dropdown-item div{ */
+/*   	margin-right:5px !important; */
+/*   } */
+  </style>      
 </head>

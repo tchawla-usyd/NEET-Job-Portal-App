@@ -4,11 +4,11 @@
 <header class="main-header">
 
     <!-- Logo -->
-    <a href="<c:url value="." />" class="logo">
+    <a href="<c:url value="/admin/" />" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>A</b>LT</span>
+      <span class="logo-mini"><b>N</b>.N</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>NEET</b>LTD</span>
+      <span class="logo-lg"><b>NEET</b>NET</span>
     </a>
 
     <!-- Header Navbar -->
@@ -156,7 +156,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="<c:url value="/admin/logout" />" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>

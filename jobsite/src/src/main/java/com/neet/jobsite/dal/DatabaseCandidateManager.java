@@ -108,9 +108,6 @@ public class DatabaseCandidateManager implements CandidateManager{
 		
 		List<User> users = userQuery.list();
 		
-		System.out.println(ids);
-		System.out.println(users);
-		
 		return users;
 	}
 

@@ -72,7 +72,7 @@ public class DatabaseJobManager implements JobManager {
 	public List<Job> getJobByCandidate(long candidate_id) {
 		Session session = this.sessionFactory.getCurrentSession();
 		Query query = session.createQuery("SELECT JobID FROM CandidateJobApplied WHERE UserID = :id");
-		query.setParameter("id", candidate_id);
+		query.setParameter("id", (int) candidate_id);
 	
 		List<Long> ids = new ArrayList<Long>();		
 		

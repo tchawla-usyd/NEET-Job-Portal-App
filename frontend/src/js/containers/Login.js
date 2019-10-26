@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Form, Icon, Input, Button, Checkbox, message} from 'antd';
 import 'antd/dist/antd.css';
-import logo from "../../NEET.png";
+import logo from "../../img/NEET.png";
 import axios from 'axios';
 
 const FormItem = Form.Item;
@@ -54,7 +54,7 @@ export default class Login extends Component {
         this.props.setAuthenticated();
 
         // If success
-        this.props.history.push("/home");
+        this.props.history.push("/about");
     }
 
     render() {

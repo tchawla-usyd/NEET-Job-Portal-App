@@ -19,12 +19,12 @@ import com.neet.jobsite.response.UserDetailResponse;
 public class UserService implements IUserService {
 	@Resource(name = "userManager")
 	private IUserManager userManager;
-	
+
 	@Override
-	public ArrayList<User> GetAllUsers(){
+	public ArrayList<User> GetAllUsers() {
 		return this.userManager.getUsers();
 	}
-	
+
 	/*
 	 * @Override public User AddUser(String firstName, String lastName, String
 	 * email, String password, Integer userType) { User newUser = new User();
@@ -39,10 +39,10 @@ public class UserService implements IUserService {
 	 * java.sql.Date(Calendar.getInstance().getTime().getTime()));
 	 * this.userManager.addUser(newUser); return newUser; }
 	 */
-	
+
 	public UserDetailResponse getUser(Integer userId) {
 		User user = userManager.getUserById(userId);
-		
+
 		UserDetailResponse res = new UserDetailResponse();
 		res.setId(user.getId());
 		res.setFirstName(user.getFirstName());
@@ -53,23 +53,19 @@ public class UserService implements IUserService {
 		res.setModifiedDate(user.getModifiedDate());
 		res.setIsActive(user.isIsActive());
 		res.setIsLocked(user.isIsLocked());
-		
+
 		return res;
 	}
-	
+
 	@Override
 	public User GetUserById(long userId) {
-		User user  = this.userManager.getUserById(userId);
+		User user = this.userManager.getUserById(userId);
 		return user;
 	}
-	
 
-	
-	
-	
 	@Override
 	public ArrayList<User> GetUserByType(Integer userType) {
-		ArrayList<User> users  = this.userManager.getUserByType(userType);
+		ArrayList<User> users = this.userManager.getUserByType(userType);
 		return users;
 	}
 
@@ -88,38 +84,93 @@ public class UserService implements IUserService {
 		newUser.setModifiedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 		newUser.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 		this.userManager.addUser(newUser);
-		
-		//job seeker
-		if(userIntTypeValue == 4) {
-			//Adding skills in the database
+
+		// job seeker
+		if (userIntTypeValue == 4) {
+			// Adding skills in the database
 			SkillSet userSkills;
-			for(String item : skills) {
+			for (String item : skills) {
 				userSkills = new SkillSet();
-				
-				userSkills.setCreatedBy((int)newUser.getId());
+
+				userSkills.setCreatedBy((int) newUser.getId());
 				userSkills.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 				userSkills.setName(item);
-				
+
 				this.userManager.addSkills(userSkills);
 			}
-			
-			//Adding education and experience in the DB
-			
+
+			// Adding education and experience in the DB
+
 			candidateInfo userInfo = new candidateInfo();
-			userInfo.setId((int)newUser.getId());
+			userInfo.setId((int) newUser.getId());
 			userInfo.setEducation(education);
 			userInfo.setExperience(experience);
 			userInfo.setResume(null);
-			
+
 			this.userManager.addUserInfo(userInfo);
 		} else if (userIntTypeValue == 3) {
-			//employer
+			// employer
 			Company userCompany = new Company();
 			userCompany.setCompanyName(companyName);
-			userCompany.setUserID((int)newUser.getId());
-			
+			userCompany.setUserID((int) newUser.getId());
+
 			this.userManager.addCompanyInfo(userCompany);
 		}
-		
+
+	}
+
+	@Override
+	public boolean updateUser(long userId, String education, String experience, String resume, List<String> skills) {
+
+		try {
+			// getting user details based on the email id
+			//getUser = this.userManager.getUserByEmail(email);
+
+			// deleting candidate info and adding updated info
+			this.userManager.deleteCandidateInfor(userId);
+
+			// adding Candidate info
+			candidateInfo userInfo = new candidateInfo();
+			userInfo.setId(userId);
+			userInfo.setEducation(education);
+			userInfo.setExperience(experience);
+			userInfo.setResume(resume);
+			this.userManager.addUserInfo(userInfo);
+
+			// deleting skills
+			this.userManager.deleteSkills(userId);
+
+			// Adding updated skills
+			SkillSet userSkills;
+			for (String item : skills) {
+				userSkills = new SkillSet();
+
+				userSkills.setCreatedBy((int) userId);
+				userSkills.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+				userSkills.setName(item);
+
+				this.userManager.addSkills(userSkills);
+			}
+
+		} catch (Exception e) {
+		}
+
+		return false;
+	}
+
+	@Override
+	public void AddAdmin(String firstName, String lastName, String email, String password, Integer userIntTypeValue) {
+		User newUser = new User();
+		newUser.setFirstName(firstName);
+		newUser.setLastName(lastName);
+		newUser.setEmail(email);
+		newUser.setPassword(password);
+		newUser.setUserTypeID(userIntTypeValue);
+		newUser.setIsActive(true);
+		newUser.setIsLocked(false);
+		newUser.setCreateDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+		newUser.setModifiedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+		newUser.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+		this.userManager.addUser(newUser);
 	}
 }

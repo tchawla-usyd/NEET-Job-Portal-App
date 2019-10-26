@@ -2,7 +2,7 @@ import { Layout, Menu, Dropdown, Avatar, Icon } from 'antd';
 import { Link } from 'react-router-dom'
 import React, {Component} from "react";
 
-import logo from "../../NEET.png";
+import logo from "../../img/NEET.png";
 
 const { Header, Footer, Content } = Layout;
 
@@ -14,7 +14,6 @@ export default class BaseLayout extends Component {
         super(props);
         if(!this.props.parentProps.isAuthenticated){
         	this.props.parentProps.history.push('/');
-        	return null;
         }
     }
 
@@ -68,13 +67,13 @@ export default class BaseLayout extends Component {
 					  </Dropdown>
 				</span>
 				<MenuItem className="myitem" style={{...itemStyle, marginRight: 20}} key='3'>nav 3</MenuItem>
-				<MenuItem className="myitem" style={itemStyle} key='2'><Link to='/slides'>Slides</Link></MenuItem>
+				<MenuItem className="myitem" style={itemStyle} key='2'><Link to='/about'>About</Link></MenuItem>
 		        <MenuItem className="myitem" style={itemStyle} key='1'><Link to='/home'>Dashboard</Link></MenuItem>
 		      </Menu>
 		      
 	      </Header>
 	      <Content style={{ padding: '0 50px', marginTop: 64 }}>
-	      	<div style={{ background: '#fff', padding: 24, minHeight: 800 }}>
+	      	<div style={{ background: '#fff', padding: 24, minHeight: 600 }}>
 	      		{this.props.children}
 	      	</div>
 	      </Content>

@@ -84,6 +84,7 @@ export default class JobListing extends Component {
       this.state = {loading: true};
       axios.get(GET_JOB_FOR + 1, this.headers)
         .then(res => { 
+        console.log(res);
         var jobs = res.data.map(job =>{
               return {key: job.uid,
               title: job.title,
@@ -118,6 +119,7 @@ export default class JobListing extends Component {
       axios.post(APPLY, qs.stringify({job_id: job_id}), this.headers)
         .then(res => {
           message.success("Apply Success!");
+          this.forceUpdate();
         });
     }
 
