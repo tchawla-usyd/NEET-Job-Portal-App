@@ -14,8 +14,10 @@ export default class Paragraph_ extends Component {
 	
 	handleToggle = (e) => {
 		if(this.state.edit){
+			var payload = {};
+			payload[this.props.name] = this.state.input;
 			// Save the change
-			this.props.handleSubmit({"description": this.state.input});
+			this.props.handleSubmit(payload);
 		}
 		this.setState({edit: !this.state.edit});
 	}

@@ -24,3 +24,4 @@ export const GET_CAN_SKILLS = BACKEND + 'candidate/skills/';
 
 //user
 export const SIGNUP = BACKEND + 'authenticate/registerProcess';
+export const EDIT_USER = BACKEND + 'user/edit';

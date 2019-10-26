@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import axios from 'axios';
-import { Divider, Avatar, Typography, Input, Icon, Button } from 'antd';
+import qs from 'querystring';
+import { Divider, Avatar, Typography, Input, Icon, Button, message} from 'antd';
 
 import BaseLayout from '../components/BaseLayout';
 import Uploader from '../components/Uploader';
@@ -8,11 +9,11 @@ import Paragraph_ from '../components/Paragraph_';
 import Tags from '../components/Tags';
 import Spinner from '../components/Spinner';
 
-import {GET_CAN, GET_CAN_SKILLS, HEADER} from "../constants/BackendAPI"
+import {GET_CAN, GET_CAN_SKILLS, EDIT_USER, HEADER} from "../constants/BackendAPI"
 const { Title, Text, Paragraph } = Typography;
 const para_style = {marginLeft:60,  marginRight: 50, marginBottom: 40, marginTop: 40, fontSize: 18};
 
-const isEmployer = true;
+const isEmployer = false;
 //Profile Page
 export default class Profile extends Component {
 	
@@ -50,11 +51,17 @@ export default class Profile extends Component {
 
 	}
 
-	onChange = (value) => {
-	  //TODO
-      console.log(value);
-	 }
-
+	handleSubmit = (payload) => {
+        axios.post(EDIT_USER, qs.stringify({"userId": this.id, ...payload}), this.headers)
+        .then(res => {
+            if (res.status == 200) {
+                this.setState({candidateInfo: Object.assign({}, this.state.candidateInfo, payload)});
+                message.success('Changes Saved');
+            }else{
+                message.error("Something is wrong !");
+            }
+        })
+    }
 
 
 	componentDidMount(prevProps) {
@@ -69,8 +76,7 @@ export default class Profile extends Component {
 
 	render() {
 		console.log(this.state);
-		// const Paragraph_ = (props) => <Paragraph editable={{ onChange: this.onChange }} style={para_style}>{props.children}</Paragraph>;
-		const Divider_ = (props) => <Divider orientation="left"><Text style={{fontSize: 30}} strong  >{props.children}</Text></Divider>;
+		const Divider_ = (props) => <Divider orientation="left"><Text style={{fontSize: 30}} strong >{props.children}</Text></Divider>;
 		return(
 		<BaseLayout parentProps={this.props}>
 		{this.state.loading_profile ||  this.state.loading_skills ? <Spinner /> :
@@ -78,17 +84,17 @@ export default class Profile extends Component {
 			<Avatar size={200} shape="square" style={{margin: 50, color: '#ffffff', backgroundColor: '#666666', fontSize: 80 }}>{this.getInit(this.state.name)}</Avatar>
 			
 			<div style={{display:'inline-block', verticalAlign: 'bottom', marginLeft: 50, marginBottom: 40}}>
-				<Title editable={isEmployer ? false : { onChange: this.onChange }}>{this.state.name}</Title>
+				<Title>{this.state.name}</Title>
 				<Icon type="mail" theme="twoTone" /><a href={"mailto:" + 123} style={{marginLeft:10}}>{this.state.basicInfo.email}</a>
 			</div>
 			<Divider_>Education</Divider_>
-			<Paragraph_>{this.state.candidateInfo.education == null ? "" : this.state.candidateInfo.education}</Paragraph_>
+			<Paragraph_ name='education' handleSubmit={this.handleSubmit} >{this.state.candidateInfo.education == null ? "" : this.state.candidateInfo.education}</Paragraph_>
 
 			<Divider_>Skills</Divider_>
-			<div style={para_style}><Tags skills={this.state.skills}/> </div>
+			<div style={para_style}><Tags onChange={this.handleSubmit} skills={this.state.skills}/> </div>
 
 			<Divider_>Experience</Divider_>
-			<Paragraph_>{this.state.candidateInfo.experience == null ? "" : this.state.candidateInfo.experience}</Paragraph_>
+			<Paragraph_ name='experience' handleSubmit={this.handleSubmit} >{this.state.candidateInfo.experience == null ? "" : this.state.candidateInfo.experience}</Paragraph_>
 
 			<Divider_>Resume</Divider_>
 			<div style={{...para_style, width: 200}}><Uploader resume={this.state.candidateInfo.resume} /></div>
