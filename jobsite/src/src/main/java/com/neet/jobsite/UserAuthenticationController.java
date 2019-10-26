@@ -1,11 +1,14 @@
 package com.neet.jobsite;
+ 
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,14 +26,25 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neet.jobsite.bal.IAuthenticateService;
 import com.neet.jobsite.bal.IUserService;
+import com.neet.jobsite.configuration.JwtFilter;
 import com.neet.jobsite.model.User;
+//import com.neet.jobsite.configuration;
+import com.neet.jobsite.response.TokenResponse;
+import com.neet.jobsite.response.UserDetailResponse;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
 
 @Controller
 @RequestMapping(value = "/authenticate/**")
 public class UserAuthenticationController extends BaseMVCController {
+	
+	public static String tokenHolder = "";
 
 	@Resource(name = "authenticateBal")
 	private IAuthenticateService authenticateBal;
@@ -39,13 +53,33 @@ public class UserAuthenticationController extends BaseMVCController {
 	@Resource(name = "userService")
 	private IUserService userService;
 	
+//	@Inject
+//	private JwtFilter jwtFilter;
+	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
+		//Adding the bean Registration Filter for token
+		
 		return "redirect:authenticate/login";
 	}
+	
+	@RequestMapping(value = "/api/test", method = RequestMethod.GET)
+	public String testMethod(HttpServletRequest request,HttpServletResponse response,@RequestHeader("Authorization") String userToken) {
+		//jwtFilter.doFilter(request, response, chain);
+		if(userToken.equals(tokenHolder)) {
+			System.out.println("Test Successful");
+			return "home";
+		}else {
+			
+			return "redirect:authenticate/login";
+		}
+		
+	}
+	
+	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Locale locale, Model model) {
@@ -54,31 +88,74 @@ public class UserAuthenticationController extends BaseMVCController {
 		
 	}
 	
-
-	
-
-	@RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.OK)
-	public void loginProcess(HttpServletRequest request,HttpServletResponse response) {
+	@RequestMapping(value = "/loginProcess", 
+			method = RequestMethod.POST,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public String loginProcess(HttpServletRequest request, HttpServletResponse response) {
 		String email = request.getParameter("Email");
 		String password =	request.getParameter("Password");
+		
+        System.out.println(email);
 		boolean result= this.authenticateBal.Authenticate(email, password);
 		if(result)
 		{
-			HttpSession session = context.getSession(false);
-			session.setAttribute("loggedInUser","GAVIN");
-			//jsonReturn = objectMapper.writeValueAsString();
+//			HttpSession session = context.getSession(false);
+//			session.setAttribute("loggedInUser","GAVIN");
+			
+			String token = Jwts.builder().setSubject(email)
+	                .claim("roles","cr@gmail.com").setIssuedAt(new Date())
+	                .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
+			
+			System.out.println(token);
+			tokenHolder = token;
+			System.out.println("Value of Token Holder : " + tokenHolder);
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			String jsonReturn = null;
+			Integer userId = null;
+			
+			userId = (int) userService.GetUserByEmail(email).getId();
+			
+			
+			TokenResponse tokenResponse = new TokenResponse();
+			tokenResponse.setToken(token);
+			tokenResponse.setId(userId);
+			
+			System.out.println("Token:" + tokenResponse.getToken());
+			System.out.println("User Id:" + tokenResponse.getId());
+			
+			try {
+				jsonReturn = objectMapper.writeValueAsString(tokenResponse);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+			
+			System.out.println(jsonReturn);
 			response.setStatus(200);
-			System.out.println("Success OK");
+			return jsonReturn;	
+			
 		}
 		else {
-			//jsonReturn = objectMapper.writeValueAsString();
-			response.setStatus(403);
+			
 			System.out.println("Failed");
+			response.setStatus(403);
+			return null;
 		}
+	
 		
 	}
+    @SuppressWarnings("unused")
+    private static class LoginResponse {
+        public String token;
+
+        public LoginResponse(final String token) {
+            this.token = token;
+        }
+    }
+
 	
+
 
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -86,10 +163,6 @@ public class UserAuthenticationController extends BaseMVCController {
 		model.addAttribute("register", new User());
 		return "authenticate/register";
 	}
-
-	
-
-	
 
 	@RequestMapping(value = "/registerProcess", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
@@ -156,7 +229,6 @@ public class UserAuthenticationController extends BaseMVCController {
 		response.setStatus(200);
 		System.out.print("Success OK");
 		}
-
-		
 	
 }
+
