@@ -38,7 +38,7 @@ public class CandidateController extends BaseMVCController{
 		
 		Integer jobId = Integer.parseInt(httpServletRequest.getParameter("job_id"));
 		
-		if(authenticateByToken(userToken)) {
+		if(authenticateByToken(userToken) != null) {
 			HttpSession session = context.getSession(false);
 			Integer userId = (Integer) session.getAttribute("userId");
 			candidateService.applyJob(jobId, userId);
@@ -61,7 +61,7 @@ public class CandidateController extends BaseMVCController{
 		
 		List<ApplicantsResponse> applicants = null;
 		
-		if(authenticateByToken(userToken)) {
+		if(authenticateByToken(userToken) != null) {
 			HttpSession session = context.getSession(false);
 			Integer userId = (Integer) session.getAttribute("userId");
 			applicants = candidateService.getApplicants(jobId, userId);
@@ -89,7 +89,7 @@ public class CandidateController extends BaseMVCController{
 		
 		String jsonReturn = null;
 		
-		if(authenticateByToken(userToken)) {
+		if(authenticateByToken(userToken) != null) {
 			HttpSession session = context.getSession(false);
 			Integer userId = (Integer) session.getAttribute("userId");
 			List<SkillSet> skills = candidateService.getCandidateSkills(candidateId, userId);
@@ -114,7 +114,7 @@ public class CandidateController extends BaseMVCController{
 		ObjectMapper objectMapper = new ObjectMapper();
 		String jsonReturn = null;
 		
-		if(authenticateByToken(userToken)) {
+		if(authenticateByToken(userToken) != null) {
 			HttpSession session = context.getSession(false);
 			Integer userId = (Integer) session.getAttribute("userId");
 			CandidateResponse candidate = candidateService.getCandidate(candidateId, userId);

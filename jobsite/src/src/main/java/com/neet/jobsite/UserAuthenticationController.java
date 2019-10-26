@@ -32,6 +32,7 @@ import com.neet.jobsite.bal.IAuthenticateService;
 import com.neet.jobsite.bal.IUserService;
 import com.neet.jobsite.configuration.JwtFilter;
 import com.neet.jobsite.model.User;
+import com.neet.jobsite.response.ErrorResponse;
 //import com.neet.jobsite.configuration;
 import com.neet.jobsite.response.TokenResponse;
 
@@ -94,42 +95,36 @@ public class UserAuthenticationController extends BaseMVCController {
 		String email = request.getParameter("Email");
 		String password =	request.getParameter("Password");
 		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String jsonReturn = null;
+		
         System.out.println(email);
-		boolean result= this.authenticateBal.Authenticate(email, password);
-		if(result)
-		{
-//			HttpSession session = context.getSession(false);
-//			session.setAttribute("loggedInUser","GAVIN");
+		User user = this.authenticateBal.Authenticate(email, password);
+		if(user != null)
+		{	
 			
-			String token = Jwts.builder().setSubject(email)
-	                .claim("roles","cr@gmail.com").setIssuedAt(new Date())
-	                .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
+	        String token = createJWT(
+	                "neet.net", // claim = iss
+	                user.getId(), // claim = uid
+	                user.getUserTypeID() // claim = ut
+	        );
 			
 			System.out.println(token);
-			tokenHolder = token;
-			System.out.println("Value of Token Holder : " + tokenHolder);
-			
-			ObjectMapper objectMapper = new ObjectMapper();
-			String jsonReturn = null;
 			
 			TokenResponse tokenResponse = new TokenResponse();
 			tokenResponse.setToken(token);
-			
-			try {
-				jsonReturn = objectMapper.writeValueAsString(tokenResponse);
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
-			
-			System.out.println(jsonReturn);
-			return jsonReturn;	
-			
+
+			jsonReturn = objectToJSON(objectMapper, tokenResponse);
+	
 		}
 		else {
 			
-			System.out.println("Failed");
-			return null;
+			response.setStatus(401);
+			jsonReturn = objectToJSON(objectMapper, new ErrorResponse("Authentication Failed"));
 		}
+		
+		return jsonReturn;	
+
 	
 		
 	}

@@ -21,6 +21,8 @@ import com.neet.jobsite.bal.CandidateService;
 import com.neet.jobsite.response.ErrorResponse;
 import com.neet.jobsite.response.S3UploadResponse;
 
+import io.jsonwebtoken.Claims;
+
 @Controller
 @RequestMapping(value="/storage/**")
 public class BucketController extends BaseMVCController{
@@ -45,10 +47,10 @@ public class BucketController extends BaseMVCController{
         
         ObjectMapper objectMapper = new ObjectMapper();
 		String jsonReturn = null;
-                
-        if(authenticateByToken(userToken)) {
+        Claims claims = authenticateByToken(userToken);
+        if(claims != null) {
 			HttpSession session = context.getSession(false);
-			Integer userId = (Integer) session.getAttribute("userId");
+			Integer userId = (Integer) claims.get("uid");
 			
 			String fileUrl = this.amazonClient.uploadFile(file);
 		    boolean isUploaded = (fileUrl != null);

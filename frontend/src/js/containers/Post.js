@@ -37,7 +37,7 @@ class Post extends Component {
 		  	}
 
 		    /* TODO: Backend */
-            axios.post(ADD_JOB, qs.stringify(payload), this.header)
+            axios.post(ADD_JOB, qs.stringify(payload), this.headers)
             .then(res => {
                 if (res.status == 200) {
                     // const token = res.data.token;

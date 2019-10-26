@@ -12,7 +12,7 @@ const { Text } = Typography;
 
 //dummy
 const userSkills = ['jobs', 'teacher', 'developer'];
-const isEmployer = false;
+const isEmployer = true;
 
 export default class JobListing extends Component {
   
