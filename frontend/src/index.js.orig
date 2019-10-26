@@ -1,0 +1,21 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from "./js/components/App";
+<<<<<<< HEAD
+
+=======
+>>>>>>> d19875f
+import { BrowserRouter as Router } from "react-router-dom";
+
+ReactDOM.render(
+     <Router>
+     	<App />
+<<<<<<< HEAD
+     </Router>
+  , 
+=======
+     </Router>, 
+>>>>>>> d19875f
+  document.getElementById('root'));
+
