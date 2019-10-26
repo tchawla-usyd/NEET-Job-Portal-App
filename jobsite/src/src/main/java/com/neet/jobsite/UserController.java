@@ -58,11 +58,10 @@ public class UserController extends BaseMVCController {
 		long userId=  Long.parseLong(request.getParameter("userId"));
 		String education = request.getParameter("education");
 		String experience = request.getParameter("experience");
-		String resume = request.getParameter("resume");
-		List<String> skills = Arrays.asList(request.getParameterValues("skills"));
+		List<String> skills = request.getParameterValues("skills") == null ? null : Arrays.asList(request.getParameterValues("skills"));
 		boolean result = false;
 		try {
-			result = Iuserservice.updateUser(userId, education, experience, resume, skills);
+			result = Iuserservice.updateUser(userId, education, experience, skills);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

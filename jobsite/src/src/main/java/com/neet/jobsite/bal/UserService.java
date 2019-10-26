@@ -105,8 +105,6 @@ public class UserService implements IUserService {
 			userInfo.setId((int) newUser.getId());
 			userInfo.setEducation(education);
 			userInfo.setExperience(experience);
-			userInfo.setResume(null);
-
 			this.userManager.addUserInfo(userInfo);
 		} else if (userIntTypeValue == 3) {
 			// employer
@@ -120,7 +118,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public boolean updateUser(long userId, String education, String experience, String resume, List<String> skills) {
+	public boolean updateUser(long userId, String education, String experience, List<String> skills) {
 
 		try {
 			// getting user details based on the email id
@@ -134,7 +132,6 @@ public class UserService implements IUserService {
 			userInfo.setId(userId);
 			userInfo.setEducation(education);
 			userInfo.setExperience(experience);
-			userInfo.setResume(resume);
 			this.userManager.addUserInfo(userInfo);
 
 			// deleting skills

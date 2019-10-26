@@ -8,6 +8,10 @@ import slide_2 from "../../img/Slide_2.png";
 import slide_3 from "../../img/Slide_3.png";
 
 export default class Slides extends Component {
+
+	componentDidMount(prevProps) {
+      window.scrollTo(0, 0);
+	}
 	render(){
 		const style={maxHeight: '100%', maxWidth: '100%', objectFit: 'contain'};
 		return(
