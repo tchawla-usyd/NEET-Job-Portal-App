@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.neet.jobsite.model.CandidateSkills;
 import com.neet.jobsite.model.Company;
 import com.neet.jobsite.model.SkillSet;
 import com.neet.jobsite.model.User;
@@ -113,12 +115,66 @@ public class DatabaseUserManager implements IUserManager {
 	}
 
 	@Override
-	public void deleteSkills(long id) {
+	public void deleteSkills(long userId) {
 		Session currentSession = this.sessionFactory.getCurrentSession();
+		Query query = null;
+		query = currentSession.createQuery("from SkillSet ss WHERE ss.CreatedBy=?");
+		query.setParameter(0, (int)userId);
+		List<SkillSet> retrievedList = query.list();
+		for(SkillSet item : retrievedList) {
+			query = currentSession.createSQLQuery("SET SQL_SAFE_UPDATES = 0");
+			query.executeUpdate();
+			query = currentSession.createSQLQuery("SET FOREIGN_KEY_CHECKS = 0");
+			query.executeUpdate();
+			query = currentSession.createQuery("DELETE from SkillSet ss WHERE ss.Id=?");
+			query.setParameter(0, item.getId());
+			int count = query.executeUpdate();
+			System.out.print(count);
+		}
+	}
+
+	@Override
+	public void addCandidateSkills(CandidateSkills userCandidateSkills) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		currentSession.save(userCandidateSkills);		
+	}
+
+	@Override
+	public void updateEducation(long userId, String education) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		Query query = currentSession.createQuery("UPDATE candidateInfo ci set ci.education=? WHERE ci.Id=?");
+		query.setParameter(0, education);
+		query.setParameter(1, userId);
+		query.executeUpdate();
+	}
+
+	@Override
+	public void updateExperience(long userId, String experience) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		Query query = currentSession.createQuery("UPDATE candidateInfo ci set ci.experience=? WHERE ci.Id=?");
+		query.setParameter(0, experience);
+		query.setParameter(1, userId);
+		query.executeUpdate();
 		
-		List<SkillSet> userSkills = (List<SkillSet>) currentSession.createCriteria(SkillSet.class).
-				add(Restrictions.eq("Id", id)).list();
-		currentSession.delete(userSkills);
+	}
+
+	@Override
+	public void deleteCandidateSkills(long userId) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		Query query = null;
+		query = currentSession.createQuery("from CandidateSkills cs WHERE cs.UserID=?");
+		query.setParameter(0, (int)userId);
+		List<CandidateSkills> retrievedList = query.list();
+		for(CandidateSkills item : retrievedList) {
+			query = currentSession.createSQLQuery("SET SQL_SAFE_UPDATES = 0");
+			query.executeUpdate();
+			query = currentSession.createSQLQuery("SET FOREIGN_KEY_CHECKS = 0");
+			query.executeUpdate();
+			query = currentSession.createQuery("DELETE from CandidateSkills cs WHERE cs.id=?");
+			query.setParameter(0, item.getId());
+			int count = query.executeUpdate();
+			System.out.print(count);
+		}
 	}
 	
 }

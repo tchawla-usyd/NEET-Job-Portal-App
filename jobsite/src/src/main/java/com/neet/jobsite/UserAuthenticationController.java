@@ -98,9 +98,6 @@ public class UserAuthenticationController extends BaseMVCController {
 		boolean result= this.authenticateBal.Authenticate(email, password);
 		if(result)
 		{
-//			HttpSession session = context.getSession(false);
-//			session.setAttribute("loggedInUser","GAVIN");
-			
 			String token = Jwts.builder().setSubject(email)
 	                .claim("roles","cr@gmail.com").setIssuedAt(new Date())
 	                .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
@@ -122,12 +119,14 @@ public class UserAuthenticationController extends BaseMVCController {
 			}
 			
 			System.out.println(jsonReturn);
+			response.setStatus(200);
 			return jsonReturn;	
 			
 		}
 		else {
 			
 			System.out.println("Failed");
+			response.setStatus(403);
 			return null;
 		}
 	
@@ -144,8 +143,6 @@ public class UserAuthenticationController extends BaseMVCController {
 
 	
 
-
-	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String showRegister(Locale locale, Model model) {
 		model.addAttribute("register", new User());
@@ -184,8 +181,6 @@ public class UserAuthenticationController extends BaseMVCController {
 		}
 		}catch(Exception e) {}
 		
-		
-		
 		//checking for employer
 		String companyName = null;
 		try {
@@ -213,7 +208,6 @@ public class UserAuthenticationController extends BaseMVCController {
 		
 		//todo: User Type
 		this.userService.AddUser(firstName, lastName, email, password, userIntTypeValue, skills, education, experience, companyName);
-		System.out.println( firstName + lastName + email + password + userIntTypeValue + skills + education + experience + companyName);
 		response.setStatus(200);
 		System.out.print("Success OK");
 		}
