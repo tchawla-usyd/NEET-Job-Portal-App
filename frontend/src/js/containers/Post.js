@@ -18,10 +18,6 @@ class Post extends Component {
         this.headers = {headers:{...HEADER, 'Authorization': this.token}};
     }
 
-	componentDidMount(prevProps) {
-      window.scrollTo(0, 0);
-	}
-
 	handleSubmit = async(e) => {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {

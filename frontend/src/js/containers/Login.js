@@ -1,11 +1,8 @@
 import React, {Component} from "react";
 import {Form, Icon, Input, Button, Checkbox, message} from 'antd';
 import 'antd/dist/antd.css';
+import logo from "../../NEET.png";
 import axios from 'axios';
-import qs from 'querystring';
-
-import {LOGIN, HEADER} from "../constants/BackendAPI"
-import logo from "../../img/NEET.png";
 
 const FormItem = Form.Item;
 
@@ -15,8 +12,8 @@ export default class Login extends Component {
         super(props);
 
         this.state = {
-            Email: "",
-            Password: "",
+            email: "",
+            password: "",
             isLoading: false
         };
         if(this.props.isAuthenticated){
@@ -33,26 +30,31 @@ export default class Login extends Component {
 
     handleSubmit = async event => {
         event.preventDefault();
-        this.setState({isLoading: true});
+        // this.setState({isLoading: true});
 
-        try {
-            console.log(this.state);
-            axios.post(LOGIN, qs.stringify(this.state))
-            .then(res => {
-                if (res.status == 200) {
-                    const token = res.data.token;
-                    localStorage.setItem('token', token);// set token in local storage for continuous authentication
-                    this.props.setAuthenticated();
-                    this.props.history.push("/about");
-                }else{
-                    message.error("Wrong Username/Password !");
-                }
-            })
-        } catch (e) {
-            alert(e.message);
-            this.setState({isLoading: false});
-        }
-        
+        /* TODO: Add backend */
+        // try {
+        //     axios.post('localhost:8000/user/api/login/', this.state)
+        //     .then(res => {
+        //         if (res.status == 200) {
+        //             const token = res.data.token;
+        //             localStorage.setItem('token', token);// set token in local storage for continuous authentication
+        //             this.props.setAuthenticated();
+        //             this.props.history.push("/songs");
+
+        //         }else{
+        //             message.error("Wrong Username/Password !");
+        //         }
+        //     })
+        // } catch (e) {
+        //     alert(e.message);
+        //     this.setState({isLoading: false});
+        // }
+        localStorage.setItem('token', '123');// set token in local storage for continuous authentication
+        this.props.setAuthenticated();
+
+        // If success
+        this.props.history.push("/home");
     }
 
     render() {
@@ -72,7 +74,7 @@ export default class Login extends Component {
                             prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
                             placeholder="Email"
                             onChange={(event) => {
-                                this.setState({Email: event.target.value});
+                                this.setState({email: event.target.value});
                             }}/>
                     </FormItem>
 
@@ -82,7 +84,7 @@ export default class Login extends Component {
                             prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
                             type="password"
                             placeholder="Password"
-                            onChange={(event) => this.setState({Password: event.target.value})}/>
+                            onChange={(event) => this.setState({password: event.target.value})}/>
                     </FormItem>
 
                     {/* Login Button */}

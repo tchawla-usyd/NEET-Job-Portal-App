@@ -3,7 +3,7 @@ import axios from 'axios';
 import qs from 'querystring';
 import { Form, Input, Tooltip, Icon, Row, Col, Checkbox, Button, Radio} from 'antd';
 
-import logo from "../../img/NEET.png";
+import logo from "../../NEET.png";
 import Tags from "../components/Tags";
 import {SIGNUP, HEADER} from "../constants/BackendAPI"
 
@@ -26,9 +26,7 @@ class Signup extends Component {
       if (!err) {
         try {
             // check user is signed up here, so far this does nothing lmao
-            axios.post(SIGNUP,  
-              qs.stringify(Object.assign(values, {skills: values.skills == null ? '' : values.skills.skills})),
-              this.headers).
+            axios.post(SIGNUP,  qs.stringify(Object.assign(values, {skills: values.skills.skills})), this.headers).
             then(res => {
               if (res.status == 200) {
                   this.props.history.push("/");//go to login page

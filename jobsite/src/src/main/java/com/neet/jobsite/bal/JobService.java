@@ -243,7 +243,9 @@ public class JobService {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-				
+		
+		System.out.println(sDate.getTime());
+		
 		return new java.sql.Date(sDate.getTime());
 	}
 

@@ -45,6 +45,7 @@ export default class Job extends Component {
     
     componentDidMount(prevProps) {
       window.scrollTo(0, 0);
+
 	}
 
     handleSubmit = (payload) => {
@@ -52,7 +53,7 @@ export default class Job extends Component {
         axios.post(EDIT_JOB, qs.stringify({"job_id": this.id, ...payload}), this.headers)
         .then(res => {
             if (res.status == 200) {
-                this.setState({payload});
+                this.setState({...payload});
                 message.success('Changes Saved');
             }else{
                 message.error("Something is wrong !");
@@ -74,7 +75,7 @@ export default class Job extends Component {
 				<div style={{marginLeft: 60, marginBottom: 50}}><Icon type="environment" theme="twoTone" style={{marginRight: 10}}/>{this.state.location}</div>
 				
 				<Divider_>Description</Divider_>
-				<Paragraph_ name='description' handleSubmit={this.handleSubmit}>{this.state.description}</Paragraph_>
+				<Paragraph_ handleSubmit={this.handleSubmit}>{this.state.description}</Paragraph_>
 
 				<Divider_>Skills</Divider_>
 				<div style={para_style}><Tags onChange={this.handleSubmit} skills={this.state.skills}/> </div>

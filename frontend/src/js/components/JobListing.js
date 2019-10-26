@@ -4,7 +4,7 @@ import qs from 'querystring';
 import { Table, Divider, Tag, Input, Button, Icon, Typography, message, Pagination, Dropdown, Menu} from 'antd';
 import { Link } from 'react-router-dom'
 
-import {APPLY, GET_JOB_FOR, GET_CAN_JOBS, HEADER} from "../constants/BackendAPI"
+import {APPLY, GET_JOB_FOR, HEADER} from "../constants/BackendAPI"
 import Spinner from '../components/Spinner';
 
 const { Search } = Input;
@@ -73,8 +73,7 @@ export default class JobListing extends Component {
                  : <Icon style={{fontSize: 18, color: '#666666'}} type="heart" />}
               </Button>
               <Divider style={{fontSize: 20}} type="vertical" />
-              {record.applied ? <span style={{fontSize: 15}}><Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" /> Applied</span>
-                : <Button type= 'link' onClick={(e) => this.handleApply(record)} style={{fontSize: 15}}>Apply</Button>}
+              <Button type= 'link' onClick={(e) => this.handleApply(record.key)} style={{fontSize: 15}}>Apply</Button>
             </span>
           ),
         },
@@ -85,7 +84,6 @@ export default class JobListing extends Component {
       this.state = {loading: true};
       axios.get(GET_JOB_FOR + 1, this.headers)
         .then(res => { 
-        console.log(res);
         var jobs = res.data.map(job =>{
               return {key: job.uid,
               title: job.title,
@@ -93,7 +91,6 @@ export default class JobListing extends Component {
               location: job.location,
               skills: job.skills.map(skill => skill.name),
               like: false,
-              applied: false,
             }});
           this.setState({
             jobs: jobs, 
@@ -117,12 +114,10 @@ export default class JobListing extends Component {
           });
     }
 
-    handleApply = (record) =>{
-      axios.post(APPLY, qs.stringify({job_id: record.key}), this.headers)
+    handleApply = (job_id) =>{
+      axios.post(APPLY, qs.stringify({job_id: job_id}), this.headers)
         .then(res => {
           message.success("Apply Success!");
-          record.applied = true;
-          this.forceUpdate();
         });
     }
 
@@ -185,10 +180,9 @@ export default class JobListing extends Component {
 
       return (
         <div>
-          <div><Text style={{fontSize: 30}}>Trending Jobs</Text></div>
           {/* Seach Bar */}
           <Search placeholder="input search text" 
-          style={{ width: 300, marginTop: 20}}
+          style={{ width: 300 }}
           onChange={(e)=> this.handleSearch(e.target.value)}
           onSearch={(value)=> this.handleSearch(value)}
           enterButton={<Button style={{ width: 60 }} icon="search" />} />
