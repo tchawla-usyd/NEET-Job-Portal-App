@@ -111,9 +111,15 @@ public class UserAuthenticationController extends BaseMVCController {
 			
 			ObjectMapper objectMapper = new ObjectMapper();
 			String jsonReturn = null;
+			Integer userId = null;
+			
+			userId = (int) userService.GetUserByEmail(email).getId();
+			
 			
 			TokenResponse tokenResponse = new TokenResponse();
 			tokenResponse.setToken(token);
+			tokenResponse.setId(userId);
+			
 			
 			try {
 				jsonReturn = objectMapper.writeValueAsString(tokenResponse);

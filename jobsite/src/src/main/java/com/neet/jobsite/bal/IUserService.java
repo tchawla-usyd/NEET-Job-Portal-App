@@ -14,6 +14,8 @@ public interface IUserService {
 	User GetUserById(long userId);
 
 	ArrayList<User> GetUserByType(Integer userId);
+	
+	User GetUserByEmail(String email);
 
 	void AddUser(String firstName, String lastName, String email, String password, Integer userIntTypeValue,
 			List<String> skills, String education, String experience, String companyName);

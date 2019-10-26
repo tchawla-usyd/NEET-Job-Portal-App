@@ -173,4 +173,10 @@ public class UserService implements IUserService {
 		newUser.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 		this.userManager.addUser(newUser);
 	}
+
+	@Override
+	public User GetUserByEmail(String email) {
+		User user = this.userManager.getUserByEmail(email);
+		return user;
+	}
 }

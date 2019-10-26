@@ -6,7 +6,7 @@ export const HEADER = {
 }
 
 // common prefix
-const BACKEND = "http://localhost:8081/jobsite/";
+const BACKEND = "http://localhost:8080/jobsite/";
 
 // employer
 export const GET_JOB = BACKEND + 'job/getjob/';
