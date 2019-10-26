@@ -183,6 +183,12 @@ public class UserService implements IUserService {
 	}
 	
 	@Override
+	public User GetUserByEmail(String email) {
+		User user = this.userManager.getUserByEmail(email);
+		return user;
+	}
+	
+	@Override
 	public void DeleteUser(long id) {
 		this.userManager.deleteUser(id);
 	}

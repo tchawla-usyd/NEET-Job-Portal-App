@@ -23,8 +23,12 @@ public interface IUserService {
 	void AddAdmin(String firstName, String lastName, String email, String password, Integer userIntTypeValue);
 
 	void UpdateAdmin(User user);
+	
+	
 
 	void DeleteUser(long id);
+
+	User GetUserByEmail(String email);
 	
 	
 }
