@@ -20,8 +20,10 @@ export const GET_CANS_FOR = BACKEND + 'candidate/getapplicants/';
 export const APPLY = BACKEND + 'candidate/apply';
 export const GET_CAN = BACKEND + 'candidate/view/';
 export const GET_CAN_SKILLS = BACKEND + 'candidate/skills/';
+export const GET_CAN_JOBS = BACKEND + 'job/candidate/';
 
 
 //user
 export const SIGNUP = BACKEND + 'authenticate/registerProcess';
+export const LOGIN = BACKEND + 'authenticate/loginProcess';
 export const EDIT_USER = BACKEND + 'user/edit';

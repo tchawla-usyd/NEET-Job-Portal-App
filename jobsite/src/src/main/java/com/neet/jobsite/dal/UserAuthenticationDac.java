@@ -32,7 +32,7 @@ public class UserAuthenticationDac implements IUserAuthenticationDac {
 ////			query.setParameter("Email", username);
 ////			query.setParameter("Password", password);
 			Session currentSession = this.sessionFactory.getCurrentSession();
-			
+			System.out.println(username);
 			List<User> userList  = currentSession.createCriteria(User.class)
 					.add(Restrictions.eq("email", username))
 					.list();

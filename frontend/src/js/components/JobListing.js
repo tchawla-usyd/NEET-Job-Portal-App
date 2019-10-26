@@ -4,7 +4,7 @@ import qs from 'querystring';
 import { Table, Divider, Tag, Input, Button, Icon, Typography, message, Pagination, Dropdown, Menu} from 'antd';
 import { Link } from 'react-router-dom'
 
-import {APPLY, GET_JOB_FOR, HEADER} from "../constants/BackendAPI"
+import {APPLY, GET_JOB_FOR, GET_CAN_JOBS, HEADER} from "../constants/BackendAPI"
 import Spinner from '../components/Spinner';
 
 const { Search } = Input;
