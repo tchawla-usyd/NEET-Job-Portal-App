@@ -52,9 +52,14 @@ public class UserAuthenticationControllerTest extends TestCase {
 		
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
-	     HttpServletResponse response = mock(HttpServletResponse.class);
+	    HttpServletResponse response = mock(HttpServletResponse.class);
 	     
-	     mockMvc.perform(post("/authenticate/registerProcess"))
+	     mockMvc.perform(post("/authenticate/registerProcess")
+	    		 .param("first_name", "slha")
+	    		 .param("last_name", "slha")
+	    		 .param("email", "s@gmail.com")
+	    		 .param("password", "pass")
+	    		 .param("user_type", "4"))
          .andExpect(status().isOk())
          .andReturn();
 		
