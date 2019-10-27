@@ -11,17 +11,17 @@ import com.neet.jobsite.model.SkillSet;
 
 @Service(value = "skillService")
 public class SkillService {
-	
+
 	@Autowired
 	@Qualifier("skillSetManager")
 	private SkillSetManager skillManager;
-	
+
 	public SkillSet getSkillByName(String name) {
-		
+
 		return skillManager.getSkillSetByName(name);
 	}
-	
-public void addSkill(String name, Integer userId) {
+
+	public void addSkill(String name, Integer userId) {
 		SkillSet skill = new SkillSet();
 		skill.setName(name);
 		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
@@ -30,9 +30,9 @@ public void addSkill(String name, Integer userId) {
 		skillManager.addSkillSet(skill);
 	}
 
-public SkillSet getSkillById(Integer skillId) {
-	// TODO Auto-generated method stub
-	return skillManager.getSkillSetById(new Long(skillId));
-}
-	
+	public SkillSet getSkillById(Integer skillId) {
+		// TODO Auto-generated method stub
+		return skillManager.getSkillSetById(new Long(skillId));
+	}
+
 }
