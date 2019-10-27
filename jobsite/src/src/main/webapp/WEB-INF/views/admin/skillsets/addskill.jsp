@@ -13,19 +13,33 @@
 					Skill Sets <small>Add Skill</small>
 				</h1>
 				<ol class="breadcrumb">
-					<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-					<li class="active">Here</li>
+					<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+					<li class="active">Add SKill</li>
 				</ol>
 			</section>
-			<section class="content container-fluid">
-				<!--------------------------
-		        | Your Page Content Here |
-		        -------------------------->
-				<h1>Hi, you can add a new skill on this page</h1>
-				<form action="add" method="post">
-					Skill Name: <input type="text" name="name"/>
-					<input type="submit" value="Add"/>
-				</form>
+			<section class="content container-fluid">				
+				<div class="row">
+					<div class="col-md-6">
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<h3 class="box-title">Add Skill Below</h3>
+							</div>
+							<form method="POST" action="add">
+								<div class="box-body">
+									<div class="form-group">
+										<label for="exampleInputEmail1">Skill</label> 
+										<input class="form-control" type="text" name="name"/>
+									</div>
+								</div>
+								<div class="box-footer">
+									<a href="<c:url value="/admin/skillsets" />"><button class="btn btn-primary" type="button">Back</button></a>
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				
 			</section>
 		</div>
 		<jsp:include page="../common/mainfooter.jsp"></jsp:include>

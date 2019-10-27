@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <html>
 <jsp:include page="../common/meta.jsp"></jsp:include>
@@ -13,28 +12,34 @@
 					Skill Sets <small>Edit Skill</small>
 				</h1>
 				<ol class="breadcrumb">
-					<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-					<li class="active">Here</li>
+					<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+					<li class="active">Skill Edit</li>
 				</ol>
 			</section>
 			<section class="content container-fluid">
-				<h1>You can edit the product shown below</h1>
-					<sf:form method="POST" modelAttribute="SkillSet">
-						<fieldset>
-							<table>
-								<tr>
-									<th><label for="product_description">Name:</label></th>
-									<td><sf:input path="Name"/></td>
-								</tr>
-								<tr>
-									<th><a href="<c:url value="admin/skillsets""><button>Cancel</button></a></th>
-									<!-- This hidden field is required for Hibernate to recognize this Product -->
-									<td><sf:hidden path="id"/>
-									<td><input type="submit" value="Done"/></td>
-								</tr>
-							</table>			
-						</fieldset>
-					</sf:form>
+				
+				<div class="row">
+					<div class="col-md-6">
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<h3 class="box-title">Edit Skill Below</h3>
+							</div>
+							<sf:form method="POST" modelAttribute="SkillSet">
+								<div class="box-body">
+									<div class="form-group">
+										<label for="exampleInputEmail1">Skill</label> 
+										<sf:input class="form-control" path="Name" />
+									</div>
+								</div>
+								<div class="box-footer">
+									<sf:hidden path="id" />
+									<button class="btn btn-primary" type="submit">Submit</button>
+								</div>
+							</sf:form>
+						</div>
+					</div>
+				</div>
+				
 			</section>
 		</div>
 		<jsp:include page="../common/mainfooter.jsp"></jsp:include>
