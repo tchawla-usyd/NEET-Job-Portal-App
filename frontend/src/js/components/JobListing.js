@@ -30,7 +30,7 @@ export default class JobListing extends Component {
         if(!this.isEmployer){
           axios.get(GET_CAN_SKILLS + this.userId, this.headers)
           .then(res => { 
-            this.setState({userSkills: res.data});
+            this.setState({userSkills: res.data.map(skill => skill.name)});
           })
         }
 
@@ -68,7 +68,7 @@ export default class JobListing extends Component {
               {tags.map(tag => {
                 const color = ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"];
                 return (
-                  <Tag color={color[Math.floor(Math.random()*color.length)]} key={tag}>
+                  <Tag color={!(this.isEmployer || this.state.userSkills.includes(tag)) ? "#d9d9d9" : color[Math.floor(Math.random()*color.length)]} key={tag}>
                     {tag.toUpperCase()}
                   </Tag>
                 );
@@ -219,6 +219,7 @@ export default class JobListing extends Component {
     }
 
     render(){
+      console.log(this.state)
       const locationMenu = 
         <Menu>
           {this.locations.map((location) => <Menu.Item onClick={(e)=>this.onFilterLocation(location)} style={{textAlign: 'center'}} key={location}><Button type='link'>{location}</Button></Menu.Item>)}

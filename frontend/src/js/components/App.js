@@ -10,7 +10,7 @@ import Spinner from './Spinner';
 class App extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {isAuthenticated: false, isLoading: true};
+		this.state = {isAuthenticated: false, isLoading: true, userInfo: null};
 		this.token = localStorage.getItem("token");// check if token exists
         this.headers = {headers:{...HEADER, 'Authorization': this.token}};
 
@@ -21,44 +21,25 @@ class App extends Component {
 		}
     }
 
-    getUserID = () => {
-    	try {
+    async getUserID() {
+    		await Promise.all([this.setState({isLoading: true})]);
+
 		    // check user token against token in the database
-		    axios.get(GET_USER_ID, this.headers)
-		      .then(res => {
-		        if (res.status == 200){
-		          this.id = res.data.userId;
-		          this.getUser();
-		        }else{
-		          this.props.history.push('/login');
-		          this.setState({isLoading: false});
-		        }
-		    });
-		  } catch (e) {
-		    alert(e.message);
-		  }
+		    const res1 = await Promise.all([axios.get(GET_USER_ID, this.headers)]);
+
+		    const res2 = await axios.get(GET_USER + res1[0].data.userId, this.headers);
+
+		    this.setState({userInfo: {id: res1[0].data.userId, 
+		          	firstName: res2.data.firstName,
+		          	lastName: res2.data.lastName,
+		          	email: res2.data.email,
+		            isEmployer: (res2.data.userTypeID == 3) /*? true : false bruh moment :)*/}, 
+		            isLoading: false, 
+		            isAuthenticated: true,
+		        	userId: res1[0].data.userId});
+
     }
 
-    getUser = () =>{
-    	try {
-    		axios.get(GET_USER + this.id, this.headers)
-		      .then(res => {
-		        if (res.status == 200){
-		        	console.log(res);
-		          this.setState({userInfo: {id: this.id, 
-		          	firstName: res.data.firstName,
-		          	lastName: res.data.lastName,
-		          	email: res.data.email,
-		            isEmployer: res.data.userTypeID == 3 ? true : false}, isLoading: false, isAuthenticated: true});
-		        }else{
-		          this.props.history.push('/login');
-		          this.setState({isLoading: false});
-		        }
-		    });
-		  } catch (e) {
-		    alert(e.message);
-		  }
-    }
 
     setAuthenticated = ()=>{
 	  this.setState({isAuthenticated:true});
@@ -73,6 +54,7 @@ class App extends Component {
     }
 
 	render (){
+	  console.log(this.state.isLoading)
 	  const childProps = {
         isAuthenticated: this.state.isAuthenticated,
         setAuthenticated: this.setAuthenticated,
