@@ -7,6 +7,9 @@ import { Link } from 'react-router-dom'
 import {APPLY, GET_JOB_FOR, GET_CAN_SKILLS, GET_APPLIED, GET_ALL, HEADER} from "../constants/BackendAPI"
 import Spinner from '../components/Spinner';
 
+import moment from 'moment';
+
+
 const { Search } = Input;
 const { Text } = Typography;
 
@@ -98,18 +101,17 @@ export default class JobListing extends Component {
       this.state = {loading: true};
       axios.get(this.isEmployer ? (GET_JOB_FOR + this.userId) : GET_ALL, this.headers)
         .then(res => { 
-        console.log(res);
         var jobs = res.data.map(job =>{
-          return {key: job.uid,
-          title: job.title,
-          company: job.companyInfo.companyName,
-          company_id: job.created_by,
-          location: job.location,
-          skills: job.skills.map(skill => skill.name),
-          like: this.isFav ? true : false,
-          applied: false,
-        }});
-
+            return {key: job.uid,
+            title: job.title,
+            company: job.companyInfo.companyName,
+            company_id: job.created_by,
+            location: job.location,
+            skills: job.skills.map(skill => skill.name),
+            like: this.isFav,
+            applied: false,
+            end_date: moment(job.endDate, "YYYY-MM-DD")
+          }});
         if(!this.isEmployer){
           jobs = this.getFilteredJobs(jobs);
           
@@ -117,7 +119,7 @@ export default class JobListing extends Component {
           this.setState({
           jobs: jobs, 
           filteredJobs: jobs,
-          filteredSearch: jobs}, 
+          filteredSearch: jobs,}, 
           this.sortLocations);
         }
       }).catch(function (error) {
@@ -134,6 +136,7 @@ export default class JobListing extends Component {
       this.locationJobs['Location'] = this.state.jobs;
       this.setState({
         filterLocationBy: 'Location',
+        sortJobBy: 'Clear',
         loading: false,
       });
     }
@@ -224,14 +227,44 @@ export default class JobListing extends Component {
           filteredJobs: this.state.filteredSearch.filter((job) => target == job.location)
         });
       }
-      
     }
 
+    sortRelevance = (target) => {
+      if(target == 'EndDate'){
+        this.setState({
+          sortJobBy: 'Date',
+          filteredJobs: this.state.filteredJobs.sort( (a, b) => a.end_date.valueOf() - b.end_date.valueOf())
+        });
+      }
+      else if(target == "Relevance") {
+        this.setState({
+          sortJobBy: 'Relevance',
+          filteredJobs: this.state.filteredJobs.sort( (b, a) => a.skills.filter(skill => this.state.userSkills.includes(skill)).length - 
+            b.skills.filter(skill => this.state.userSkills.includes(skill)).length)
+        });
+      }
+      else {
+        this.setState({
+          sortJobBy: 'Clear',
+          filteredJobs: this.state.filteredJobs.sort( (a, b) => a.key - b.key)
+        });
+      }
+        
+    }
+      
     render(){
       const locationMenu = 
         <Menu>
           {this.locations.map((location) => <Menu.Item onClick={(e)=>this.onFilterLocation(location)} style={{textAlign: 'center'}} key={location}><Button type='link'>{location}</Button></Menu.Item>)}
           <Menu.Item onClick={(e)=>this.onFilterLocation('Clear')} style={{textAlign: 'center'}} key='clear'><Button type='link' >Clear</Button></Menu.Item>
+        </Menu>;
+
+      const sortMenu = 
+        <Menu>
+          <Menu.Item onClick={(e)=>this.sortRelevance('Relevance')}style={{textAlign: 'center'}} key='relevance'><Button type='link'>Relevance</Button></Menu.Item>
+          <Menu.Item onClick={(e)=>this.sortRelevance('EndDate')} style={{textAlign: 'center'}} key='endDate'><Button type='link' >Date</Button></Menu.Item>
+          <Menu.Item onClick={(e)=>this.sortRelevance('Clear')} style={{textAlign: 'center'}} key='clear'><Button type='link' >Clear</Button></Menu.Item>
+
         </Menu>;
 
       return (
@@ -250,6 +283,16 @@ export default class JobListing extends Component {
             <Dropdown overlay={locationMenu} trigger={['click']} placement="bottomCenter">
               <Button type='link'>
                 {this.state.filterLocationBy} <Icon type="down" />
+              </Button>
+            </Dropdown>
+          </span>
+
+        { /* Sort By */}
+          <span style={{marginLeft: 20, verticalAlign: 'bottom'}}>
+          <Text style={{marginRight: 5}}>Sort By: </Text>
+            <Dropdown overlay={sortMenu} trigger={['click']} placement="bottomCenter">
+              <Button type='link'>
+                {this.state.sortJobBy} <Icon type="down" />
               </Button>
             </Dropdown>
           </span>

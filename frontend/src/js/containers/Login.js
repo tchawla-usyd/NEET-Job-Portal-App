@@ -19,6 +19,8 @@ export default class Login extends Component {
             Password: "",
             isLoading: false
         };
+
+
         if(this.props.isAuthenticated){
             this.props.history.push("/home");// when user is logged in
         }
