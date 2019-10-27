@@ -18,4 +18,6 @@ public interface ICompanyManager extends Serializable{
     public void deleteCompany(long id);
 
 	Company GetCompanyByUserId(long id);
+
+	ArrayList<com.neet.jobsite.model.Job> GetJobsByCompanys(long userId);
 }

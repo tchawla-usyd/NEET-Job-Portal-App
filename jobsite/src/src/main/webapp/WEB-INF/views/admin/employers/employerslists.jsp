@@ -40,7 +40,7 @@
 										aria-haspopup="true" aria-expanded="false">...</button>
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 										<a class="dropdown-item"
-											href="<c:url value="/admin/viewadmin/${user.id}" />">
+											href="<c:url value="/admin/company/view/${details.user.id}" />">
 											<div>
 												<i class="fa fa-edit"></i>&nbsp;Details
 											</div>

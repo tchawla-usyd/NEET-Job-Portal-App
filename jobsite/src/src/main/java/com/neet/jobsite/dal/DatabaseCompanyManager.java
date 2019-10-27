@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.amazonaws.services.codepipeline.model.Job;
 import com.neet.jobsite.model.Company;
 import com.neet.jobsite.model.SkillSet;
 import com.neet.jobsite.model.User;
@@ -76,6 +77,16 @@ public class DatabaseCompanyManager implements ICompanyManager{
 				.add(Restrictions.eq("UserID", id))
 				.list();
 		return companies.get(0);
+	}
+	
+	
+	@Override
+	public ArrayList<com.neet.jobsite.model.Job> GetJobsByCompanys(long userId) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		final List<com.neet.jobsite.model.Job> list = currentSession.createCriteria(com.neet.jobsite.model.Job.class)
+				.add(Restrictions.eq("UserID", userId))
+				.list();
+		return new ArrayList<com.neet.jobsite.model.Job>(list);
 	}
 	
 }
