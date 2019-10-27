@@ -25,7 +25,7 @@
 							<div class="inner">
 								<h3>150</h3>
 
-								<p>New Orders</p>
+								<p>New Companies</p>
 							</div>
 							<div class="icon">
 								<i class="ion ion-bag"></i>
@@ -40,10 +40,10 @@
 						<div class="small-box bg-green">
 							<div class="inner">
 								<h3>
-									53<sup style="font-size: 20px">%</sup>
+									53<sup style="font-size: 20px"></sup>
 								</h3>
 
-								<p>Bounce Rate</p>
+								<p>New Jobs</p>
 							</div>
 							<div class="icon">
 								<i class="ion ion-stats-bars"></i>
@@ -75,7 +75,7 @@
 							<div class="inner">
 								<h3>65</h3>
 
-								<p>Unique Visitors</p>
+								<p>Skills Trending</p>
 							</div>
 							<div class="icon">
 								<i class="ion ion-pie-graph"></i>
