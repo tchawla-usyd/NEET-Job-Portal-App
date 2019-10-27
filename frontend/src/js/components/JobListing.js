@@ -98,20 +98,20 @@ export default class JobListing extends Component {
       this.state = {loading: true};
       axios.get(this.isEmployer ? (GET_JOB_FOR + this.userId) : GET_ALL, this.headers)
         .then(res => { 
-          console.log(res);
+        console.log(res);
         var jobs = res.data.map(job =>{
-            return {key: job.uid,
-            title: job.title,
-            company: job.companyInfo.companyName,
-            company_id: job.created_by,
-            location: job.location,
-            skills: job.skills.map(skill => skill.name),
-            like: this.isFav ? true : false,
-            applied: false,
-          }});
+          return {key: job.uid,
+          title: job.title,
+          company: job.companyInfo.companyName,
+          company_id: job.created_by,
+          location: job.location,
+          skills: job.skills.map(skill => skill.name),
+          like: this.isFav ? true : false,
+          applied: false,
+        }});
 
         if(!this.isEmployer){
-          jobs = this.getApplied(jobs);
+          jobs = this.getFilteredJobs(jobs);
           
         }else{
           this.setState({
@@ -122,6 +122,7 @@ export default class JobListing extends Component {
         }
       }).catch(function (error) {
         console.log(error);
+        message.err("Something is wrong!");
       });
     }
 
@@ -137,7 +138,7 @@ export default class JobListing extends Component {
       });
     }
 
-    getApplied = (jobs) =>{
+    getFilteredJobs = (jobs) =>{
       axios.get(GET_APPLIED + this.userId, this.headers)
         .then(res => { 
         var applied_jobs = res.data;
@@ -149,6 +150,10 @@ export default class JobListing extends Component {
         if(this.isApplied){
           jobs = jobs.filter((job)=> job.applied == true);
         }
+        if(this.props.companyId){
+          jobs = jobs.filter((job)=> job.company_id == this.props.companyId);
+        }
+
         this.setState({
         jobs: jobs, 
         filteredJobs: jobs,
@@ -156,6 +161,7 @@ export default class JobListing extends Component {
         this.sortLocations);
       }).catch(function (error) {
         console.log(error);
+        message.err("Something is wrong!");
       });
     }
 
@@ -165,7 +171,10 @@ export default class JobListing extends Component {
           message.success("Apply Success!");
           record.applied = true;
           this.forceUpdate();
-        });
+        }).catch(function (error) {
+          console.log(error);
+          message.err("Something is wrong!");
+        });;
     }
 
     handleClickLike = (record) => {
@@ -219,7 +228,6 @@ export default class JobListing extends Component {
     }
 
     render(){
-      console.log(this.state)
       const locationMenu = 
         <Menu>
           {this.locations.map((location) => <Menu.Item onClick={(e)=>this.onFilterLocation(location)} style={{textAlign: 'center'}} key={location}><Button type='link'>{location}</Button></Menu.Item>)}
@@ -228,7 +236,7 @@ export default class JobListing extends Component {
 
       return (
         <div>
-          <div><Text style={{fontSize: 30}}>{this.isApplied ? 'Your Applications' : this.isFav ? 'Your Favorite' : 'All Jobs'}</Text></div>
+          <div><Text style={{fontSize: 30}}>{this.isApplied ? 'Your Applications' : this.isFav ? 'Your Favorite' : this.props.companyId ? '' : 'All Jobs'}</Text></div>
           {/* Seach Bar */}
           <Search placeholder="input search text" 
           style={{ width: 300, marginTop: 20}}

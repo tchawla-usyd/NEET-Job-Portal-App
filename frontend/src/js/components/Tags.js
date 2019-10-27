@@ -12,6 +12,7 @@ export default class Tags extends Component {
 	    };
 	}
 
+	// change state when editting
 	triggerChange = () => {
 	    // Should provide an event to pass value to Form.
 	    const { onChange } = this.props;
@@ -22,20 +23,23 @@ export default class Tags extends Component {
 	    }
   	};
 
+  	handleInputChange = e => {
+		this.setState({ inputValue: e.target.value });
+	};
+
+  	// remove a tag
     handleClose = removedTag => {
 		const tags = this.state.tags.filter(tag => tag !== removedTag);
 		console.log(tags);
 		this.setState({ tags }, this.triggerChange);
 	};
 
+	// show the pending tag
 	showInput = () => {
 		this.setState({ inputVisible: true }, () => this.input.focus());
 	};
 
-	handleInputChange = e => {
-		this.setState({ inputValue: e.target.value });
-	};
-
+	// add a new tag
 	handleInputConfirm = () => {
 		const { inputValue } = this.state;
 		let { tags } = this.state;
