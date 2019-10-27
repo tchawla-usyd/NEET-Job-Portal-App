@@ -39,6 +39,11 @@ NEET.NET is a smart, modern and user friendly job portal web application. NEET.N
   - Create a Tomcat server on Spring Boot and add the project to the server
   - Start the server - This should start your local server on http://localhost:<port>/jobsite
 
+## Database 
+  - Install MySQL 8.0.17
+  - Run dbscript/dbscriptFinal.sql to generate the Database Schema and Tables, save as 'jobsitedb'
+  - import dbscript/SeedDataForUserType.csv as seeding for some predefined data.
+
 
 ## NEET API
 NEET.NET consumes it's RESTful API to access their internal resources.
