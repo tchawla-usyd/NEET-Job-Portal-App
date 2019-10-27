@@ -8,8 +8,10 @@ import Uploader from '../components/Uploader';
 import Paragraph_ from '../components/Paragraph_';
 import Tags from '../components/Tags';
 import Spinner from '../components/Spinner';
+import JobListing from '../components/JobListing';
 
-import {GET_CAN, GET_CAN_SKILLS, EDIT_USER, GET_USER, HEADER} from "../constants/BackendAPI"
+
+import {GET_CAN, GET_CAN_SKILLS, GET_JOB_FOR, EDIT_USER, GET_USER, HEADER} from "../constants/BackendAPI"
 const { Title, Text, Paragraph } = Typography;
 const para_style = {marginLeft:60,  marginRight: 50, marginBottom: 40, marginTop: 40, fontSize: 18};
 
@@ -50,14 +52,18 @@ export default class Profile extends Component {
 	          	basicInfo:{
 	          		email: res.data.email,
 	          	},
-	            isEmployer: res.data.userTypeID == 3 ? true : false}, this.getCandidateInfo);
+	            isEmployer: res.data.userTypeID == 3 ? true : false}, this.getDetails);
 	        }
-	    });
+	    }).catch(function (error) {
+            message.err("Something is wrong!");
+		    console.log(error);
+		});;
 
         
 	}
 
-	getCandidateInfo = () =>{
+	// get user details: if user is employer/candidate
+	getDetails = () =>{
 		if(this.state.isEmployer) {
 			this.setState({loading_profile: false, loading_skills: false});
 		} else{
@@ -75,6 +81,7 @@ export default class Profile extends Component {
 		}
 	}
 
+	// post changes
 	handleSubmit = (payload) => {
         axios.post(EDIT_USER, qs.stringify({"userId": this.profileId, ...payload}), this.headers)
         .then(res => {
@@ -92,6 +99,7 @@ export default class Profile extends Component {
       window.scrollTo(0, 0);
 	}
 
+	// get initials of user
 	getInit = (name) =>{
 		var initials = name.match(/\b\w/g) || [];
 		initials = ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
@@ -112,7 +120,9 @@ export default class Profile extends Component {
 				<Icon type="mail" theme="twoTone" /><a href={"mailto:" + 123} style={{marginLeft:10}}>{this.state.basicInfo.email}</a>
 			</div>
 			
-			{this.state.isEmployer ? '' : <div><Divider_>Education</Divider_>
+			{this.state.isEmployer 
+			? <div><Divider_>Jobs From The Company</Divider_><div style={para_style}><JobListing companyId={this.profileId} parentProps={this.props}/></div></div>
+			: <div><Divider_>Education</Divider_>
 			<Paragraph_ editable={this.self} name='education' handleSubmit={this.handleSubmit} >{this.state.candidateInfo.education == null ? "" : this.state.candidateInfo.education}</Paragraph_>
 
 			<Divider_>Skills</Divider_>

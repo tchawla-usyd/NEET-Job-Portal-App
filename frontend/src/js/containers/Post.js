@@ -9,8 +9,6 @@ import Tags from '../components/Tags';
 import {ADD_JOB, HEADER} from '../constants/BackendAPI'
 const {RangePicker} = DatePicker;
 
-
-
 class Post extends Component {
     constructor(props) {
         super(props);
@@ -36,14 +34,11 @@ class Post extends Component {
 		  		job_category: 1
 		  	}
 
-		    /* TODO: Backend */
+		  	//add a new job post
             axios.post(ADD_JOB, qs.stringify(payload), this.headers)
             .then(res => {
                 if (res.status == 200) {
-                    // const token = res.data.token;
-                    // localStorage.setItem('token', token);// set token in local storage for continuous authentication
-                    // this.props.setAuthenticated();
-                    // this.props.history.push("/songs");
+                    message.success(values.title + ' Posted!');
 					this.props.history.push("/home");
                 }else{
                     message.error("Something is wrong !");

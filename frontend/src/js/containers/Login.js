@@ -35,24 +35,19 @@ export default class Login extends Component {
         event.preventDefault();
         this.setState({isLoading: true});
 
-        try {
-            console.log(this.state);
-            axios.post(LOGIN, qs.stringify(this.state))
-            .then(res => {
-                if (res.status == 200) {
-                    const token = res.data.token;
-                    localStorage.setItem('token', token); // set token in local storage for continuous authentication
-                    localStorage.setItem('uid', res.data.id); // store user id locally for now
-                    this.props.setAuthenticated();
-                    this.props.history.push("/about");
-                }else{
-                    message.error("Wrong Username/Password !");
-                }
-            });
-        } catch (e) {
-            alert(e.message);
+        axios.post(LOGIN, qs.stringify(this.state))
+        .then(res => {
+            if (res.status == 200) {
+                const token = res.data.token;
+                localStorage.setItem('token', token); // set token in local storage for continuous authentication
+                localStorage.setItem('uid', res.data.id); // store user id locally for now
+                this.props.setAuthenticated();
+                this.props.history.push("/about");
+            }
+        }).catch(e => {
+            message.error("Wrong Username/Password !");
             this.setState({isLoading: false});
-        }
+        });
         
     }
 
