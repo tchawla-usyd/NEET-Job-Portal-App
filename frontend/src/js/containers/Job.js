@@ -31,12 +31,16 @@ export default class Job extends Component {
         this.state={
         	loading: true
         };
+
+        // get queried id
         var urlParams = new URLSearchParams(window.location.search);
         if(!urlParams.has('id')){
         	props.history.push('/home');
         	return;
         }
     	this.id = urlParams.get('id');
+
+        // post job enquery 
         axios.get(GET_JOB + this.id, this.headers)
         .then(res => { 
             console.log(res);
@@ -45,6 +49,7 @@ export default class Job extends Component {
                 loading: false});
         })
         .catch(function (error) {
+            message.err("Something is wrong!");
 		    console.log(error);
 		});
     }
@@ -53,23 +58,23 @@ export default class Job extends Component {
       window.scrollTo(0, 0);
 	}
 
+    // submit the changes
     handleSubmit = (payload) => {
-        console.log(payload);
         axios.post(EDIT_JOB, qs.stringify({"job_id": this.id, ...payload}), this.headers)
         .then(res => {
             if (res.status == 200) {
                 this.setState({payload});
                 message.success('Changes Saved');
-            }else{
-                message.error("Something is wrong !");
             }
-        })
+        }).catch(function (error) {
+            message.err("Something is wrong!");
+            console.log(error);
+        });
     }
 
     render(){
     	const Divider_ = (props) => <Divider orientation="left"><Text style={{fontSize: 30}} strong  >{props.children}</Text></Divider>;
     	let title = this.state.title;
-        console.log(this.state.self);
     	return(
     		<BaseLayout parentProps={this.props}> 
     		{this.state.loading ? <Spinner /> :

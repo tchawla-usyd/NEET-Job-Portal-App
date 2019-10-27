@@ -1,4 +1,4 @@
-import { Layout, Menu, Dropdown, Avatar, Icon } from 'antd';
+import { Layout, Menu, Dropdown, Avatar, Icon, Button } from 'antd';
 import { Link } from 'react-router-dom'
 import React, {Component} from "react";
 
@@ -32,6 +32,10 @@ export default class BaseLayout extends Component {
 		initials = ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
 		return initials;
 	};
+
+	goBack = (e) =>{
+		this.props.parentProps.history.goBack();
+	}
 
    	render(){
    		const itemStyle = {float:'right', 
@@ -79,6 +83,7 @@ export default class BaseLayout extends Component {
 		    </Menu.Item>
 		  </Menu>;
 
+		console.log(this.props);
    		return (
    		<Layout>
 	      <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
@@ -104,6 +109,7 @@ export default class BaseLayout extends Component {
 	      <Content style={{ padding: '0 50px', marginTop: 64 }}>
 	      	<div style={{ background: '#fff', padding: 24, minHeight: 600 }}>
 	      		{this.props.children}
+	      		{this.props.parentProps.location.pathname == '/about' ? '' : <Button style={{margin: 20}} onClick={this.goBack}><Icon type="left" /> Back</Button>}
 	      	</div>
 	      </Content>
 	      <Footer style={{ textAlign: 'center' }}>NEET.inc ©2019</Footer>

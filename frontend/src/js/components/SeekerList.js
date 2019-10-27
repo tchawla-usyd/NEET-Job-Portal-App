@@ -69,8 +69,7 @@ export default class SeekerListing extends Component {
             skills: entry.skills.map(skill => skill.name),
             applyDate: entry.applyDate});
           })});
-        })
-        .catch(function (error) {
+        }).catch(function (error) {
           console.log(error);
       });
     }
