@@ -4,22 +4,28 @@ import React, {Component} from "react";
 
 import logo from "../../img/NEET.png";
 
+
 const { Header, Footer, Content } = Layout;
 
 export default class BaseLayout extends Component {
     constructor(props) {
         super(props);
-
-        //user info
-        const userInfo = this.props.parentProps.userInfo;
-		this.isEmployer = userInfo.isEmployer;
-		this.name = userInfo.firstName + " " + userInfo.lastName;
-		this.userId = userInfo.id;
+        this.state = {isLoading: true}
 
         if(!this.props.parentProps.isAuthenticated){
         	this.props.parentProps.history.push('/');
         }
+        else{
+        	//user info
+	        const userInfo = this.props.parentProps.userInfo;
+			this.isEmployer = userInfo.isEmployer;
+			this.name = userInfo.firstName + " " + userInfo.lastName;
+			this.userId = userInfo.id;
+		}
+
+
     }
+
 
     getInit = (name) =>{
 		var initials = name.match(/\b\w/g) || [];

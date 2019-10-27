@@ -21,15 +21,24 @@ class App extends Component {
 		}
     }
 
+    componentWillMount() { this.mounted = true; }
+  	componentWillUnmount() { this.mounted = false; }
+
     async getUserID() {
-    		await Promise.all([this.setState({isLoading: true})]);
+
+    		if (this.mounted){
+    			await Promise.all([this.setState({isLoading: true})]);
+    		}
+    		else{
+    			this.state = {isAuthenticated: false, isLoading: true, userInfo: null};
+    		}
 
 		    // check user token against token in the database
-		    const res1 = await Promise.all([axios.get(GET_USER_ID, this.headers)]);
+		    const res1 = await Promise.all([axios.get(GET_USER_ID, this.headers).catch(err => {return [{status: 403}]})]);
+		    if(res1[0].status == 200){
+		    	const res2 = await axios.get(GET_USER + res1[0].data.userId, this.headers);
 
-		    const res2 = await axios.get(GET_USER + res1[0].data.userId, this.headers);
-
-		    this.setState({userInfo: {id: res1[0].data.userId, 
+		    	this.setState({userInfo: {id: res1[0].data.userId, 
 		          	firstName: res2.data.firstName,
 		          	lastName: res2.data.lastName,
 		          	email: res2.data.email,
@@ -37,7 +46,10 @@ class App extends Component {
 		            isLoading: false, 
 		            isAuthenticated: true,
 		        	userId: res1[0].data.userId});
-
+		    }
+		    else {
+		    	this.setState({isLoading: false, isAuthenticated: false, userInfo: null});
+		    }
     }
 
 
@@ -54,7 +66,6 @@ class App extends Component {
     }
 
 	render (){
-	  console.log(this.state.isLoading)
 	  const childProps = {
         isAuthenticated: this.state.isAuthenticated,
         setAuthenticated: this.setAuthenticated,
