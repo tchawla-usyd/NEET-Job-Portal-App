@@ -196,7 +196,7 @@ public class DatabaseJobManager implements JobManager {
 		Query query = currentSession.createQuery("FROM Company WHERE UserID = :id");
 		query.setParameter("id", new Long(userID));
 
-		return (Company) query.uniqueResult();
+		return (Company) query.list().get(0);
 	}
 	
 	
