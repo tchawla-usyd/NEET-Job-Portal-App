@@ -22,5 +22,5 @@ public interface IUserService {
 
 	boolean updateUser(long userId, String education, String experience, List<String> skills);
 	
-	
+	void UpdateAdmin(User user);
 }

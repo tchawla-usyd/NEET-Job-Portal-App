@@ -197,4 +197,9 @@ public class UserService implements IUserService {
 		newUser.setCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 		this.userManager.addUser(newUser);
 	}
+	
+	@Override
+	public void UpdateAdmin(User user) {
+		this.userManager.updateUser(user);;
+	}
 }
