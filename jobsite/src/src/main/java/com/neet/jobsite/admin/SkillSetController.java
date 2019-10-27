@@ -42,8 +42,8 @@ public class SkillSetController {
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
 	public String editSkillSet(@PathVariable("id") Long id, Model uiModel) {
-		SkillSet SkillSet = this.skillSetManager.getSkillSetById(id);
-		uiModel.addAttribute("SkillSet", SkillSet);
+		SkillSet skillSet = this.skillSetManager.getSkillSetById(id);
+		uiModel.addAttribute("SkillSet", skillSet);
 		return "admin/skillsets/editskill";
 	}
 	

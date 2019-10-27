@@ -58,7 +58,7 @@ public class DatabaseSkillSetManager implements SkillSetManager {
 		Query query = currentSession.createQuery("FROM SkillSet WHERE Name = :name");
 		query.setParameter("name", name);
 		
-		SkillSet skillSet = (SkillSet) query.uniqueResult();
+		SkillSet skillSet = (SkillSet) query.list().get(0);
 		return skillSet;
 	}
 
