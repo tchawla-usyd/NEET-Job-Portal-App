@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>
-	Hello world! Masud and Gavin 
+	Welcome To Neet.net Application
 </h1>
 
 <P>  The time on the server is ${serverTime}. </P>

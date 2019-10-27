@@ -46,7 +46,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @RequestMapping(value = "/authenticate/**")
 public class UserAuthenticationController extends BaseMVCController {
 	
-	public static String tokenHolder = "";
+
 
 	@Resource(name = "authenticateBal")
 	private IAuthenticateService authenticateBal;
@@ -55,8 +55,7 @@ public class UserAuthenticationController extends BaseMVCController {
 	@Resource(name = "userService")
 	private IUserService userService;
 	
-//	@Inject
-//	private JwtFilter jwtFilter;
+
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -65,29 +64,12 @@ public class UserAuthenticationController extends BaseMVCController {
 	public String home(Locale locale, Model model) {
 		//Adding the bean Registration Filter for token
 		
-		return "redirect:authenticate/login";
+		return "home";
 	}
 	
-	@RequestMapping(value = "/api/test", method = RequestMethod.GET)
-	public String testMethod(HttpServletRequest request,HttpServletResponse response,@RequestHeader("Authorization") String userToken) {
-		//jwtFilter.doFilter(request, response, chain);
-		if(userToken.equals(tokenHolder)) {
-			System.out.println("Test Successful");
-			return "home";
-		}else {
-			
-			return "redirect:authenticate/login";
-		}
-		
-	}
+
 	
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Locale locale, Model model) {
-		model.addAttribute("login",new User());
-		return "authenticate/login";
-		
-	}
 	
 	@RequestMapping(value = "/loginProcess", 
 			method = RequestMethod.POST,
@@ -130,6 +112,7 @@ public class UserAuthenticationController extends BaseMVCController {
 	
 		
 	}
+	
     @SuppressWarnings("unused")
     private static class LoginResponse {
         public String token;
@@ -141,13 +124,6 @@ public class UserAuthenticationController extends BaseMVCController {
 
 	
 
-
-	
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String showRegister(Locale locale, Model model) {
-		model.addAttribute("register", new User());
-		return "authenticate/register";
-	}
 
 	@RequestMapping(value = "/registerProcess", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
