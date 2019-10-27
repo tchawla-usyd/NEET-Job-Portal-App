@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.neet.jobsite.dal.ICompanyManager;
 import com.neet.jobsite.dal.IUserManager;
 import com.neet.jobsite.model.Company;
+import com.neet.jobsite.model.Job;
 import com.neet.jobsite.response.CompanyDetail;
 
 @Service(value = "companyService")
@@ -31,5 +32,17 @@ public class CompanyService implements ICompanyService {
 			companyDetails.add(detail);
 		}
 		return companyDetails;
+	}
+	
+	@Override
+	public Company GetCompanyById(long id){
+		Company company = this.companyManager.getCompanyById(id);
+		return company;
+	}
+	
+	@Override
+	public ArrayList<Job> GetJobsByCompanys(long id){
+		ArrayList<Job> jobs = this.companyManager.GetJobsByCompanys(id);
+		return jobs;
 	}
 }
