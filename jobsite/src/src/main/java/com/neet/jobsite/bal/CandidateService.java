@@ -61,6 +61,10 @@ public class CandidateService {
 		
 		List<Long> ids = new ArrayList<Long>();
 		
+		if(users == null) {
+			return new ArrayList<ApplicantsResponse>();
+		}
+		
 		for(User user: users) {
 			ids.add(user.getId());
 		}
@@ -84,13 +88,14 @@ public class CandidateService {
 		return applicants;		
 	}
 	
-	public CandidateResponse getCandidate(Long candidateId, String userToken) {
+	public CandidateResponse getCandidate(Long candidateId, Integer userId) {
 		UserDetailResponse basicUser = userService.getUser((int) (long) candidateId);
 		Candidate candidate = candidateManager.getCandidateById((int) (long) candidateId);
 		
 		CandidateResponse res = new CandidateResponse();
 		res.setBasicInfo(basicUser);
 		res.setCandidateInfo(candidate);
+		System.out.println(res.getCandidateInfo());
 		
 		return res;
 	}

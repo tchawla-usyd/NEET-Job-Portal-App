@@ -28,6 +28,14 @@ public class CandidateSkills implements Serializable {
 	@Column(name="CreatedDate")
 	private Date CreatedDate;
 	
+	public void setId(long id) {
+		id = id;
+	}
+	
+	public long getId() {
+		return id;
+	}
+	
 	public Integer getUserID() {
 		return UserID;
 	}

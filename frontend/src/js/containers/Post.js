@@ -9,14 +9,16 @@ import Tags from '../components/Tags';
 import {ADD_JOB, HEADER} from '../constants/BackendAPI'
 const {RangePicker} = DatePicker;
 
-
-
 class Post extends Component {
     constructor(props) {
         super(props);
         this.token = localStorage.getItem("token");
         this.headers = {headers:{...HEADER, 'Authorization': this.token}};
     }
+
+	componentDidMount(prevProps) {
+      window.scrollTo(0, 0);
+	}
 
 	handleSubmit = async(e) => {
 		e.preventDefault();
@@ -32,14 +34,11 @@ class Post extends Component {
 		  		job_category: 1
 		  	}
 
-		    /* TODO: Backend */
-            axios.post(ADD_JOB, qs.stringify(payload), this.header)
+		  	//add a new job post
+            axios.post(ADD_JOB, qs.stringify(payload), this.headers)
             .then(res => {
                 if (res.status == 200) {
-                    // const token = res.data.token;
-                    // localStorage.setItem('token', token);// set token in local storage for continuous authentication
-                    // this.props.setAuthenticated();
-                    // this.props.history.push("/songs");
+                    message.success(values.title + ' Posted!');
 					this.props.history.push("/home");
                 }else{
                     message.error("Something is wrong !");
@@ -87,13 +86,13 @@ class Post extends Component {
         		<Form.Item {...formItemLayout} label="Job Description">
 		          {getFieldDecorator('description', {
 		            rules: [{ required: false}],
-		          })(<Input.TextArea rows={4}/>)}
+		          })(<Input.TextArea style={{whiteSpace: 'pre-line'}} rows={4}/>)}
         		</Form.Item>
 
         		<Form.Item {...formItemLayout} label="Job Skills">
 		          {getFieldDecorator('skills', {
 		            rules: [{ required: true}], message: 'Please add Skills!' 
-		          })(<Tags />)}
+		          })(<Tags editable = 'true'/>)}
         		</Form.Item>
 
         		{/* Submit Button */}

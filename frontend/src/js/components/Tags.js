@@ -12,6 +12,7 @@ export default class Tags extends Component {
 	    };
 	}
 
+	// change state when editting
 	triggerChange = () => {
 	    // Should provide an event to pass value to Form.
 	    const { onChange } = this.props;
@@ -22,20 +23,23 @@ export default class Tags extends Component {
 	    }
   	};
 
+  	handleInputChange = e => {
+		this.setState({ inputValue: e.target.value });
+	};
+
+  	// remove a tag
     handleClose = removedTag => {
 		const tags = this.state.tags.filter(tag => tag !== removedTag);
 		console.log(tags);
 		this.setState({ tags }, this.triggerChange);
 	};
 
+	// show the pending tag
 	showInput = () => {
 		this.setState({ inputVisible: true }, () => this.input.focus());
 	};
 
-	handleInputChange = e => {
-		this.setState({ inputValue: e.target.value });
-	};
-
+	// add a new tag
 	handleInputConfirm = () => {
 		const { inputValue } = this.state;
 		let { tags } = this.state;
@@ -60,7 +64,7 @@ export default class Tags extends Component {
 			  tag = tag.toUpperCase();
 	          const isLongTag = tag.length > 20;
 	          const tagElem = (
-	            <Tag key={tag} color={color[Math.floor(Math.random()*color.length)]} closable='true' onClose={() => this.handleClose(tag)}>
+	            <Tag key={tag} color={color[Math.floor(Math.random()*color.length)]} closable={this.props.editable} onClose={() => this.handleClose(tag)}>
 	              {isLongTag ? `${tag.slice(0, 20)}...` : tag}
 	            </Tag>
 	          );
@@ -70,7 +74,7 @@ export default class Tags extends Component {
 	            </Tooltip>
 	          ) : (tagElem);
         	})}
-        	{inputVisible && (
+        	{this.props.editable && inputVisible && (
 	          <Input
 	            ref={this.saveInputRef}
 	            type="text"
@@ -82,7 +86,7 @@ export default class Tags extends Component {
 	            onPressEnter={this.handleInputConfirm}
 	          />
 	        )}
-	        {!inputVisible && (
+	        {this.props.editable && !inputVisible && (
 	          <Tag onClick={this.showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
 	            <Icon type="plus" />New Tag
 	          </Tag>

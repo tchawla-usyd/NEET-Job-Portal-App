@@ -18,13 +18,9 @@ public interface IUserService {
 	void AddUser(String firstName, String lastName, String email, String password, Integer userIntTypeValue,
 			List<String> skills, String education, String experience, String companyName);
 
-	boolean updateUser(String email, String education, String experience, String resume, List<String> skills);
-
 	void AddAdmin(String firstName, String lastName, String email, String password, Integer userIntTypeValue);
 
-	void UpdateAdmin(User user);
-
-	void DeleteUser(long id);
+	boolean updateUser(long userId, String education, String experience, List<String> skills);
 	
 	
 }

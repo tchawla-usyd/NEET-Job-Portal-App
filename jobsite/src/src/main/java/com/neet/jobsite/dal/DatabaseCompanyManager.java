@@ -41,7 +41,7 @@ public class DatabaseCompanyManager implements ICompanyManager{
 	
 	@Override
 	public ArrayList<Company> getCompanys() {
-		final List<Company> list = this.sessionFactory.getCurrentSession().createQuery("FROM Company").list();
+		final List<Company> list = this.sessionFactory.getCurrentSession().createQuery("FROM companyinfo").list();
 		for(Company item : list) {
 			System.out.println(item);
 		}

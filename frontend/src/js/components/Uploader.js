@@ -1,9 +1,11 @@
 import React, {Component} from "react";
 import { Upload, Button, Icon } from 'antd';
 
+import {UPLOAD} from "../constants/BackendAPI"
+
 export default class Uploader extends Component {
   state = {
-    fileList: [
+    fileList: this.props.resume == null ? [] : [
       {
         uid: '-1',
         name: this.props.resume.substring(this.props.resume.lastIndexOf('/')+1),
@@ -37,16 +39,16 @@ export default class Uploader extends Component {
     const headers = {'Authorization': token};
 
     const props = {
-      action: 'http://localhost:8081/jobsite/storage/uploadFile',
+      action: UPLOAD,
       onChange: this.handleChange,
       multiple: true,
       headers: headers,
     };
     return (
       <Upload {...props} fileList={this.state.fileList}>
-        <Button>
+        {this.props.editable ? <Button>
           <Icon type="upload" /> Upload
-        </Button>
+        </Button> : ''}
       </Upload>
     );
   }

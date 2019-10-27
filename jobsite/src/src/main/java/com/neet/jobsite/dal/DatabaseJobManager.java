@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.neet.jobsite.JobController;
 import com.neet.jobsite.exception.NoSkillsException;
 import com.neet.jobsite.model.CandidateJobApplied;
+import com.neet.jobsite.model.Company;
 import com.neet.jobsite.model.Job;
 import com.neet.jobsite.model.JobCategory;
 import com.neet.jobsite.model.SkillSet;
@@ -43,6 +44,11 @@ public class DatabaseJobManager implements JobManager {
 	@Override
 	public List<Job> getJobs() {
 		List<Job> list = this.sessionFactory.getCurrentSession().createQuery("FROM Job").list();
+		
+		if(list.isEmpty()) {
+			return new ArrayList<Job>();
+		}
+		
 		return list;
 	}
 
@@ -72,15 +78,18 @@ public class DatabaseJobManager implements JobManager {
 	public List<Job> getJobByCandidate(long candidate_id) {
 		Session session = this.sessionFactory.getCurrentSession();
 		Query query = session.createQuery("SELECT JobID FROM CandidateJobApplied WHERE UserID = :id");
-		query.setParameter("id", candidate_id);
+		query.setParameter("id", (int) candidate_id);
 	
 		List<Long> ids = new ArrayList<Long>();		
+		
+		if(query.list().isEmpty())
+			return new ArrayList<Job>();
 		
 		for(Object id: query.list()) {
 			Integer intID = (Integer) id;
 			ids.add(new Long(intID));
 		}
-		
+				
 		Query jobQuery = session.createQuery("FROM Job WHERE Id in (:ids)");
 		jobQuery.setParameterList("ids", ids);
 		
@@ -179,6 +188,15 @@ public class DatabaseJobManager implements JobManager {
 		}
 		
 		return skills.get(0);
+	}
+
+	@Override
+	public Company getCompanyByCreator(Integer userID) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		Query query = currentSession.createQuery("FROM Company WHERE UserID = :id");
+		query.setParameter("id", new Long(userID));
+
+		return (Company) query.uniqueResult();
 	}
 	
 	

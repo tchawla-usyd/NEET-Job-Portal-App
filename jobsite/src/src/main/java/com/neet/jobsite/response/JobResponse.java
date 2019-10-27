@@ -2,6 +2,7 @@ package com.neet.jobsite.response;
 
 import java.util.List;
 
+import com.neet.jobsite.model.Company;
 import com.neet.jobsite.model.Job;
 import com.neet.jobsite.model.JobCategory;
 import com.neet.jobsite.model.SkillSet;
@@ -17,6 +18,7 @@ public class JobResponse {
 	private String StartDate;
 	private String EndDate;
 	private boolean IsActive;
+	private Company companyInfo;
 	
 	private List<SkillSet> skills;
 	
@@ -79,6 +81,12 @@ public class JobResponse {
 	}
 	public void setSkills(List<SkillSet> skills) {
 		this.skills = skills;
+	}
+	public Company getCompanyInfo() {
+		return companyInfo;
+	}
+	public void setCompanyInfo(Company companyInfo) {
+		this.companyInfo = companyInfo;
 	}
 	
 }

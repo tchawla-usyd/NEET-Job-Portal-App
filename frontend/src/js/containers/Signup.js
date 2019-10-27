@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import axios from 'axios';
 import qs from 'querystring';
-import { Form, Input, Tooltip, Icon, Row, Col, Checkbox, Button, Radio} from 'antd';
+import { Form, Input, Tooltip, Icon, Row, Col, Checkbox, Button, Radio, message} from 'antd';
 
-import logo from "../../NEET.png";
+import logo from "../../img/NEET.png";
 import Tags from "../components/Tags";
 import {SIGNUP, HEADER} from "../constants/BackendAPI"
 
@@ -24,17 +24,18 @@ class Signup extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       console.log(values);
       if (!err) {
-        try {
-            // check user is signed up here, so far this does nothing lmao
-            axios.post(SIGNUP,  qs.stringify(Object.assign(values, {skills: values.skills.skills})), this.headers).
-            then(res => {
-              if (res.status == 200) {
-                  this.props.history.push("/");//go to login page
-              }
-            })
-          }catch (e) {
-            alert(e.message);
-        }
+        // check user is signed up here, so far this does nothing lmao
+        axios.post(SIGNUP,  
+          qs.stringify(Object.assign(values, {skills: values.skills == null ? '' : values.skills.skills})),
+          this.headers).
+        then(res => {
+          if (res.status == 200) {
+              this.props.history.push("/");//go to login page
+          }
+        }).catch(function (error) {
+            message.err("Something is wrong!");
+            console.log(error);
+        });
       }
     });
   }
@@ -76,7 +77,7 @@ class Signup extends Component {
                       rules: [{
                         required: true, message: 'Please enter your skills!!',
                       }]
-                    })( <Tags />)}
+                    })( <Tags editable='true' />)}
                   </Form.Item>
                   <Form.Item {...FormItemLayout} label="Education">
                     {getFieldDecorator('education')(<Input.TextArea rows={3}/>)}

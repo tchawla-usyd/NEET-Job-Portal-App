@@ -24,7 +24,7 @@
         <!-- Optionally, you can add icons to the links -->
         <li class="active"><a href="<c:url value="/admin/" />"><i class="fa fa-columns"></i> <span>Dashboard</span></a></li>
         <li><a href="<c:url value="/admin/administrators" />"><i class="fa fa-cog"></i> <span>Administrators</span></a></li>
-        <li><a href="<c:url value="/admin/company/all" />"><i class="fa fa-building"></i> <span>Companies</span></a></li>
+        <li><a href="<c:url value="/admin/employers" />"><i class="fa fa-building"></i> <span>Companies</span></a></li>
         <li><a href="<c:url value="/admin/users" />"><i class="fa fa-user"></i> <span>Users</span></a></li>
         <li><a href="<c:url value="/admin/skillsets" />"><i class="fa fa-wrench"></i> <span>Skills</span></a></li>
       </ul>

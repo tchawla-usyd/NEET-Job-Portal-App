@@ -32,10 +32,12 @@ import com.neet.jobsite.bal.IAuthenticateService;
 import com.neet.jobsite.bal.IUserService;
 import com.neet.jobsite.configuration.JwtFilter;
 import com.neet.jobsite.model.User;
+import com.neet.jobsite.response.ClaimsResponse;
+import com.neet.jobsite.response.ErrorResponse;
 //import com.neet.jobsite.configuration;
 import com.neet.jobsite.response.TokenResponse;
-import com.neet.jobsite.response.UserDetailResponse;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -80,7 +82,6 @@ public class UserAuthenticationController extends BaseMVCController {
 	}
 	
 	
-	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Locale locale, Model model) {
 		model.addAttribute("login",new User());
@@ -96,52 +97,36 @@ public class UserAuthenticationController extends BaseMVCController {
 		String email = request.getParameter("Email");
 		String password =	request.getParameter("Password");
 		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String jsonReturn = null;
+		
         System.out.println(email);
-		boolean result= this.authenticateBal.Authenticate(email, password);
-		if(result)
-		{
-//			HttpSession session = context.getSession(false);
-//			session.setAttribute("loggedInUser","GAVIN");
+		User user = this.authenticateBal.Authenticate(email, password);
+		if(user != null)
+		{	
 			
-			String token = Jwts.builder().setSubject(email)
-	                .claim("roles","cr@gmail.com").setIssuedAt(new Date())
-	                .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
+	        String token = createJWT(
+	                "neet.net", // claim = iss
+	                user.getId(), // claim = uid
+	                user.getUserTypeID() // claim = ut
+	        );
 			
 			System.out.println(token);
-			tokenHolder = token;
-			System.out.println("Value of Token Holder : " + tokenHolder);
-			
-			ObjectMapper objectMapper = new ObjectMapper();
-			String jsonReturn = null;
-			Integer userId = null;
-			
-			userId = (int) userService.GetUserByEmail(email).getId();
-			
 			
 			TokenResponse tokenResponse = new TokenResponse();
 			tokenResponse.setToken(token);
-			tokenResponse.setId(userId);
-			
-			System.out.println("Token:" + tokenResponse.getToken());
-			System.out.println("User Id:" + tokenResponse.getId());
-			
-			try {
-				jsonReturn = objectMapper.writeValueAsString(tokenResponse);
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
-			
-			System.out.println(jsonReturn);
-			response.setStatus(200);
-			return jsonReturn;	
-			
+
+			jsonReturn = objectToJSON(objectMapper, tokenResponse);
+	
 		}
 		else {
 			
-			System.out.println("Failed");
-			response.setStatus(403);
-			return null;
+			response.setStatus(401);
+			jsonReturn = objectToJSON(objectMapper, new ErrorResponse("Authentication Failed"));
 		}
+		
+		return jsonReturn;	
+
 	
 		
 	}
@@ -230,5 +215,26 @@ public class UserAuthenticationController extends BaseMVCController {
 		System.out.print("Success OK");
 		}
 	
+		@RequestMapping(value="/token", 
+				method=RequestMethod.GET, 
+				produces=MediaType.APPLICATION_JSON_VALUE)
+		@ResponseBody
+		@ResponseStatus(value = HttpStatus.OK)
+		public String decodeToken(HttpServletResponse response, @RequestHeader("Authorization") String userToken) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			String jsonReturn = null;
+			
+	        Claims claims = authenticateByToken(userToken);
+			if(claims != null) {
+				ClaimsResponse claimsResponse = new ClaimsResponse(claims);
+				jsonReturn = objectToJSON(objectMapper, claimsResponse);
+	
+			}
+			else {
+				response.setStatus(403);
+				jsonReturn = objectToJSON(objectMapper, new ErrorResponse("Authentication Failed"));
+			}
+			return jsonReturn;
+		}
+	
 }
-

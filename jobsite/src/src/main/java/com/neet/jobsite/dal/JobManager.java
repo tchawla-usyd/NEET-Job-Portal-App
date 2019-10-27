@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.neet.jobsite.exception.NoSkillsException;
 import com.neet.jobsite.model.CandidateJobApplied;
+import com.neet.jobsite.model.Company;
 import com.neet.jobsite.model.Job;
 import com.neet.jobsite.model.JobCategory;
 import com.neet.jobsite.model.SkillSet;
@@ -35,6 +36,8 @@ public interface JobManager extends Serializable {
 	List<SkillSet> getSkillsByJob(Integer jobId) throws NoSkillsException;
 
 	SkillsForJob getSkillsForJob(Integer jobId, Integer skillId) throws NoSkillsException;
+
+	Company getCompanyByCreator(Integer userID);
 
 	
 }

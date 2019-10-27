@@ -159,26 +159,7 @@ public class JobService {
 	}
 	
 
-	private void addJobAttribute(JobResponse jobResponse, Job job) {
 
-		jobResponse.setUID(job.getId());
-		jobResponse.setTitle(job.getTitle());
-		jobResponse.setCreated_by(job.getUserID());
-		jobResponse.setDescription(job.getJobDescription());
-		jobResponse.setEndDate(job.getEndDate().toString());
-		jobResponse.setStartDate(job.getStartDate().toString());
-		jobResponse.setLocation(job.getLocation());
-		jobResponse.setJobCategory(jobManager.getJobCategoryById(job.getJobCategoryID()));
-		jobResponse.setIsActive(job.isIsActive());
-		
-		try {
-			jobResponse.setSkills(jobManager.getSkillsByJob((int) job.getId()));
-		} catch (NoSkillsException e) {
-			
-			jobResponse.setSkills(new ArrayList<SkillSet>());
-		}
-		
-	}
 	
 	public void deleteJob(Integer id, Integer userId) {
 		Job job = jobManager.getJobById(id);
@@ -243,9 +224,7 @@ public class JobService {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
-		System.out.println(sDate.getTime());
-		
+				
 		return new java.sql.Date(sDate.getTime());
 	}
 
@@ -295,11 +274,42 @@ public class JobService {
 	}
 
 
+	public List<JobResponse> getJobs() {
+		List<JobResponse> response = new ArrayList<JobResponse>();
+		List<Job> jobs = jobManager.getJobs();
+		
+		for(Job job : jobs) {
+			JobResponse r = new JobResponse();
+			addJobAttribute(r, job);
+			response.add(r);
+			
+		}
+		
+		return response;
+	}
 
 
+	private void addJobAttribute(JobResponse jobResponse, Job job) {
+
+		jobResponse.setUID(job.getId());
+		jobResponse.setTitle(job.getTitle());
+		jobResponse.setCreated_by(job.getUserID());
+		jobResponse.setDescription(job.getJobDescription());
+		jobResponse.setEndDate(job.getEndDate().toString());
+		jobResponse.setStartDate(job.getStartDate().toString());
+		jobResponse.setLocation(job.getLocation());
+		jobResponse.setJobCategory(jobManager.getJobCategoryById(job.getJobCategoryID()));
+		jobResponse.setIsActive(job.isIsActive());
+		jobResponse.setCompanyInfo(jobManager.getCompanyByCreator(job.getUserID()));
+		
+		try {
+			jobResponse.setSkills(jobManager.getSkillsByJob((int) job.getId()));
+		} catch (NoSkillsException e) {
+			
+			jobResponse.setSkills(new ArrayList<SkillSet>());
+		}
+		
+	}
 
 
-
-	
-	
 }

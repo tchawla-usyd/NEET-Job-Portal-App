@@ -4,23 +4,35 @@ import qs from 'querystring';
 import { Table, Divider, Tag, Input, Button, Icon, Typography, message, Pagination, Dropdown, Menu} from 'antd';
 import { Link } from 'react-router-dom'
 
-import {APPLY, GET_JOB_FOR, HEADER} from "../constants/BackendAPI"
+import {APPLY, GET_JOB_FOR, GET_CAN_SKILLS, GET_APPLIED, GET_ALL, HEADER} from "../constants/BackendAPI"
 import Spinner from '../components/Spinner';
 
 const { Search } = Input;
 const { Text } = Typography;
-
-//dummy
-const userSkills = ['jobs', 'teacher', 'developer'];
-const isEmployer = false;
 
 export default class JobListing extends Component {
   
     constructor(props) {
         super(props);
 
+        // route info
+        this.isApplied = this.props.parentProps.location.pathname == '/application';
+        this.isFav = this.props.parentProps.location.pathname == '/favorite';
         this.token = localStorage.getItem("token");
         this.headers = {headers:{...HEADER, 'Authorization': this.token}};
+
+        // user info
+        const userInfo = this.props.parentProps.userInfo;
+        this.userId = userInfo.id;
+        this.isEmployer = userInfo.isEmployer;
+        this.state = {userSkills: []};
+
+        if(!this.isEmployer){
+          axios.get(GET_CAN_SKILLS + this.userId, this.headers)
+          .then(res => { 
+            this.setState({userSkills: res.data.map(skill => skill.name)});
+          })
+        }
 
         // Columns info
         let columns = [
@@ -37,6 +49,7 @@ export default class JobListing extends Component {
           key: 'company',
           align: 'center',
           sorter: (a, b) => a.company.localeCompare(b.company),
+          render: (text, record) => <Text strong><Link to={'/company?id='+ record.company_id}>{text}</Link></Text>,
         },{
           title: 'Location',
           dataIndex: 'location',
@@ -48,14 +61,14 @@ export default class JobListing extends Component {
           dataIndex: 'skills',
           key: 'skills',
           align: 'center',
-          sorter: isEmployer ? null : (a, b) => a.skills.filter(skill => userSkills.includes(skill)).length - 
-            b.skills.filter(skill => userSkills.includes(skill)).length,
+          sorter: this.isEmployer ? null : (a, b) => a.skills.filter(skill => this.state.userSkills.includes(skill)).length - 
+            b.skills.filter(skill => this.state.userSkills.includes(skill)).length,
           render: tags => (
             <span>
               {tags.map(tag => {
                 const color = ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"];
                 return (
-                  <Tag color={color[Math.floor(Math.random()*color.length)]} key={tag}>
+                  <Tag color={!(this.isEmployer || this.state.userSkills.includes(tag)) ? "#d9d9d9" : color[Math.floor(Math.random()*color.length)]} key={tag}>
                     {tag.toUpperCase()}
                   </Tag>
                 );
@@ -73,32 +86,43 @@ export default class JobListing extends Component {
                  : <Icon style={{fontSize: 18, color: '#666666'}} type="heart" />}
               </Button>
               <Divider style={{fontSize: 20}} type="vertical" />
-              <Button type= 'link' onClick={(e) => this.handleApply(record.key)} style={{fontSize: 15}}>Apply</Button>
+              {record.applied ? <span style={{fontSize: 15}}><Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" /> Applied</span>
+                : <Button type= 'link' onClick={(e) => this.handleApply(record)} style={{fontSize: 15}}>Apply</Button>}
             </span>
           ),
         },
       ];
-      this.columns = isEmployer ? columns.slice(0, -1) : columns;
+      this.columns = this.isEmployer ? columns.slice(0, -1) : columns;
 
       this.locations = [];
       this.state = {loading: true};
-      axios.get(GET_JOB_FOR + 1, this.headers)
+      axios.get(this.isEmployer ? (GET_JOB_FOR + this.userId) : GET_ALL, this.headers)
         .then(res => { 
+        console.log(res);
         var jobs = res.data.map(job =>{
-              return {key: job.uid,
-              title: job.title,
-              company: 'Micro',
-              location: job.location,
-              skills: job.skills.map(skill => skill.name),
-              like: false,
-            }});
+          return {key: job.uid,
+          title: job.title,
+          company: job.companyInfo.companyName,
+          company_id: job.created_by,
+          location: job.location,
+          skills: job.skills.map(skill => skill.name),
+          like: this.isFav ? true : false,
+          applied: false,
+        }});
+
+        if(!this.isEmployer){
+          jobs = this.getFilteredJobs(jobs);
+          
+        }else{
           this.setState({
-            jobs: jobs, 
-            filteredJobs: jobs,
-            filteredSearch: jobs}, 
-            this.sortLocations);
-        }).catch(function (error) {
-          console.log(error);
+          jobs: jobs, 
+          filteredJobs: jobs,
+          filteredSearch: jobs}, 
+          this.sortLocations);
+        }
+      }).catch(function (error) {
+        console.log(error);
+        message.err("Something is wrong!");
       });
     }
 
@@ -109,16 +133,48 @@ export default class JobListing extends Component {
       this.state.jobs.filter(({location}) => location.toLowerCase() == target.toLowerCase())));
       this.locationJobs['Location'] = this.state.jobs;
       this.setState({
-            filterLocationBy: 'Location',
-            loading: false,
-          });
+        filterLocationBy: 'Location',
+        loading: false,
+      });
     }
 
-    handleApply = (job_id) =>{
-      axios.post(APPLY, qs.stringify({job_id: job_id}), this.headers)
+    getFilteredJobs = (jobs) =>{
+      axios.get(GET_APPLIED + this.userId, this.headers)
+        .then(res => { 
+        var applied_jobs = res.data;
+        jobs.forEach((job) =>{
+          applied_jobs.forEach(({uid}) =>{
+            if(job.key == uid) job.applied = true;
+          });
+        });
+        if(this.isApplied){
+          jobs = jobs.filter((job)=> job.applied == true);
+        }
+        if(this.props.companyId){
+          jobs = jobs.filter((job)=> job.company_id == this.props.companyId);
+        }
+
+        this.setState({
+        jobs: jobs, 
+        filteredJobs: jobs,
+        filteredSearch: jobs}, 
+        this.sortLocations);
+      }).catch(function (error) {
+        console.log(error);
+        message.err("Something is wrong!");
+      });
+    }
+
+    handleApply = (record) =>{
+      axios.post(APPLY, qs.stringify({job_id: record.key}), this.headers)
         .then(res => {
           message.success("Apply Success!");
-        });
+          record.applied = true;
+          this.forceUpdate();
+        }).catch(function (error) {
+          console.log(error);
+          message.err("Something is wrong!");
+        });;
     }
 
     handleClickLike = (record) => {
@@ -180,9 +236,10 @@ export default class JobListing extends Component {
 
       return (
         <div>
+          <div><Text style={{fontSize: 30}}>{this.isApplied ? 'Your Applications' : this.isFav ? 'Your Favorite' : this.props.companyId ? '' : 'All Jobs'}</Text></div>
           {/* Seach Bar */}
           <Search placeholder="input search text" 
-          style={{ width: 300 }}
+          style={{ width: 300, marginTop: 20}}
           onChange={(e)=> this.handleSearch(e.target.value)}
           onSearch={(value)=> this.handleSearch(value)}
           enterButton={<Button style={{ width: 60 }} icon="search" />} />
@@ -199,7 +256,7 @@ export default class JobListing extends Component {
 
 
           {/* Post Button */}
-          {isEmployer ? <Link to='/post' style={{float: 'right'}}><Button shape="round" size='large'>Post</Button></Link> : ''}
+          {this.isEmployer ? <Link to='/post' style={{float: 'right'}}><Button shape="round" size='large'>Post</Button></Link> : ''}
 
           {/* Table */}
           {this.state.loading ? <Spinner /> :

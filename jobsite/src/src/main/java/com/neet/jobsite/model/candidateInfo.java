@@ -47,13 +47,6 @@ public class candidateInfo {
 		this.experience = experience;
 	}
 
-	public String getResume() {
-		return resume;
-	}
-
-	public void setResume(String resume) {
-		this.resume = resume;
-	}
 
 
 	
