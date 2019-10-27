@@ -19,27 +19,40 @@
 			</section>
 			<section class="content container-fluid">
 				<h1>Companies in the system</h1>
-				<table class="table table-striped table-bordered" style="width:100%" id="user_list">
+				<table class="table table-striped table-bordered"
+					style="width: 100%" id="user_list">
 					<thead>
 						<tr>
-							<th>ID</th>
-							<th>First Name</th>
-							<th>Last Name</th>
-							<th>Email</th>
-							<th>Active</th>
-							<th>Locked</th>
 							<th></th>
+							<th>ID</th>
+							<th>Company Name</th>
+							<th>Business Contact</th>
+							<th>Web Site</th>
+							<th>Primary User</th>
 						</tr>
 					</thead>
-					<c:forEach items="${users}" var="user">
+					<c:forEach items="${companies}" var="details">
 						<tr>
-							<td><c:out value="${user.id}" /></td>
-							<td><c:out value="${user.firstName}" /></td>
-							<td><c:out value="${user.lastName}" /></td>
-							<td><c:out value="${user.email}" /></td>
-							<td><c:out value="${user.isActive}" /></td>
-							<td><c:out value="${user.isLocked}" /></td>
-							<td><a href="../adminSkillset/edit/${user.id}">View Details</a></td>
+							<td>
+								<div class="dropdown">
+									<button class="btn btn-secondary dropdown-toggle" type="button"
+										id="dropdownMenuButton" data-toggle="dropdown"
+										aria-haspopup="true" aria-expanded="false">...</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<a class="dropdown-item"
+											href="<c:url value="/admin/viewadmin/${user.id}" />">
+											<div>
+												<i class="fa fa-edit"></i>&nbsp;Details
+											</div>
+										</a>
+									</div>
+								</div>
+							</td>
+							<td><c:out value="${details.company.id}" /></td>
+							<td><c:out value="${details.company.companyName}" /></td>
+							<td><c:out value="${details.company.businessPhone}" /></td>
+							<td><c:out value="${details.company.webSite}" /></td>
+							<td><c:out value="${details.user.firstName}" />&nbsp;<c:out value="${details.user.lastName}" /></td>
 						</tr>
 					</c:forEach>
 				</table>
@@ -51,8 +64,8 @@
 	<jsp:include page="../common/footerscript.jsp"></jsp:include>
 	<script type="text/javascript">
 		$(document).ready(function() {
-		    $('#user_list').DataTable();
-		} );
+			$('#user_list').DataTable();
+		});
 	</script>
 </body>
 </html>
