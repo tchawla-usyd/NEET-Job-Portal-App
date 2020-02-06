@@ -1,11 +1,5 @@
 # OOAF - GROUP 5
 
-# Team Members
-- Gavin Fungtammasan
-- Rex Shen
-- Hitesh Wagle
-- Md Masudur Rahman
-- Tushar Chawla
 
 # About NEET.NET
 NEET.NET is a smart, modern and user friendly job portal web application. NEET.NET runs an algorithm on the dataset of the candidates skills and based on the match, a candidate will be prompted with a list of jobs to apply. The presented list can be sorted based on the relevancy of their skills to aid the job searching process. Further, candidates can easily apply through a single click, where the candidates resume will automatically be shared with the recruiter Besides, the candidate will be able to edit their profile to add or remove skills, experience or location. In a similar fashion, recruiters will get a list of suitable candidates, an editable profile page and a job listing page where a recruiter can add, edit or delete a job post.
